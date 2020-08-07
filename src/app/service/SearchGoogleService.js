@@ -10,17 +10,18 @@ class SearchGoogleService {
 
   async searchAPISGoogleKeyword(word1, word2) {
     try {
+      const auth = `${process.env.LOGIN_API_FOR_SEO}:${process.env.PASS_API_FOR_SEO}`;
+
+      const auth64 = encode(auth);
+
       const response = await axios.get(`${process.env.API_FOR_SEO}v3/keywords_data/google/search_volume/tasks_ready`, {
         headers: {
-          Authorization: `Basic ${encode(process.env.LOGIN_API_FOR_SEO)}:${encode(process.env.PASS_API_FOR_SEO)}`,
+          Authorization: `Basic ${auth64}`,
         },
       });
 
       console.log(response);
     } catch (error) {
-      console.log(error);
-
-      console.log(`Basic ${encode(process.env.LOGIN_API_FOR_SEO)}:${encode(process.env.PASS_API_FOR_SEO)}`);
       this.status = false;
       this.message = `Error connect api: ${process.env.API_FOR_SEO}`;
     }
