@@ -16,6 +16,15 @@ class SearchGoogleController {
 
     return res.status(200).json({ status: true, response });
   }
+
+  async getReturnApi(req, res) {
+    const response = await SearchGoogleService.getReturnApi();
+
+    if (!SearchGoogleService.status) {
+      return res.status(400).json({ status: false, message: SearchGoogleService.message });
+    }
+    return res.status(200).json({ status: true, response: response });
+  }
 }
 
 export default new SearchGoogleController();

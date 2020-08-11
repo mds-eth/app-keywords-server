@@ -16,6 +16,7 @@ class Routes {
   createRoutes() {
     this.routes.get('/api/v1/session/get-token', middlewareSecret, SessionController.createToken);
 
+    this.routes.get('/api/v1/google/get-result-api', SearchGoogleController.getReturnApi);
     this.routes.post('/api/v1/google/search-keyword', middlewareJWT, SearchGoogleController.searchKeyword);
   }
 }
