@@ -15,7 +15,10 @@ class SearchGoogleService {
       const auth64 = await this.getHeadersApiForSeo();
       const params = await this.returnArrayParams(word1, word2);
 
-      const response = await axios.post(`${process.env.API_FOR_SEO}v3/dataforseo_labs/keyword_ideas/live`, params, {
+      const endpointRegular = 'v3/serp/google/organic/tasks_ready';
+      const endpointkeyword = 'v3/dataforseo_labs/keyword_ideas/live';
+
+      const response = await axios.get(`${process.env.API_FOR_SEO}${endpointRegular}`, {
         headers: {
           Authorization: `Basic ${auth64}`,
         },
@@ -23,6 +26,10 @@ class SearchGoogleService {
 
       if (response.status === 200) {
         const data = response.data;
+
+        console.log(data);
+        console.log(data.tasks);
+        return;
 
         return await this.saveBDReturnApiForSeo(params, data.tasks[0].result[0].items);
       } else {
@@ -81,7 +88,7 @@ class SearchGoogleService {
   async getReturnApi() {
     try {
       const response = await ModelApiForSeo.findOne({
-        where: { id: 50 },
+        where: { id: 250 },
       });
 
       const keyword_info = JSON.parse(response.keyword_info);
@@ -90,7 +97,7 @@ class SearchGoogleService {
 
       const array = {
         params: response.params,
-        keyword_infor: keyword_info,
+        keyword_info: keyword_info,
         impressions_info: impressions_info,
       };
 
