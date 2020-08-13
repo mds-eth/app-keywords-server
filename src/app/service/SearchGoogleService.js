@@ -15,10 +15,7 @@ class SearchGoogleService {
       const auth64 = await this.getHeadersApiForSeo();
       const params = await this.returnArrayParams(word1, word2);
 
-      const endpointRegular = 'v3/serp/google/organic/tasks_ready';
-      const endpointkeyword = 'v3/dataforseo_labs/keyword_ideas/live';
-
-      const response = await axios.get(`${process.env.API_FOR_SEO}${endpointRegular}`, {
+      const response = await axios.post(`${process.env.API_FOR_SEO}v3/keywords_data/google/search_volume/task_post`, params, {
         headers: {
           Authorization: `Basic ${auth64}`,
         },
@@ -27,11 +24,13 @@ class SearchGoogleService {
       if (response.status === 200) {
         const data = response.data;
 
-        console.log(data);
-        console.log(data.tasks);
-        return;
+        const idTask = data.tasks[0].id;
 
-        return await this.saveBDReturnApiForSeo(params, data.tasks[0].result[0].items);
+        console.log(idTask);
+
+        const callGetSerp = await this.callGetApiSerp(idTask);
+
+        return callGetSerp;
       } else {
         return this.returnArrayParams('Erro ao chamar api google');
       }
@@ -39,6 +38,26 @@ class SearchGoogleService {
       console.log(error);
       this.status = false;
       this.message = `Error connect api: ${process.env.API_FOR_SEO}`;
+    }
+  }
+
+  async callGetApiSerp(id){
+
+    try {
+
+      const auth64 = await this.getHeadersApiForSeo();
+
+      const response = await axios.get(`${process.env.API_FOR_SEO}v3/keywords_data/google/search_volume/task_get/${id}`,{
+        headers: {
+          Authorization: `Basic ${auth64}`,
+        },
+      });
+
+      console.log(response.data);
+
+      return response.data;
+      
+    } catch (error) {   
     }
   }
 
@@ -70,13 +89,11 @@ class SearchGoogleService {
     try {
       const data = [];
       const postArray = {
-        location_name: 'Brazil',
+        location_name: 'Brazil',       
         language_name: 'Portuguese',
-        match: 'exact',
         location_code: 2076,
         country_iso_code: 'BR',
-        location_type: 'Country',
-        keywords: [word2.trim()],
+        keywords: [word1.trim(), word2.trim()],
       };
 
       data.push(postArray);
@@ -107,9 +124,9 @@ class SearchGoogleService {
 
   async getHeadersApiForSeo() {
     try {
-      const auth = `${process.env.LOGIN_API_FOR_SEO}:${process.env.PASS_API_FOR_SEO}`;
+      const concat = `${process.env.LOGIN_API_FOR_SEO}:${process.env.PASS_API_FOR_SEO}`;
 
-      const auth64 = encode(auth);
+      const auth64 = encode(concat);
 
       return auth64;
     } catch (error) {}
