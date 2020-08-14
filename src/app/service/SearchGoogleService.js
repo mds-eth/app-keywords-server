@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import utf8 from 'utf8';
 import { encode } from 'js-base64';
 
 import ModelApiForSeo from '../models/ApiForSeo';
@@ -15,7 +16,7 @@ class SearchGoogleService {
       const auth64 = await this.getHeadersApiForSeo();
       const params = await this.returnArrayParams(word1, word2);
 
-      const response = await axios.post(`${process.env.API_FOR_SEO}v3/keywords_data/google/search_volume/task_post`, params, {
+      const response = await axios.post(`${process.env.API_FOR_SEO}v3/serp/google/organic/task_post`, params, {
         headers: {
           Authorization: `Basic ${auth64}`,
         },
@@ -24,41 +25,37 @@ class SearchGoogleService {
       if (response.status === 200) {
         const data = response.data;
 
+        if (data.tasks === null) {
+          return this.returnMessageError('Tasks retornou null.');
+        }
         const idTask = data.tasks[0].id;
-
-        console.log(idTask);
 
         const callGetSerp = await this.callGetApiSerp(idTask);
 
         return callGetSerp;
       } else {
-        return this.returnArrayParams('Erro ao chamar api google');
+        return this.returnMessageError('Erro ao chamar api google');
       }
     } catch (error) {
-      console.log(error);
       this.status = false;
       this.message = `Error connect api: ${process.env.API_FOR_SEO}`;
     }
   }
 
-  async callGetApiSerp(id){
-
+  async callGetApiSerp(id) {
     try {
-
       const auth64 = await this.getHeadersApiForSeo();
 
-      const response = await axios.get(`${process.env.API_FOR_SEO}v3/keywords_data/google/search_volume/task_get/${id}`,{
+      const response = await axios.get(`${process.env.API_FOR_SEO}v3/serp/google/organic/task_get/regular/${id}`, {
         headers: {
           Authorization: `Basic ${auth64}`,
         },
       });
 
-      console.log(response.data);
+      console.log(response.data.tasks[0].result[0]);
 
-      return response.data;
-      
-    } catch (error) {   
-    }
+      return response.data.tasks[0].result[0];
+    } catch (error) {}
   }
 
   async saveBDReturnApiForSeo(params, returnApi) {
@@ -87,13 +84,13 @@ class SearchGoogleService {
 
   async returnArrayParams(word1, word2) {
     try {
+
       const data = [];
       const postArray = {
-        location_name: 'Brazil',       
+        location_name: 'Brazil',
         language_name: 'Portuguese',
-        location_code: 2076,
-        country_iso_code: 'BR',
-        keywords: [word1.trim(), word2.trim()],
+        depth: 10,
+        keyword: utf8.encode(word1)
       };
 
       data.push(postArray);
