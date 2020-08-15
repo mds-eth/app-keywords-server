@@ -2,35 +2,39 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('api_for_seos', {
+    return queryInterface.createTable('log_requests_apis', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
+      method: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       params: {
         type: Sequelize.JSON,
-        allowNull: false,
+        allowNull: true,
       },
-      keyword: {
+      api: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      location_code: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+      auth: {
+        type: Sequelize.JSON,
+        allowNull: true,
       },
-      language_code: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      keyword_info: {
+      response: {
         type: Sequelize.JSON,
         allowNull: false,
       },
-      impressions_info: {
-        type: Sequelize.JSON,
+      input: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      exit: {
+        type: Sequelize.DATE,
         allowNull: false,
       },
       created_at: {
@@ -44,6 +48,6 @@ module.exports = {
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('api_for_seos');
+    return queryInterface.dropTable('log_requests_apis');
   },
 };
