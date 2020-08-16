@@ -53,16 +53,12 @@ class SearchGoogleService extends BaseService {
         },
       });
 
-      console.log(response.data.tasks[0].result[0]);
-
       return response.data.tasks[0].result[0];
     } catch (error) {}
   }
 
   async saveBDReturnApiForSeo(returnApi) {
     try {
-      console.log(returnApi);
-      return;
       for (var i in returnApi) {
         const search = returnApi[i];
 
@@ -74,20 +70,10 @@ class SearchGoogleService extends BaseService {
         const domain = search.domain;
         const title = search.title;
         const url = search.url;
-        const cache_url = search.cache_url;
-        const breadcrumb = search.breadcrumb;
-        const is_image = search.is_image;
-        const is_video = search.is_video;
-        const is_featured_snippet = search.is_featured_snippet;
-        const is_malicious = search.is_malicious;
-        const description = search.description;
-        const pre_snippet = search.pre_snippet;
-        const extended_snippet = JSON.stringify(search.extended_snippet);
-        const amp_version = search.amp_version;
-        const rating = JSON.stringify(search.rating);
-        const highlighted = search.highlighted;
-        const links = search.links;
-        const faq = search.faq;
+        const breadcrumb = search.breadcrumb === undefined ? '' : search.breadcrumb;
+        const description = search.description === undefined ? '' : search.description;
+        const links = search.links === undefined ? '' : JSON.stringify(search.links);
+        const faq = search.faq === undefined ? '' : JSON.stringify(search.faq);
 
         await ModelApiForSeo.create({
           type,
@@ -98,18 +84,8 @@ class SearchGoogleService extends BaseService {
           domain,
           title,
           url,
-          cache_url,
           breadcrumb,
-          is_image,
-          is_video,
-          is_featured_snippet,
-          is_malicious,
           description,
-          pre_snippet,
-          extended_snippet,
-          amp_version,
-          rating,
-          highlighted,
           links,
           faq,
         });
@@ -118,7 +94,6 @@ class SearchGoogleService extends BaseService {
       return true;
     } catch (error) {
       console.log(error);
-
       return false;
     }
   }
@@ -129,9 +104,10 @@ class SearchGoogleService extends BaseService {
       const postArray = {
         language_name: 'Portuguese',
         location_code: 2076,
+        location_name: 'Brazil',
         language_code: 'pt',
         depth: 10,
-        keyword: utf8.encode('facebook'),
+        keyword: utf8.encode(word1, word2),
       };
 
       data.push(postArray);
@@ -142,21 +118,9 @@ class SearchGoogleService extends BaseService {
 
   async getReturnApi() {
     try {
-      const response = await ModelApiForSeo.findOne({
-        where: { id: 250 },
-      });
+      const response = await ModelApiForSeo.findAll();
 
-      const keyword_info = JSON.parse(response.keyword_info);
-
-      const impressions_info = JSON.parse(response.impressions_info);
-
-      const array = {
-        params: response.params,
-        keyword_info: keyword_info,
-        impressions_info: impressions_info,
-      };
-
-      return array;
+      return response;
     } catch (error) {}
   }
 
