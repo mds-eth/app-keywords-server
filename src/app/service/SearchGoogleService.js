@@ -1,144 +1,24 @@
-import axios from 'axios';
-
-import utf8 from 'utf8';
-import { encode } from 'js-base64';
-
 import BaseService from './BaseService';
-import ModelApiForSeo from '../models/ApiForSeo';
 
 class SearchGoogleService extends BaseService {
   constructor() {
     super();
-
-    this.status = true;
-    this.message = '';
   }
 
-  async searchAPISGoogleKeyword(word1, word2) {
+  async configureCallAPIGoogleSpeed(urls) {
     try {
-      const auth = await this.getHeadersApiForSeo();
-      const params = await this.returnArrayParams(word1, word2);
+      for (var i in urls) {
+        const urlSearch = urls[i];
 
-      const response = await this.callAPI(
-        'POST',
-        params,
-        `${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`,
-        `Basic ${auth}`
-      );
+        if (urlSearch.url === null) continue;
 
-      if (response.status === 200) {
-        const data = response.data;
+        const url = `${process.env.API_PAGE_SPEED_ONLINE_GOOGLE}?url=${urlSearch.url}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
 
-        if (data.tasks === null) {
-          return this.returnMessageError('Tasks retornou null.');
-        }
-
-        await this.saveBDReturnApiForSeo(response.data.tasks[0].result[0].items);
-
-        return response.data.tasks;
-      } else {
-        return this.returnMessageError('Erro ao chamar api google');
+        const response = await this.callAPI('GET', null, url, null);
       }
     } catch (error) {
-      this.status = false;
-      this.message = `Error connect api: ${process.env.API_FOR_SEO}`;
+      console.log(error.response.data);
     }
-  }
-
-  async callGetApiSerp(id) {
-    try {
-      const response = await axios.get(`${process.env.API_FOR_SEO}v3/serp/google/organic/task_get/regular/${id}`, {
-        headers: {
-          Authorization: `Basic ${this.auth}`,
-        },
-      });
-
-      return response.data.tasks[0].result[0];
-    } catch (error) {}
-  }
-
-  async saveBDReturnApiForSeo(returnApi) {
-    try {
-      for (var i in returnApi) {
-        const search = returnApi[i];
-
-        const type = search.type;
-        const rank_group = search.rank_group;
-        const rank_absolute = search.rank_absolute;
-        const position = search.position;
-        const xpath = search.xpath;
-        const domain = search.domain;
-        const title = search.title;
-        const url = search.url;
-        const breadcrumb = search.breadcrumb === undefined ? '' : search.breadcrumb;
-        const description = search.description === undefined ? '' : search.description;
-        const links = search.links === undefined ? '' : JSON.stringify(search.links);
-        const faq = search.faq === undefined ? '' : JSON.stringify(search.faq);
-
-        await ModelApiForSeo.create({
-          type,
-          rank_group,
-          rank_absolute,
-          position,
-          xpath,
-          domain,
-          title,
-          url,
-          breadcrumb,
-          description,
-          links,
-          faq,
-        });
-      }
-
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
-
-  async returnArrayParams(word1, word2) {
-    try {
-      const data = [];
-      const postArray = {
-        language_name: 'Portuguese',
-        location_code: 2076,
-        location_name: 'Brazil',
-        language_code: 'pt',
-        depth: 10,
-        keyword: utf8.encode(word1, word2),
-      };
-
-      data.push(postArray);
-
-      return data;
-    } catch (error) {}
-  }
-
-  async getReturnApi() {
-    try {
-      const response = await ModelApiForSeo.findAll();
-
-      return response;
-    } catch (error) {}
-  }
-
-  async getHeadersApiForSeo() {
-    try {
-      const concat = `${process.env.LOGIN_API_FOR_SEO}:${process.env.PASS_API_FOR_SEO}`;
-
-      const auth64 = encode(concat);
-
-      return auth64;
-    } catch (error) {}
-  }
-
-  async returnMessageError(message) {
-    this.status = false;
-    this.message = message;
-
-    return false;
   }
 }
 

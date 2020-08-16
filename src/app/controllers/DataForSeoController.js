@@ -1,4 +1,4 @@
-import SearchGoogleService from '../service/SearchGoogleService';
+import DataForSeoService from '../service/DataForSeoService';
 
 class SearchGoogleController {
   async searchKeyword(req, res) {
@@ -8,20 +8,20 @@ class SearchGoogleController {
       return res.status(400).json({ status: false, message: 'Favor enviar os dois campos obrigatórios' });
     }
 
-    const response = await SearchGoogleService.searchAPISGoogleKeyword(word_1, word_2);
+    const response = await DataForSeoService.searchAPISGoogleKeyword(word_1, word_2);
 
-    if (!SearchGoogleService.status) {
-      return res.status(400).json({ status: false, message: SearchGoogleService.message });
+    if (!DataForSeoService.status) {
+      return res.status(400).json({ status: false, message: DataForSeoService.message });
     }
 
     return res.status(200).json({ status: true, response });
   }
 
   async getReturnApi(req, res) {
-    const response = await SearchGoogleService.getReturnApi();
+    const response = await DataForSeoService.getDomainsDataForSeo();
 
-    if (!SearchGoogleService.status) {
-      return res.status(400).json({ status: false, message: SearchGoogleService.message });
+    if (!DataForSeoService.status) {
+      return res.status(400).json({ status: false, message: DataForSeoService.message });
     }
     return res.status(200).json({ status: true, response: response });
   }
