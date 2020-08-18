@@ -2,8 +2,9 @@ import Sequelize from 'sequelize';
 
 import ModelApiForSeo from '../app/models/ApiForSeo';
 import ModelLogRequestsApi from '../app/models/LogRequestsApis';
+import ModelPerformanceUrls from '../app/models/PerformanceUrls';
 
-const models = [ModelApiForSeo, ModelLogRequestsApi];
+const models = [ModelApiForSeo, ModelLogRequestsApi, ModelPerformanceUrls];
 
 import dbConfig from '../config/database';
 

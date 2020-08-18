@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import utf8 from 'utf8';
 import { encode } from 'js-base64';
 
@@ -56,7 +54,7 @@ class DataForSeoService extends BaseService {
   async getDomainsDataForSeo() {
     try {
       const response = await ModelApiForSeo.findAll({
-        attributes: ['url'],
+        attributes: ['domain'],
       });
 
       if (response.length > 0) {
@@ -73,7 +71,7 @@ class DataForSeoService extends BaseService {
 
   async callGetApiSerp(id) {
     try {
-      const response = await axios.get(`${process.env.API_FOR_SEO}v3/serp/google/organic/task_get/regular/${id}`, {
+      const response = await this.callAPI(`${process.env.API_FOR_SEO}v3/serp/google/organic/task_get/regular/${id}`, {
         headers: {
           Authorization: `Basic ${this.auth}`,
         },

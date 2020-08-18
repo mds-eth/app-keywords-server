@@ -8,12 +8,13 @@ export default class BaseService {
       const input = new Date();
       if (method === 'POST') {
         var response = await axios.post(endpoint, params, {
+          timeout: 60 * 4 * 1000,
           headers: {
             Authorization: auth,
           },
         });
       } else if (method === 'GET') {
-        var response = await axios.get(endpoint);
+        var response = await axios.get(endpoint, { timeout: 60 * 4 * 1000 });
       }
       const exit = new Date();
 
