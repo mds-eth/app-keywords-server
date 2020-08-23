@@ -52,7 +52,7 @@ module.exports = {
       },
 
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.JSON,
         allowNull: true,
       },
 

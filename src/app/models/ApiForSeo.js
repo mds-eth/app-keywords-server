@@ -13,7 +13,7 @@ class ApiForSeo extends Model {
         title: Sequelize.STRING,
         url: Sequelize.STRING,
         breadcrumb: Sequelize.STRING,
-        description: Sequelize.STRING,
+        description: Sequelize.JSON,
         links: Sequelize.JSON,
         faq: Sequelize.JSON,
       },

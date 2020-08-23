@@ -2,7 +2,7 @@ import BaseService from './BaseService';
 
 import ModelPerformanceUrls from '../models/PerformanceUrls';
 
-class SearchGoogleService extends BaseService {
+class PerformanceUrlService extends BaseService {
   constructor() {
     super();
   }
@@ -47,4 +47,4 @@ class SearchGoogleService extends BaseService {
   }
 }
 
-export default new SearchGoogleService();
+export default new PerformanceUrlService();

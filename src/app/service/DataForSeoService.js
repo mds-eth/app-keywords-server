@@ -4,7 +4,7 @@ import { encode } from 'js-base64';
 import BaseService from './BaseService';
 import ModelApiForSeo from '../models/ApiForSeo';
 
-import SearchGoogleService from './SearchGoogleService';
+import PerformanceUrlService from './PerformanceUrlService';
 
 class DataForSeoService extends BaseService {
   constructor() {
@@ -46,11 +46,6 @@ class DataForSeoService extends BaseService {
     }
   }
 
-  async callAPIGoogle() {
-    try {
-    } catch (error) {}
-  }
-
   async getDomainsDataForSeo() {
     try {
       const response = await ModelApiForSeo.findAll({
@@ -58,7 +53,7 @@ class DataForSeoService extends BaseService {
       });
 
       if (response.length > 0) {
-        const responseAnalyze = await SearchGoogleService.configureCallAPIGoogleSpeed(response);
+        const responseAnalyze = await PerformanceUrlService.configureCallAPIGoogleSpeed(response);
 
         return responseAnalyze
       } else {
@@ -95,7 +90,7 @@ class DataForSeoService extends BaseService {
         const title = search.title;
         const url = search.url;
         const breadcrumb = search.breadcrumb === undefined ? '' : search.breadcrumb;
-        const description = search.description === undefined ? '' : search.description;
+        const description = search.description === undefined ? '' : JSON.stringify(search.description);
         const links = search.links === undefined ? '' : JSON.stringify(search.links);
         const faq = search.faq === undefined ? '' : JSON.stringify(search.faq);
 
