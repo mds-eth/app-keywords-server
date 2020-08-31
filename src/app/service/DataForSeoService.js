@@ -5,6 +5,7 @@ import BaseService from './BaseService';
 import ModelApiForSeo from '../models/ApiForSeo';
 
 import PerformanceUrlService from './PerformanceUrlService';
+import IndexPageGoogleService from './IndexPageGoogleService';
 
 class DataForSeoService extends BaseService {
   constructor() {
@@ -52,10 +53,14 @@ class DataForSeoService extends BaseService {
         attributes: ['domain'],
       });
 
+      const data = await IndexPageGoogleService.getURLPageGoogle(response);
+
+      console.log(data);
+      return;
       if (response.length > 0) {
         const responseAnalyze = await PerformanceUrlService.configureCallAPIGoogleSpeed(response);
 
-        return responseAnalyze
+        return responseAnalyze;
       } else {
         return this.returnMessageError('Domains Not Found.');
       }
