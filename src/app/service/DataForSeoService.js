@@ -4,6 +4,7 @@ import { encode } from 'js-base64';
 import BaseService from './BaseService';
 import ModelApiForSeo from '../models/ApiForSeo';
 
+import ApiMozService from '../service/ApiMozService';
 import PerformanceUrlService from './PerformanceUrlService';
 import IndexPageGoogleService from './IndexPageGoogleService';
 
@@ -20,12 +21,7 @@ class DataForSeoService extends BaseService {
       const auth = await this.getAuthEncodeApiForSeo();
       const params = await this.returnArrayParams(word1, word2);
 
-      const response = await this.callAPI(
-        'POST',
-        params,
-        `${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`,
-        `Basic ${auth}`
-      );
+      const response = await this.callAPI('POST',params,`${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`,`Basic ${auth}`);
 
       if (response.status === 200) {
         const data = response.data;
@@ -52,6 +48,10 @@ class DataForSeoService extends BaseService {
       const response = await ModelApiForSeo.findAll({
         attributes: ['domain'],
       });
+
+      const moz = await ApiMozService.callApiMoz(response);
+
+      return;
 
       const data = await IndexPageGoogleService.getURLPageGoogle(response);
 

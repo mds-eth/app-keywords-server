@@ -19,11 +19,10 @@ class IndexPageGoogleService extends BaseService {
 
         const response = await this.callAPI('GET', null, url, null);
 
+        console.log(response);
+        return;
         if (response.status === 200) {
           const data = response.data;
-
-          console.log(response);
-          return;
 
           const cheerio = await this.loadCheerioURL(data);
 
@@ -36,12 +35,10 @@ class IndexPageGoogleService extends BaseService {
 
   async loadCheerioURL(returnURL) {
     try {
-
-      console.log(returnURL);
-      return;
-      const response = await Cheerio.load(returnURL);
-
-    } catch (error) {}
+    
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
