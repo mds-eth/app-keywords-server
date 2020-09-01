@@ -1,6 +1,7 @@
 import Cheerio from 'cheerio';
 
 import BaseService from './BaseService';
+
 class IndexPageGoogleService extends BaseService {
   constructor() {
     super();

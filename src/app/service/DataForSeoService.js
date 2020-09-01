@@ -92,6 +92,8 @@ class DataForSeoService extends BaseService {
         const position = search.position;
         const xpath = search.xpath;
         const domain = search.domain;
+
+        if (domain === null || domain === undefined) continue;
         const title = search.title;
         const url = search.url;
         const breadcrumb = search.breadcrumb === undefined ? '' : search.breadcrumb;
