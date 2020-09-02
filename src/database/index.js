@@ -3,8 +3,9 @@ import Sequelize from 'sequelize';
 import ModelApiForSeo from '../app/models/ApiForSeo';
 import ModelLogRequestsApi from '../app/models/LogRequestsApis';
 import ModelPerformanceUrls from '../app/models/PerformanceUrls';
+import ModelIndexPageGoogle from '../app/models/IndexPageGoogle';
 
-const models = [ModelApiForSeo, ModelLogRequestsApi, ModelPerformanceUrls];
+const models = [ModelApiForSeo, ModelLogRequestsApi, ModelPerformanceUrls, ModelIndexPageGoogle];
 
 import dbConfig from '../config/database';
 

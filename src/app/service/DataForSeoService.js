@@ -21,7 +21,12 @@ class DataForSeoService extends BaseService {
       const auth = await this.getAuthEncodeApiForSeo();
       const params = await this.returnArrayParams(word1, word2);
 
-      const response = await this.callAPI('POST',params,`${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`,`Basic ${auth}`);
+      const response = await this.callAPI(
+        'POST',
+        params,
+        `${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`,
+        `Basic ${auth}`
+      );
 
       if (response.status === 200) {
         const data = response.data;
@@ -49,9 +54,7 @@ class DataForSeoService extends BaseService {
         attributes: ['domain'],
       });
 
-      const moz = await ApiMozService.callApiMoz(response);
-
-      return;
+      //const moz = await ApiMozService.callApiMoz(response);
 
       const data = await IndexPageGoogleService.getURLPageGoogle(response);
 

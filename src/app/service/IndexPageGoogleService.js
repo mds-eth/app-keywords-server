@@ -1,13 +1,33 @@
-import Cheerio from 'cheerio';
+require('geckodriver');
+
+import { Builder, By, Key, until, Capabilities } from 'selenium-webdriver';
+import firefox from 'selenium-webdriver/firefox';
 
 import BaseService from './BaseService';
+
+import ModelIndexPageGoogle from '../models/IndexPageGoogle';
 
 class IndexPageGoogleService extends BaseService {
   constructor() {
     super();
+
+    this.screen = {
+      width: 640,
+      height: 480,
+    };
   }
   async getURLPageGoogle(domains) {
     try {
+      let caps = Capabilities.firefox();
+      caps.set('silent', true);
+
+      let driver = await new Builder()
+        .forBrowser('firefox')
+        .withCapabilities(caps)
+        .setFirefoxOptions(new firefox.Options().headless().windowSize(this.screen))
+        .build();
+
+      console.log(driver);
       for (var i in domains) {
         const domain = domains[i];
 
@@ -15,27 +35,21 @@ class IndexPageGoogleService extends BaseService {
 
         const urlRequest = `https://${domain.domain}`;
 
-        const url = `https://www.google.com/search?q=${urlRequest}`;
+        await driver.get('http://www.google.com.br');
+        await driver.findElement(By.name('q')).sendKeys(urlRequest, Key.RETURN);
 
-        const response = await this.callAPI('GET', null, url, null);
+        let elementoQuantidadeAnuncios = await driver.wait(until.elementLocated(By.css('body.vasq #result-stats')), 200000);
 
-        console.log(response);
-        return;
-        if (response.status === 200) {
-          const data = response.data;
+        var qtdAnuncios = await elementoQuantidadeAnuncios.getAttribute('textContent');
 
-          const cheerio = await this.loadCheerioURL(data);
+        const result = qtdAnuncios.split('Aproximadamente ');
 
-          return;
-        }
-        return;
+        const response = result[1].split(' resultados');
+
+        await ModelIndexPageGoogle.create({ domain: urlRequest, response });
+
+        console.log(`URL: ${urlRequest} | Result: ${value}`);
       }
-    } catch (error) {}
-  }
-
-  async loadCheerioURL(returnURL) {
-    try {
-    
     } catch (error) {
       console.log(error);
     }
