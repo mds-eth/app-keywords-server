@@ -12,22 +12,20 @@ class ApiMozService extends BaseService {
 
   async callApiMoz(uuid, domains) {
     try {
-      var expires = Math.floor(Date.now() / 1000) + 5000;
-      var accessId = process.env.API_MOZ_ID;
+      const expires = Math.floor(Date.now() / 1000) + 5000;
+      const accessId = process.env.API_MOZ_ID;
 
-      var cols = '103079215108';
+      const cols = '103079215108';
 
       const urlApiMoz = process.env.URL_API_MOZ;
-      var stringToSign = accessId + '\n' + expires;
+      const stringToSign = accessId + '\n' + expires;
 
-      var signature = await Helpers.returnBinaryFunctionHmac(stringToSign);
+      let signature = await Helpers.returnBinaryFunctionHmac(stringToSign);
 
       signature = encodeURIComponent(signature);
 
       for (var i in domains) {
         const domain = domains[i];
-
-        if (domain.domain === null) continue;
 
         const urlRequest = `https://${domain.domain}`;
 

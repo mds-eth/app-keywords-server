@@ -30,8 +30,6 @@ class GoogleIndexPagesService extends BaseService {
       for (var i in domains) {
         const domain = domains[i];
 
-        if (domain.domain === null) continue;
-
         const urlRequest = `https://${domain.domain}`;
 
         await driver.get('http://www.google.com.br');

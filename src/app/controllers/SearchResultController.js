@@ -11,8 +11,8 @@ class SearchResultController {
     }
     const response = await SearchResultDomainService.getResults(key);
 
-    if (!DataForSeoService.status) {
-      return res.status(400).json({ status: false, message: DataForSeoService.message });
+    if (!response) {
+      return res.status(400).json({ status: false, message: response });
     }
     return res.status(200).json({ status: true, response });
   }

@@ -9,21 +9,21 @@ class PerformanceUrlService extends BaseService {
 
   async configureCallAPIGoogleSpeed(uuid, domains) {
     try {
-      
       const strategys = ['DESKTOP', 'MOBILE'];
+      const apiPageSpeed = process.env.API_PAGE_SPEED_ONLINE_GOOGLE;
       for (var i in strategys) {
         for (var j in domains) {
           const domain = domains[j];
 
-          if (domain.domain === null) continue;
-
           const urlRequest = `https://${domain.domain}`;
 
-          const url = `${process.env.API_PAGE_SPEED_ONLINE_GOOGLE}?category=PERFORMANCE&strategy=${strategys[i]}&url=${urlRequest}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
+          const url = `${apiPageSpeed}?strategy=${strategys[i]}&locale=pt-BR&url=${urlRequest}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
 
           const input = new Date();
 
           const response = await this.callAPI('GET', null, url, null);
+
+          if (!response) continue;
 
           const exit = new Date();
 
@@ -40,7 +40,7 @@ class PerformanceUrlService extends BaseService {
       }
       return true;
     } catch (error) {
-      console.log(error);
+      console.log(error.data);
 
       return false;
     }

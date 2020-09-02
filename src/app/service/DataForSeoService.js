@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import BaseService from './BaseService';
 import ModelApiForSeo from '../models/ApiForSeo';
+import SearchResultDomainService from './SearchResultDomainService';
 
 class DataForSeoService extends BaseService {
   constructor() {
@@ -67,14 +68,15 @@ class DataForSeoService extends BaseService {
       for (var i in returnApi) {
         const search = returnApi[i];
 
+        const domain = search.domain;
+
+        if (domain === null || domain === undefined || domain === '') continue;
+
         const type = search.type;
         const rank_group = search.rank_group;
         const rank_absolute = search.rank_absolute;
         const position = search.position;
         const xpath = search.xpath;
-        const domain = search.domain;
-
-        if (domain === null || domain === undefined) continue;
         const title = search.title;
         const url = search.url;
         const breadcrumb = search.breadcrumb === undefined ? '' : search.breadcrumb;
@@ -99,6 +101,7 @@ class DataForSeoService extends BaseService {
         });
       }
 
+      await SearchResultDomainService.callApiMoz(uuid);
       return uuid;
     } catch (error) {
       console.log(error);
@@ -115,7 +118,7 @@ class DataForSeoService extends BaseService {
         location_name: 'Brazil',
         language_code: 'pt',
         depth: 10,
-        keyword: utf8.encode(word1, word2),
+        keyword: utf8.encode(`${word1}+${word2}`),
       };
 
       data.push(postArray);

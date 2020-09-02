@@ -22,15 +22,15 @@ export default class BaseService {
         method,
         params,
         api: endpoint,
-        auth: JSON.stringify(auth),
-        response: JSON.stringify(response.data),
+        auth: auth,
+        response: response.data,
         input,
         exit,
       });
 
       return response;
     } catch (error) {
-      console.log(error);
+      return false;
     }
   }
 }
