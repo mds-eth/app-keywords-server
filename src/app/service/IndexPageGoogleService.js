@@ -27,7 +27,6 @@ class IndexPageGoogleService extends BaseService {
         .setFirefoxOptions(new firefox.Options().headless().windowSize(this.screen))
         .build();
 
-      console.log(driver);
       for (var i in domains) {
         const domain = domains[i];
 
@@ -46,10 +45,10 @@ class IndexPageGoogleService extends BaseService {
 
         const response = result[1].split(' resultados');
 
-        await ModelIndexPageGoogle.create({ domain: urlRequest, response });
-
-        console.log(`URL: ${urlRequest} | Result: ${value}`);
+        await ModelIndexPageGoogle.create({ domain: urlRequest, response: response[0] });
       }
+
+      return true;
     } catch (error) {
       console.log(error);
     }

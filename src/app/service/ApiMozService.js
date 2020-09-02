@@ -1,7 +1,4 @@
-import crypto from 'crypto';
-import { encode } from 'js-base64';
 import axios from 'axios';
-import urlencode from 'urlencode';
 
 import BaseService from './BaseService';
 
@@ -14,33 +11,33 @@ class ApiMozService extends BaseService {
 
   async callApiMoz(domains) {
     try {
-      const expires = Math.floor(new Date() / 1000) + 300;
-      const stringToSign = `${process.env.API_MOZ_ID}\n${expires}`;
+      var expires = Math.floor(Date.now() / 1000) + 300;
+      var accessId = process.env.API_MOZ_ID;
 
-      const binary = await Helpers.returnBinaryFunctionHmac(stringToSign);
+      var cols = '103079215108';
 
-      const binaryIn64 = urlencode(encode(binary));
+      var stringToSign = accessId + '\n' + expires;
+
+      var signature = await Helpers.returnBinaryFunctionHmac(stringToSign);
+
+      signature = encodeURIComponent(signature);
 
       for (var i in domains) {
         const domain = domains[i];
 
         if (domain.domain === null) continue;
 
-        var urlRequest = `https://${domain.domain}`;
+        const urlRequest = `https://${domain.domain}`;
 
-        const cols = '103079215108';
+        const url = `${process.env.URL_API_MOZ}/url-metrics/${urlRequest}?Cols=${cols}&AccessID=${accessId}&Expires=${expires}&Signature=${signature}`;
 
-        const url = `http://lsapi.seomoz.com/linkscape/url-metrics/${urlencode(urlRequest)}?Cols=${cols}&AccessID=${process.env.API_MOZ_SECRET_KEY}&Expires=${expires}&Signature=${binaryIn64}`;
+        const response = await this.callAPI('POST', null, url, null);
 
-        const response = await axios.post(url);
-        
-        console.log(response);
-        console.log(urlRequest);
-        return;
+        if (response.status === 200) {
+        }
       }
     } catch (error) {
       console.log(error);
-      return;
     }
   }
 }

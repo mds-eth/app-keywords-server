@@ -54,16 +54,12 @@ class DataForSeoService extends BaseService {
         attributes: ['domain'],
       });
 
-      //const moz = await ApiMozService.callApiMoz(response);
-
-      const data = await IndexPageGoogleService.getURLPageGoogle(response);
-
-      console.log(data);
-      return;
       if (response.length > 0) {
-        const responseAnalyze = await PerformanceUrlService.configureCallAPIGoogleSpeed(response);
+        const moz = await ApiMozService.callApiMoz(response);
+        //const data = await IndexPageGoogleService.getURLPageGoogle(response);
+        //const responseAnalyze = await PerformanceUrlService.configureCallAPIGoogleSpeed(response);
 
-        return responseAnalyze;
+        return true;
       } else {
         return this.returnMessageError('Domains Not Found.');
       }
