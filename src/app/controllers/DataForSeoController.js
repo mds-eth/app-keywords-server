@@ -14,16 +14,7 @@ class SearchGoogleController {
       return res.status(400).json({ status: false, message: DataForSeoService.message });
     }
 
-    return res.status(200).json({ status: true, response });
-  }
-
-  async getReturnApi(req, res) {
-    const response = await DataForSeoService.getDomainsDataForSeo();
-
-    if (!DataForSeoService.status) {
-      return res.status(400).json({ status: false, message: DataForSeoService.message });
-    }
-    return res.status(200).json({ status: true, response: response });
+    return res.status(201).json({ status: true, key: response });
   }
 }
 

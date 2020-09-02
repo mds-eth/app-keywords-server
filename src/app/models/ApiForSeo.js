@@ -4,6 +4,7 @@ class ApiForSeo extends Model {
   static init(sequelize) {
     super.init(
       {
+        uuid: Sequelize.STRING,
         type: Sequelize.STRING,
         rank_group: Sequelize.STRING,
         rank_absolute: Sequelize.STRING,

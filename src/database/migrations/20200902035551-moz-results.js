@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('performance_urls', {
+    return queryInterface.createTable('moz_results', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -13,28 +13,16 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      strategy: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       url: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      score: {
-        type: Sequelize.JSON,
-        allowNull: true,
-      },
-      audit_refs: {
-        type: Sequelize.JSON,
+      upa: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
-      input: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      exit: {
-        type: Sequelize.DATE,
+      pda: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       created_at: {
@@ -48,6 +36,6 @@ module.exports = {
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('performance_urls');
+    return queryInterface.dropTable('moz_results');
   },
 };

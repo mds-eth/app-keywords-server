@@ -1,11 +1,12 @@
 import Sequelize from 'sequelize';
 
+import ModelMozResults from '../app/models/MozResults';
 import ModelApiForSeo from '../app/models/ApiForSeo';
 import ModelLogRequestsApi from '../app/models/LogRequestsApis';
 import ModelPerformanceUrls from '../app/models/PerformanceUrls';
-import ModelIndexPageGoogle from '../app/models/IndexPageGoogle';
+import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
 
-const models = [ModelApiForSeo, ModelLogRequestsApi, ModelPerformanceUrls, ModelIndexPageGoogle];
+const models = [ModelMozResults, ModelApiForSeo, ModelLogRequestsApi, ModelPerformanceUrls, ModelGoogleIndexPages];
 
 import dbConfig from '../config/database';
 

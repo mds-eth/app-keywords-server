@@ -1,16 +1,13 @@
 import Sequelize, { Model } from 'sequelize';
 
-class PerformanceUrls extends Model {
+class MozResults extends Model {
   static init(sequelize) {
     super.init(
       {
         uuid: Sequelize.STRING,
-        strategy: Sequelize.STRING,
         url: Sequelize.STRING,
-        score: Sequelize.STRING,
-        audit_refs: Sequelize.JSON,
-        input: Sequelize.DATE,
-        exit: Sequelize.DATE,
+        upa: Sequelize.INTEGER,
+        pda: Sequelize.INTEGER,
       },
       {
         sequelize,
@@ -20,4 +17,4 @@ class PerformanceUrls extends Model {
   }
 }
 
-export default PerformanceUrls;
+export default MozResults;

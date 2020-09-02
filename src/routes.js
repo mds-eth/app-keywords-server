@@ -5,6 +5,7 @@ import middlewareSecret from './app/middlewares/middlewareSecret';
 
 import SessionController from './app/controllers/SessionController';
 import DataForSeoController from './app/controllers/DataForSeoController';
+import SearchResultController from './app/controllers/SearchResultController';
 
 class Routes {
   constructor() {
@@ -16,8 +17,8 @@ class Routes {
   createRoutes() {
     this.routes.get('/api/v1/session/get-token', middlewareSecret, SessionController.createToken);
 
-    this.routes.get('/api/v1/google/get-result-api', middlewareJWT, DataForSeoController.getReturnApi);
     this.routes.post('/api/v1/google/search-keyword', middlewareJWT, DataForSeoController.searchKeyword);
+    this.routes.get('/api/v1/google/get-result-domains/:key', middlewareJWT, SearchResultController.getResultDomains);
   }
 }
 

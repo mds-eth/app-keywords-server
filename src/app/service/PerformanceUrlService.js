@@ -7,7 +7,7 @@ class PerformanceUrlService extends BaseService {
     super();
   }
 
-  async configureCallAPIGoogleSpeed(domains) {
+  async configureCallAPIGoogleSpeed(uuid, domains) {
     try {
       
       const strategys = ['DESKTOP', 'MOBILE'];
@@ -34,7 +34,7 @@ class PerformanceUrlService extends BaseService {
             const score = performance.score.toString();
             const audit_refs = JSON.stringify(performance.auditRefs);
 
-            await ModelPerformanceUrls.create({ strategy, url: urlRequest, score, audit_refs, input, exit });
+            await ModelPerformanceUrls.create({ uuid, strategy, url: urlRequest, score, audit_refs, input, exit });
           }
         }
       }

@@ -1,12 +1,9 @@
 import utf8 from 'utf8';
 import { encode } from 'js-base64';
+import { v4 as uuidv4 } from 'uuid';
 
 import BaseService from './BaseService';
 import ModelApiForSeo from '../models/ApiForSeo';
-
-import ApiMozService from '../service/ApiMozService';
-import PerformanceUrlService from './PerformanceUrlService';
-import IndexPageGoogleService from './IndexPageGoogleService';
 
 class DataForSeoService extends BaseService {
   constructor() {
@@ -35,36 +32,20 @@ class DataForSeoService extends BaseService {
           return this.returnMessageError('Tasks retornou null.');
         }
 
-        await this.saveBDReturnApiForSeo(response.data.tasks[0].result[0].items);
+        const key = await this.saveBDReturnApiForSeo(response.data.tasks[0].result[0].items);
 
-        await this.callAPIGoogle();
-        return response.data.tasks;
+        if (!key) {
+          this.status = false;
+          this.message = `Erro create data api for seo.`;
+          return false;
+        }
+        return key;
       } else {
         return this.returnMessageError('Erro ao chamar api google');
       }
     } catch (error) {
       this.status = false;
       this.message = `Error connect api: ${process.env.API_FOR_SEO}`;
-    }
-  }
-
-  async getDomainsDataForSeo() {
-    try {
-      const response = await ModelApiForSeo.findAll({
-        attributes: ['domain'],
-      });
-
-      if (response.length > 0) {
-        const moz = await ApiMozService.callApiMoz(response);
-        //const data = await IndexPageGoogleService.getURLPageGoogle(response);
-        //const responseAnalyze = await PerformanceUrlService.configureCallAPIGoogleSpeed(response);
-
-        return true;
-      } else {
-        return this.returnMessageError('Domains Not Found.');
-      }
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -82,6 +63,7 @@ class DataForSeoService extends BaseService {
 
   async saveBDReturnApiForSeo(returnApi) {
     try {
+      const uuid = uuidv4();
       for (var i in returnApi) {
         const search = returnApi[i];
 
@@ -101,6 +83,7 @@ class DataForSeoService extends BaseService {
         const faq = search.faq === undefined ? '' : JSON.stringify(search.faq);
 
         await ModelApiForSeo.create({
+          uuid,
           type,
           rank_group,
           rank_absolute,
@@ -116,7 +99,7 @@ class DataForSeoService extends BaseService {
         });
       }
 
-      return true;
+      return uuid;
     } catch (error) {
       console.log(error);
       return false;

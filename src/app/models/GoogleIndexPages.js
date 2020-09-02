@@ -1,16 +1,12 @@
 import Sequelize, { Model } from 'sequelize';
 
-class PerformanceUrls extends Model {
+class GoogleIndexPages extends Model {
   static init(sequelize) {
     super.init(
       {
         uuid: Sequelize.STRING,
-        strategy: Sequelize.STRING,
         url: Sequelize.STRING,
-        score: Sequelize.STRING,
-        audit_refs: Sequelize.JSON,
-        input: Sequelize.DATE,
-        exit: Sequelize.DATE,
+        quantity_pages: Sequelize.STRING,
       },
       {
         sequelize,
@@ -20,4 +16,4 @@ class PerformanceUrls extends Model {
   }
 }
 
-export default PerformanceUrls;
+export default GoogleIndexPages;

@@ -5,9 +5,9 @@ import firefox from 'selenium-webdriver/firefox';
 
 import BaseService from './BaseService';
 
-import ModelIndexPageGoogle from '../models/IndexPageGoogle';
+import ModelGoogleIndexPages from '../models/GoogleIndexPages';
 
-class IndexPageGoogleService extends BaseService {
+class GoogleIndexPagesService extends BaseService {
   constructor() {
     super();
 
@@ -16,7 +16,7 @@ class IndexPageGoogleService extends BaseService {
       height: 480,
     };
   }
-  async getURLPageGoogle(domains) {
+  async getURLPageGoogle(uuid, domains) {
     try {
       let caps = Capabilities.firefox();
       caps.set('silent', true);
@@ -45,7 +45,7 @@ class IndexPageGoogleService extends BaseService {
 
         const response = result[1].split(' resultados');
 
-        await ModelIndexPageGoogle.create({ domain: urlRequest, response: response[0] });
+        await ModelGoogleIndexPages.create({ uuid, url: urlRequest, quantity_pages: response[0] });
       }
 
       return true;
@@ -55,4 +55,4 @@ class IndexPageGoogleService extends BaseService {
   }
 }
 
-export default new IndexPageGoogleService();
+export default new GoogleIndexPagesService();
