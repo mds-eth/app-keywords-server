@@ -8,7 +8,7 @@ class SearchGoogleController {
       return res.status(400).json({ status: false, message: 'Favor enviar os dois campos obrigatórios' });
     }
 
-    const response = await DataForSeoService.searchAPISGoogleKeyword(word_1, word_2);
+    const response = await DataForSeoService.createProcessQueueApis(word_1, word_2);
 
     if (!DataForSeoService.status) {
       return res.status(400).json({ status: false, message: DataForSeoService.message });

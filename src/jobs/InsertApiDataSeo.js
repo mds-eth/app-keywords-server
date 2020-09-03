@@ -2,12 +2,19 @@ import { encode } from 'js-base64';
 
 import axios from 'axios';
 
+import Queue from '../lib/Queue';
+
 import ModelApiForSeo from '../app/models/ApiForSeo';
+
+import InsertApiMoz from './InsertApiMoz';
+import InsertPerformanceUrl from './InsertPerformanceUrl';
+import InsertGoogleIndexPages from './InsertGoogleIndexPages';
 
 export default {
   key: 'JobInsertApiDataSeo',
   async handle(values) {
     const { word1, word2, uuid } = values;
+
     const auth = await this.getAuthEncodeApiForSeo();
     const params = await this.returnArrayParams(word1, word2);
 
@@ -21,7 +28,15 @@ export default {
       const data = response.data;
 
       if (data.tasks !== null) {
-        await this.saveBDReturnApiForSeo(uuid, response.data.tasks[0].result[0].items);
+        const responseDomains = await this.saveBDReturnApiForSeo(uuid, response.data.tasks[0].result[0].items);
+
+        const values = {
+          uuid,
+          domains: responseDomains,
+        };
+        await Queue.add(InsertApiMoz.key, values);
+        await Queue.add(InsertGoogleIndexPages.key, values);
+        await Queue.add(InsertPerformanceUrl.key, values);
       }
     }
   },
@@ -46,6 +61,7 @@ export default {
 
   async saveBDReturnApiForSeo(uuid, returnApi) {
     try {
+      const domains = [];
       for (var i in returnApi) {
         const search = returnApi[i];
 
@@ -80,7 +96,11 @@ export default {
           links,
           faq,
         });
+
+        domains.push(domain);
       }
+
+      return domains;
     } catch (error) {
       console.log(error);
       return false;

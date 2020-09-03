@@ -7,7 +7,6 @@ import Queue from '../../lib/Queue';
 import InsertApiDataSeo from '../../jobs/InsertApiDataSeo';
 
 import BaseService from './BaseService';
-import ModelApiForSeo from '../models/ApiForSeo';
 
 class DataForSeoService extends BaseService {
   constructor() {
@@ -17,23 +16,22 @@ class DataForSeoService extends BaseService {
     this.message = '';
   }
 
-  async searchAPISGoogleKeyword(word1, word2) {
+  async createProcessQueueApis(word1, word2) {
     try {
-      await Queue.add(InsertApiDataSeo.key);
+      const uuid = uuidv4();
+
+      const data = {
+        uuid,
+        word1,
+        word2,
+      };
+      await Queue.add(InsertApiDataSeo.key, data);
+
+      return uuid;
     } catch (error) {
       this.status = false;
       this.message = `Error connect api: ${process.env.API_FOR_SEO}`;
     }
-  }
-
-
-
-  async getAllReturnApiDataForSeo() {
-    try {
-      const response = await ModelApiForSeo.findAll();
-
-      return response;
-    } catch (error) {}
   }
 
   async returnMessageError(message) {
