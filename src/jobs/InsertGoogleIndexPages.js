@@ -1,6 +1,21 @@
+class JobInsertGoogleIndexPages {
+  constructor() {
+    this.key = 'JobInsertGoogleIndexPages';
+    this.options = {
+      attemps: 2,
+    };
+  }
 
-export default {
-    key: 'JobInsertGoogleIndexPages',
-    async handle(values) {},
-  };
-  
+  async handle(values) {
+
+    try {
+
+      const { uuid, domains } = values.data;
+      
+    } catch (error) {
+      
+    }
+  }
+}
+
+export default new JobInsertGoogleIndexPages();

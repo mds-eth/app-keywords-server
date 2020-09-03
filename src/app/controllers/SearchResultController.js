@@ -4,17 +4,17 @@ import SearchResultDomainService from '../service/SearchResultDomainService';
 
 class SearchResultController {
   async getResultDomains(req, res) {
-    const { key } = req.params;
+    const { uuid } = req.params;
 
-    if (key === '' || !uuidValidate(key)) {
+    if (uuid === '' || !uuidValidate(uuid)) {
       return res.status(400).json({ status: false, message: 'Key invalid.' });
     }
-    const response = await SearchResultDomainService.getResults(key);
+    const response = await SearchResultDomainService.getAllDomains(uuid);
 
     if (!response) {
       return res.status(400).json({ status: false, message: response });
     }
-    return res.status(200).json({ status: true, response });
+    return res.status(200).json({ status: true, uuid, response });
   }
 }
 

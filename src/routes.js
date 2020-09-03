@@ -18,7 +18,7 @@ class Routes {
     this.routes.get('/api/v1/session/get-token', middlewareSecret, SessionController.createToken);
 
     this.routes.post('/api/v1/google/search-keyword', middlewareJWT, DataForSeoController.searchKeyword);
-    this.routes.get('/api/v1/google/get-result-domains/:key', middlewareJWT, SearchResultController.getResultDomains);
+    this.routes.get('/api/v1/google/get-result-domains/:uuid', middlewareJWT, SearchResultController.getResultDomains);
   }
 }
 

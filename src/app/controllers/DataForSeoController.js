@@ -14,7 +14,7 @@ class SearchGoogleController {
       return res.status(400).json({ status: false, message: DataForSeoService.message });
     }
 
-    return res.status(201).json({ status: true, key: response });
+    return res.status(201).json({ status: true, uuid: response });
   }
 }
 

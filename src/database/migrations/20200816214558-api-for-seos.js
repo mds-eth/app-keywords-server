@@ -33,10 +33,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      xpath: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
       domain: {
         type: Sequelize.STRING,
         allowNull: true,

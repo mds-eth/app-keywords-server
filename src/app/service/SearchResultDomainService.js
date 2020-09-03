@@ -40,14 +40,24 @@ class SearchResultDomainService {
     try {
       const response = await ModelApiForSeo.findAll({
         where: { uuid },
-        attributes: ['domain'],
+        attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain'],
       });
 
       if (response.length > 0) {
-        return response;
+        const googlePages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
+        const responseMoz = await ApiMozService.getResultMozUUID(uuid);
+        const performanceURLS = await PerformanceUrlService.getPerformanceURLSUUID(uuid);
+
+        return {
+          apiDataForSeo: response,
+          googlePages,
+          responseMoz,
+          performanceURLS,
+        };
       }
       return false;
     } catch (error) {
+      console.log(error);
       return false;
     }
   }

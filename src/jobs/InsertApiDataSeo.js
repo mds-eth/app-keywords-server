@@ -1,119 +1,55 @@
-import { encode } from 'js-base64';
-
 import axios from 'axios';
 
 import Queue from '../lib/Queue';
-
-import ModelApiForSeo from '../app/models/ApiForSeo';
 
 import InsertApiMoz from './InsertApiMoz';
 import InsertPerformanceUrl from './InsertPerformanceUrl';
 import InsertGoogleIndexPages from './InsertGoogleIndexPages';
 
-export default {
-  key: 'JobInsertApiDataSeo',
-  async handle(values) {
-    const { word1, word2, uuid } = values;
+import DataForSeoService from '../app/service/DataForSeoService';
 
-    const auth = await this.getAuthEncodeApiForSeo();
-    const params = await this.returnArrayParams(word1, word2);
-
-    const headers = {
-      Authorization: `Basic ${auth}`,
+class JobInsertApiDataSeo {
+  constructor() {
+    this.key = 'JobInsertApiDataSeo';
+    this.options = {
+      attemps: 2,
     };
+  }
 
-    const response = await axios.post(`${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`, params, headers);
-
-    if (response.status === 200) {
-      const data = response.data;
-
-      if (data.tasks !== null) {
-        const responseDomains = await this.saveBDReturnApiForSeo(uuid, response.data.tasks[0].result[0].items);
-
-        const values = {
-          uuid,
-          domains: responseDomains,
-        };
-        await Queue.add(InsertApiMoz.key, values);
-        await Queue.add(InsertGoogleIndexPages.key, values);
-        await Queue.add(InsertPerformanceUrl.key, values);
-      }
-    }
-  },
-
-  async returnArrayParams(word1, word2) {
+  async handle(values) {
     try {
-      const data = [];
-      const postArray = {
-        language_name: 'Portuguese',
-        location_code: 2076,
-        location_name: 'Brazil',
-        language_code: 'pt',
-        depth: 10,
-        keyword: utf8.encode(`${word1}+${word2}`),
-      };
+      const { word1, word2, uuid } = values.data;
 
-      data.push(postArray);
+      const auth = await DataForSeoService.getAuthEncodeApiForSeo();
+      const params = await DataForSeoService.returnArrayParams(word1, word2);
 
-      return data;
-    } catch (error) {}
-  },
+      const response = await axios.post(`${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`, params, {
+        timeout: 60 * 4 * 1000,
+        headers: {
+          Authorization: `Basic ${auth}`,
+        },
+      });
 
-  async saveBDReturnApiForSeo(uuid, returnApi) {
-    try {
-      const domains = [];
-      for (var i in returnApi) {
-        const search = returnApi[i];
+      if (response.status === 200) {
+        const data = response.data;
 
-        const domain = search.domain;
+        if (data.tasks !== null) {
+          const responseDomains = await DataForSeoService.saveBDReturnApiForSeo(uuid, response.data.tasks[0].result[0].items);
 
-        if (domain === null || domain === undefined || domain === '') continue;
+          const values = {
+            uuid,
+            domains: responseDomains,
+          };
 
-        const type = search.type;
-        const rank_group = search.rank_group;
-        const rank_absolute = search.rank_absolute;
-        const position = search.position;
-        const xpath = search.xpath;
-        const title = search.title;
-        const url = search.url;
-        const breadcrumb = search.breadcrumb === undefined ? '' : search.breadcrumb;
-        const description = search.description === undefined ? '' : search.description;
-        const links = search.links === undefined ? '' : search.links;
-        const faq = search.faq === undefined ? '' : search.faq;
-
-        await ModelApiForSeo.create({
-          uuid,
-          type,
-          rank_group,
-          rank_absolute,
-          position,
-          xpath,
-          domain,
-          title,
-          url,
-          breadcrumb,
-          description,
-          links,
-          faq,
-        });
-
-        domains.push(domain);
+          await Queue.add(InsertApiMoz.key, values);
+          await Queue.add(InsertGoogleIndexPages.key, values);
+          //await Queue.add(InsertPerformanceUrl.key, values);
+        }
       }
-
-      return domains;
     } catch (error) {
       console.log(error);
-      return false;
     }
-  },
+  }
+}
 
-  async getAuthEncodeApiForSeo() {
-    try {
-      const concat = `${process.env.LOGIN_API_FOR_SEO}:${process.env.PASS_API_FOR_SEO}`;
-
-      const auth64 = encode(concat);
-
-      return auth64;
-    } catch (error) {}
-  },
-};
+export default new JobInsertApiDataSeo();

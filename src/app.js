@@ -3,6 +3,12 @@ import cors from 'cors';
 
 import './database';
 
+import BullBoard from 'bull-board';
+
+import Queue from './lib/Queue';
+
+BullBoard.setQueues(Queue.queues.map((queue) => queue.bull));
+
 import routes from './routes';
 
 class App {
@@ -20,6 +26,8 @@ class App {
 
   createCors() {
     this.server.use(cors());
+
+    this.server.use('/admin/queues', BullBoard.UI);
   }
 
   createRoutes() {
