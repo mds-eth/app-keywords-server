@@ -1,5 +1,7 @@
 import BaseService from './BaseService';
 
+import ModelMozResults from '../models/MozResults';
+
 class ApiMozService extends BaseService {
   constructor() {
     super();

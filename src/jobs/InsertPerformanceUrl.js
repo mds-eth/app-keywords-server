@@ -20,7 +20,7 @@ class JobInsertPerformanceUrls {
         for (var j in domains) {
           const domain = domains[j];
 
-          const urlRequest = `https://${domain.domain}`;
+          const urlRequest = `https://${domain}`;
 
           const url = `${apiPageSpeed}?strategy=${strategys[i]}&locale=pt-BR&url=${urlRequest}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
 
@@ -37,7 +37,7 @@ class JobInsertPerformanceUrls {
             const performance = response.data.lighthouseResult.categories.performance;
 
             const score = performance.score.toString();
-            const audit_refs = JSON.stringify(performance.auditRefs);
+            const audit_refs = performance.auditRefs;
 
             await ModelPerformanceUrls.create({ uuid, strategy, url: urlRequest, score, audit_refs, input, exit });
           }
@@ -45,7 +45,9 @@ class JobInsertPerformanceUrls {
       }
 
       return true;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

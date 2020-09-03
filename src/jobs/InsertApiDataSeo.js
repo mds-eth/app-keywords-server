@@ -36,6 +36,10 @@ class JobInsertApiDataSeo {
         if (data.tasks !== null) {
           const responseDomains = await DataForSeoService.saveBDReturnApiForSeo(uuid, response.data.tasks[0].result[0].items);
 
+          if (!responseDomains) {
+            return false;
+          }
+
           const values = {
             uuid,
             domains: responseDomains,
@@ -43,7 +47,7 @@ class JobInsertApiDataSeo {
 
           await Queue.add(InsertApiMoz.key, values);
           await Queue.add(InsertGoogleIndexPages.key, values);
-          //await Queue.add(InsertPerformanceUrl.key, values);
+          await Queue.add(InsertPerformanceUrl.key, values);
         }
       }
     } catch (error) {

@@ -5,6 +5,7 @@ import './database';
 
 import BullBoard from 'bull-board';
 
+//import './lib/Redis';
 import Queue from './lib/Queue';
 
 BullBoard.setQueues(Queue.queues.map((queue) => queue.bull));
@@ -26,12 +27,11 @@ class App {
 
   createCors() {
     this.server.use(cors());
-
-    this.server.use('/admin/queues', BullBoard.UI);
   }
 
   createRoutes() {
     this.server.use(routes);
+    this.server.use('/admin/queues', BullBoard.UI);
   }
 }
 

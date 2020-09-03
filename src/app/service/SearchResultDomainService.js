@@ -38,6 +38,7 @@ class SearchResultDomainService {
 
   async getAllDomains(uuid) {
     try {
+
       const response = await ModelApiForSeo.findAll({
         where: { uuid },
         attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain'],

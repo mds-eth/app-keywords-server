@@ -2,11 +2,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { encode } from 'js-base64';
 
+import ModelApiForSeo from '../models/ApiForSeo';
+
 import utf8 from 'utf8';
 
 import Queue from '../../lib/Queue';
 
-import ApiForSeo from '../models/ApiForSeo';
 import InsertApiDataSeo from '../../jobs/InsertApiDataSeo';
 
 import BaseService from './BaseService';
@@ -91,23 +92,7 @@ class DataForSeoService extends BaseService {
         const links = search.links === undefined ? '' : search.links;
         const faq = search.faq === undefined ? '' : search.faq;
 
-        console.log(`posicao iteracao ${i}`);
-        console.log(search);
-
-        await ApiForSeo.create({
-          uuid,
-          type,
-          rank_group,
-          rank_absolute,
-          position,
-          domain,
-          title,
-          url,
-          breadcrumb,
-          description,
-          links,
-          faq,
-        });
+        await ModelApiForSeo.create({ uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
 
         domains.push(domain);
       }

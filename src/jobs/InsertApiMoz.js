@@ -31,7 +31,7 @@ class JobInsertApiMoz {
       for (var i in domains) {
         const domain = domains[i];
 
-        const urlRequest = `https://${domain.domain}`;
+        const urlRequest = `https://${domain}`;
 
         const url = `${urlApiMoz}/url-metrics/${urlRequest}?Cols=${cols}&AccessID=${accessId}&Expires=${expires}&Signature=${signature}`;
 
@@ -46,7 +46,9 @@ class JobInsertApiMoz {
         }
       }
       return true;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
