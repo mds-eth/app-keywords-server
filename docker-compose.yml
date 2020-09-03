@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  redis:
+    container_name: 'container_api_keywords'
+    image: redis
+    command: redis-server --requirepass ApiKeywords@2020!
+    ports:
+      - '6379:6379'
+
+
