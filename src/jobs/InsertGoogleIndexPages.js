@@ -5,15 +5,18 @@ import firefox from 'selenium-webdriver/firefox';
 
 import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
 
-class JobInsertGoogleIndexPages {
-  constructor() {
+class JobInsertGoogleIndexPages
+{
+  constructor()
+  {
     this.key = 'JobInsertGoogleIndexPages';
     this.options = {
       attemps: 2,
     };
   }
 
-  async handle(values) {
+  async handle(values)
+  {
     try {
       const { uuid, domains } = values.data;
 
@@ -53,6 +56,8 @@ class JobInsertGoogleIndexPages {
       return true;
     } catch (error) {
       console.log(error);
+    } finally {
+      await driver.quit();
     }
   }
 }

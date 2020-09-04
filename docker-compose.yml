@@ -6,16 +6,27 @@ services:
     command: redis-server --requirepass ApiKeywords@2020!
     ports:
       - '6379:6379'
+    networks:
+    - network_api_keywords
 
   mysql:
     image: mysql
-    container_name: 'container_mysql_api_keywords'
-    command: --default-authentication-plugin=mysql_native_password
+    container_name: 'container_mysql_api_keywords'    
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 
-      MYSQL_DATABASE: 
-      MYSQL_USER: 
-      MYSQL_PASSWORD: 
+    environment:      
+      MYSQL_DATABASE: api_keywords
+      MYSQL_ROOT_PASSWORD: apiKeywords      
     ports:
-      - '3307:3307'
+      - '3307:3306'
+    networks:
+    - network_api_keywords
+    volumes:
+      - db_data_api_keywords:/var/lib/mysql/ 
+
+networks:
+  network_api_keywords:
+    driver: bridge
+
+volumes:
+  db_data_api_keywords:
+    driver: local
