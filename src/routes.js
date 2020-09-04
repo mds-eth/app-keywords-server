@@ -8,14 +8,24 @@ import SessionController from './app/controllers/SessionController';
 import DataForSeoController from './app/controllers/DataForSeoController';
 import SearchResultController from './app/controllers/SearchResultController';
 
-class Routes {
-  constructor() {
+class Routes
+{
+  constructor()
+  {
     this.routes = Router();
 
     this.createRoutes();
   }
 
-  createRoutes() {
+  createRoutes()
+  {
+
+    this.routes.get('/api/v1/test', (req, res) =>
+    {
+      return res.status(200).json({ status: true, message: 'Hello ApiKeywords.' });
+
+    });
+
     this.routes.get('/api/v1/session/get-token', middlewareSecret, SessionController.createToken);
 
     this.routes.post('/api/v1/google/search-keyword', middlewareJWT, DataForSeoController.searchKeyword);
