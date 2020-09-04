@@ -39,16 +39,18 @@ class JobInsertGoogleIndexPages {
         await driver.get('http://www.google.com.br');
         await driver.findElement(By.name('q')).sendKeys(urlRequest, Key.RETURN);
 
-        let elementoQuantidadeAnuncios = await driver.wait(until.elementLocated(By.css('body.vasq #result-stats')), 200000);
+        let elementQtd = await driver.wait(until.elementLocated(By.css('body.vasq #result-stats')), 200000);
 
-        var qtdAnuncios = await elementoQuantidadeAnuncios.getAttribute('textContent');
+        var qtd = await elementQtd.getAttribute('textContent');
 
-        const result = qtdAnuncios.split('Aproximadamente ');
+        const result = qtd.split('Aproximadamente ');
 
         const response = result[1].split(' resultados');
 
         await ModelGoogleIndexPages.create({ uuid, url: urlRequest, quantity_pages: response[0] });
       }
+
+      return true;
     } catch (error) {
       console.log(error);
     }

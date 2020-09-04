@@ -4,14 +4,16 @@ import redisConfig from '../config/redis';
 
 import * as jobs from '../jobs';
 
+import ModelFailedJobs from '../app/models/FailedJobs';
+import ModelFinishedJobs from '../app/models/FinishedJobs';
+
 class Queue {
   constructor() {
-
     this.queues = Object.values(jobs).map((job) => ({
       bull: new Bull(job.key, { redis: { port: redisConfig.port, host: redisConfig.host, password: redisConfig.password } }),
       name: job.key,
       handle: job.handle,
-      options: job.options
+      options: job.options,
     }));
 
     this.process();
@@ -24,15 +26,38 @@ class Queue {
   }
 
   async process() {
-    return this.queues.forEach((queue) => {
-      queue.bull.process(queue.handle);
 
-      queue.bull.on('failed', (job, err) => {
-        console.log(err);
-        return;
-        console.log(`Failed process job: ${job}, error: ${err}`);
+    try {
+
+      return this.queues.forEach((queue) => {
+        queue.bull.process(queue.handle);
+  
+        queue.bull.on('failed', async (job, error) => {
+          const keyJob = job.queue.name;
+          const uuid = job.data.uuid;
+          const params = job.data;
+  
+          await ModelFailedJobs.create({ uuid, job: keyJob, params, error });
+        });
+  
+        queue.bull.on('completed', async (job, result) => {
+          const keyJob = job.queue.name;
+
+          const uuid = job.data.uuid;
+          const params = job.data;
+  
+          await ModelFinishedJobs.create({ uuid, job: keyJob, params });
+
+
+          if(keyJob === 'JobInsertPerformanceUrl'){
+              //criar logica para avisar o front que as consultas estao prontas.
+          }
+        });
       });
-    });
+      
+    } catch (error) {
+      
+    }    
   }
 }
 

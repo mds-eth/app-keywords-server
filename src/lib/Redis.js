@@ -1,13 +1,41 @@
-import RedisLib from 'redis';
+import redis from 'redis';
 
 class Redis {
   constructor() {
-    this.redis = RedisLib.createClient();
+    this.init();
+
+    this.redis = [];
   }
-  async getValueRedisCached(key) {
+
+  async init() {
     try {
-      const response = await this.redis.get(key);
-    } catch (error) {}
+      const client = await redis.createClient({
+        port: process.env.PORT_REDIS,
+        host: process.env.HOST_REDIS,
+        password: process.env.PASSWORD_REDIS,
+      });
+      this.redis = client;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getCacheById(key) {
+    return new Promise((resv, rej) => {
+      this.redis.get(key, (err, reply) => {
+        if (err) rej(false);
+        resv(JSON.parse(reply));
+      });
+    });
+  }
+
+  async addCacheRedis(key, value) {
+    try {
+      await this.redis.set(key, value, 'EX', 43200);
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

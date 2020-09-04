@@ -9,7 +9,7 @@ class SearchResultController {
     if (uuid === '' || !uuidValidate(uuid)) {
       return res.status(400).json({ status: false, message: 'Key invalid.' });
     }
-    const response = await SearchResultDomainService.getAllDomains(uuid);
+    const response = await SearchResultDomainService.getResultUUID(uuid);
 
     if (!response) {
       return res.status(400).json({ status: false, message: response });

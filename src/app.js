@@ -5,7 +5,7 @@ import './database';
 
 import BullBoard from 'bull-board';
 
-//import './lib/Redis';
+import './lib/Redis';
 import Queue from './lib/Queue';
 
 BullBoard.setQueues(Queue.queues.map((queue) => queue.bull));

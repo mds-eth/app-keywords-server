@@ -7,34 +7,18 @@ class PerformanceUrlService extends BaseService {
     super();
   }
 
-  async configureCallAPIGoogleSpeed(uuid, domains) {
+  async getPerformanceURLSUUID(uuid) {
     try {
-      
-      return true;
-    } catch (error) {
-      console.log(error.data);
-
-      return false;
-    }
-  }
-
-  async getPerformanceURLSUUID(uuid){
-
-    try {
-
       const response = await ModelPerformanceUrls.findAll({
-        where: {uuid},
-        attributes: ['strategy', 'url', 'score']
+        where: { uuid },
+        attributes: ['strategy', 'url', 'score'],
       });
 
-      if(response.length > 0){
+      if (response.length > 0) {
         return response;
       }
       return false;
-      
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   }
 }
 

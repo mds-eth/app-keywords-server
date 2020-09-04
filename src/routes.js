@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import middlewareJWT from './app/middlewares/middewareJWT';
+import middlewareRedis from './app/middlewares/middlewareRedis';
 import middlewareSecret from './app/middlewares/middlewareSecret';
 
 import SessionController from './app/controllers/SessionController';
@@ -18,7 +19,7 @@ class Routes {
     this.routes.get('/api/v1/session/get-token', middlewareSecret, SessionController.createToken);
 
     this.routes.post('/api/v1/google/search-keyword', middlewareJWT, DataForSeoController.searchKeyword);
-    this.routes.get('/api/v1/google/get-result-domains/:uuid', middlewareJWT, SearchResultController.getResultDomains);
+    this.routes.get('/api/v1/google/get-result-domains/:uuid', middlewareJWT, middlewareRedis, SearchResultController.getResultDomains);
   }
 }
 

@@ -48,6 +48,8 @@ class JobInsertApiDataSeo {
           await Queue.add(InsertApiMoz.key, values);
           await Queue.add(InsertGoogleIndexPages.key, values);
           await Queue.add(InsertPerformanceUrl.key, values);
+
+          return true;
         }
       }
     } catch (error) {
