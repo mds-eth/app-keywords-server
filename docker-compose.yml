@@ -5,7 +5,7 @@ services:
     image: redis
     command: redis-server --requirepass ApiKeywords@2020!
     ports:
-      - '6379:6379'
+      - '6380:6379'
     networks:
     - network_api_keywords
 
