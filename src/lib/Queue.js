@@ -39,6 +39,8 @@ class Queue
 
         queue.bull.on('failed', async (job, error) =>
         {
+
+          console.log(error);
           const keyJob = job.queue.name;
           const uuid = job.data.uuid;
           const params = job.data;

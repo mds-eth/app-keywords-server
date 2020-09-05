@@ -5,13 +5,12 @@ class JobService
 
     async getKeywordsUUID(uuid)
     {
-
         try {
 
             const response = await ModelFinishJobs.findOne({ where: { uuid } });
 
             if (response) {
-
+                delete response.params.uuid;
                 return response.params;
             }
             return false;

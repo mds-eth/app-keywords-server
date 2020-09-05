@@ -1,5 +1,3 @@
-require('geckodriver');
-
 import { Builder, By, Key, until, Capabilities } from 'selenium-webdriver';
 import firefox from 'selenium-webdriver/firefox';
 
@@ -50,12 +48,10 @@ class JobInsertGoogleIndexPages
 
         await ModelGoogleIndexPages.create({ uuid, url: urlRequest, quantity_pages: response[0] });
       }
-
+      await driver.quit();
       return true;
     } catch (error) {
       console.log(error);
-    } finally {
-      await driver.quit();
     }
   }
 }
