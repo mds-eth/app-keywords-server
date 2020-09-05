@@ -2,9 +2,12 @@ import axios from 'axios';
 
 import ModelLogRequestsApi from '../models/LogRequestsApis';
 
-export default class BaseService {
-  async callAPI(method, params = null, endpoint, auth = null) {
+export default class BaseService
+{
+  async callAPI(method, params = null, endpoint, auth = null)
+  {
     try {
+      
       const input = new Date();
       if (method === 'POST') {
         var response = await axios.post(endpoint, params, {

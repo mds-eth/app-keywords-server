@@ -2,12 +2,16 @@ import BaseService from './BaseService';
 
 import ModelGoogleIndexPages from '../models/GoogleIndexPages';
 
-class GoogleIndexPagesService extends BaseService {
-  constructor() {
-    super();    
+class GoogleIndexPagesService extends BaseService
+{
+  constructor()
+  {
+    super();
   }
-  async getGoogleIndexPagesUUID(uuid) {
+  async getGoogleIndexPagesUUID(uuid)
+  {
     try {
+      
       const response = await ModelGoogleIndexPages.findAll({
         where: { uuid },
         attributes: ['url', 'quantity_pages'],
@@ -17,7 +21,7 @@ class GoogleIndexPagesService extends BaseService {
         return response;
       }
       return false;
-    } catch (error) {}
+    } catch (error) { }
   }
 }
 

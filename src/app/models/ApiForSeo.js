@@ -1,14 +1,16 @@
 import Sequelize, { Model } from 'sequelize';
 
-class ApiForSeo extends Model {
-  static init(sequelize) {
+class ApiForSeo extends Model
+{
+  static init(sequelize)
+  {
     super.init(
       {
         uuid: Sequelize.STRING,
         type: Sequelize.STRING,
         rank_group: Sequelize.STRING,
         rank_absolute: Sequelize.STRING,
-        position: Sequelize.STRING,        
+        position: Sequelize.STRING,
         domain: Sequelize.STRING,
         title: Sequelize.STRING,
         url: Sequelize.STRING,

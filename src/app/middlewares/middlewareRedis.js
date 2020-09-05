@@ -2,8 +2,10 @@ import { validate as uuidValidate } from 'uuid';
 
 import Redis from '../../lib/Redis';
 
-export default async function (req, res, next) {
+export default async function (req, res, next)
+{
   try {
+
     const { uuid } = req.params;
 
     if (uuid === '' || !uuidValidate(uuid)) {
@@ -16,5 +18,5 @@ export default async function (req, res, next) {
       return res.status(200).json({ status: true, uuid, response });
     }
     return next();
-  } catch (error) {}
+  } catch (error) { }
 }

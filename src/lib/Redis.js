@@ -1,35 +1,44 @@
 import redis from 'redis';
 
-class Redis {
-  constructor() {
+class Redis
+{
+  constructor()
+  {
     this.init();
 
     this.redis = [];
   }
 
-  async init() {
+  async init()
+  {
     try {
+
       const client = await redis.createClient({
         port: process.env.PORT_REDIS,
         host: process.env.HOST_REDIS,
         password: process.env.PASSWORD_REDIS,
       });
+      
       this.redis = client;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async getCacheById(key) {
-    return new Promise((resv, rej) => {
-      this.redis.get(key, (err, reply) => {
+  async getCacheById(key)
+  {
+    return new Promise((resv, rej) =>
+    {
+      this.redis.get(key, (err, reply) =>
+      {
         if (err) rej(false);
         resv(JSON.parse(reply));
       });
     });
   }
 
-  async addCacheRedis(key, value) {
+  async addCacheRedis(key, value)
+  {
     try {
       await this.redis.set(key, value, 'EX', 43200);
       return true;

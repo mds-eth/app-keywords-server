@@ -12,16 +12,20 @@ import InsertApiDataSeo from '../../jobs/InsertApiDataSeo';
 
 import BaseService from './BaseService';
 
-class DataForSeoService extends BaseService {
-  constructor() {
+class DataForSeoService extends BaseService
+{
+  constructor()
+  {
     super();
 
     this.status = true;
     this.message = '';
   }
 
-  async createProcessQueueApis(word1, word2) {
+  async createProcessQueueApis(word1, word2)
+  {
     try {
+
       const uuid = uuidv4();
 
       const data = {
@@ -39,8 +43,10 @@ class DataForSeoService extends BaseService {
     }
   }
 
-  async returnArrayParams(word1, word2) {
+  async returnArrayParams(word1, word2)
+  {
     try {
+
       const data = [];
       const postArray = {
         language_name: 'Portuguese',
@@ -59,8 +65,10 @@ class DataForSeoService extends BaseService {
     }
   }
 
-  async getAuthEncodeApiForSeo() {
+  async getAuthEncodeApiForSeo()
+  {
     try {
+
       const concat = `${process.env.LOGIN_API_FOR_SEO}:${process.env.PASS_API_FOR_SEO}`;
 
       const auth64 = encode(concat);
@@ -71,8 +79,10 @@ class DataForSeoService extends BaseService {
     }
   }
 
-  async saveBDReturnApiForSeo(uuid, returnApi) {
+  async saveBDReturnApiForSeo(uuid, returnApi)
+  {
     try {
+
       const domains = [];
       for (var i in returnApi) {
         const search = returnApi[i];

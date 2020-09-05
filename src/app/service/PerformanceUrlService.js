@@ -2,13 +2,16 @@ import BaseService from './BaseService';
 
 import ModelPerformanceUrls from '../models/PerformanceUrls';
 
-class PerformanceUrlService extends BaseService {
-  constructor() {
+class PerformanceUrlService extends BaseService
+{
+  constructor(){
     super();
   }
 
-  async getPerformanceURLSUUID(uuid) {
+  async getPerformanceURLSUUID(uuid)
+  {
     try {
+
       const response = await ModelPerformanceUrls.findAll({
         where: { uuid },
         attributes: ['strategy', 'url', 'score'],
@@ -18,7 +21,7 @@ class PerformanceUrlService extends BaseService {
         return response;
       }
       return false;
-    } catch (error) {}
+    } catch (error) { }
   }
 }
 

@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
   {
-    return queryInterface.createTable('log_requests_apis', {
+    return queryInterface.createTable('log_requests', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -14,28 +14,20 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      params: {
-        type: Sequelize.JSON,
-        allowNull: true,
-      },
-      api: {
+      url: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      auth: {
-        type: Sequelize.JSON,
-        allowNull: true,
-      },
-      response: {
+      body: {
         type: Sequelize.JSON,
         allowNull: false,
       },
-      input: {
-        type: Sequelize.DATE,
+      headers: {
+        type: Sequelize.JSON,
         allowNull: false,
       },
-      exit: {
-        type: Sequelize.DATE,
+      raw_headers: {
+        type: Sequelize.JSON,
         allowNull: false,
       },
       created_at: {
@@ -50,6 +42,6 @@ module.exports = {
   },
   down: (queryInterface) =>
   {
-    return queryInterface.dropTable('log_requests_apis');
+    return queryInterface.dropTable('log_requests');
   },
 };

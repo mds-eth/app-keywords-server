@@ -8,27 +8,33 @@ import InsertGoogleIndexPages from './InsertGoogleIndexPages';
 
 import DataForSeoService from '../app/service/DataForSeoService';
 
-class JobInsertApiDataSeo {
-  constructor() {
+class JobInsertApiDataSeo
+{
+  constructor()
+  {
     this.key = 'JobInsertApiDataSeo';
     this.options = {
       attemps: 2,
     };
   }
 
-  async handle(values) {
+  async handle(values)
+  {
     try {
+
       const { word1, word2, uuid } = values.data;
 
       const auth = await DataForSeoService.getAuthEncodeApiForSeo();
       const params = await DataForSeoService.returnArrayParams(word1, word2);
 
-      const response = await axios.post(`${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`, params, {
-        timeout: 60 * 4 * 1000,
-        headers: {
-          Authorization: `Basic ${auth}`,
-        },
-      });
+      const response = await axios.post(`${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`,
+        params,
+        {
+          timeout: 60 * 4 * 1000,
+          headers: {
+            Authorization: `Basic ${auth}`,
+          },
+        });
 
       if (response.status === 200) {
         const data = response.data;

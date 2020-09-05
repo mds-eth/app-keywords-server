@@ -1,5 +1,4 @@
 export default {
-    expiresIn: 900,
-    secret: 'QXBpVnRleENhcnJlZm91clpldXNJbnRlZ3JhdGlvbnM=',
-  }
-  
+  expiresIn: 900,
+  secret: 'QXBpVnRleENhcnJlZm91clpldXNJbnRlZ3JhdGlvbnM=',
+}

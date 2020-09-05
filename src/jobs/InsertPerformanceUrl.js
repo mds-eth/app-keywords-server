@@ -2,16 +2,20 @@ import axios from 'axios';
 
 import ModelPerformanceUrls from '../app/models/PerformanceUrls';
 
-class JobInsertPerformanceUrls {
-  constructor() {
+class JobInsertPerformanceUrls
+{
+  constructor()
+  {
     this.key = 'JobInsertPerformanceUrl';
     this.options = {
       attemps: 2,
     };
   }
 
-  async handle(values) {
+  async handle(values)
+  {
     try {
+      
       const { uuid, domains } = values.data;
 
       const strategys = ['DESKTOP', 'MOBILE'];

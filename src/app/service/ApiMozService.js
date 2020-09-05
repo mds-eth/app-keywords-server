@@ -2,13 +2,18 @@ import BaseService from './BaseService';
 
 import ModelMozResults from '../models/MozResults';
 
-class ApiMozService extends BaseService {
-  constructor() {
+class ApiMozService extends BaseService
+{
+  constructor()
+  {
     super();
   }
 
-  async getResultMozUUID(uuid) {
+  async getResultMozUUID(uuid)
+  {
+
     try {
+
       const response = await ModelMozResults.findAll({
         where: { uuid },
         attributes: ['url', 'upa', 'pda'],
@@ -18,7 +23,7 @@ class ApiMozService extends BaseService {
         return response;
       }
       return false;
-    } catch (error) {}
+    } catch (error) { }
   }
 }
 

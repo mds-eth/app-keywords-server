@@ -1,7 +1,9 @@
 import Sequelize, { Model } from 'sequelize';
 
-class MozResults extends Model {
-  static init(sequelize) {
+class MozResults extends Model
+{
+  static init(sequelize)
+  {
     super.init(
       {
         uuid: Sequelize.STRING,

@@ -4,16 +4,20 @@ import MozResults from '../app/models/MozResults';
 
 import Helpers from '../helpers/Helpers';
 
-class JobInsertApiMoz {
-  constructor() {
+class JobInsertApiMoz
+{
+  constructor()
+  {
     this.key = 'JobInsertApiMoz';
     this.options = {
       attemps: 2,
     };
   }
 
-  async handle(values) {
+  async handle(values)
+  {
     try {
+      
       const { uuid, domains } = values.data;
 
       const expires = Math.floor(Date.now() / 1000) + 5000;

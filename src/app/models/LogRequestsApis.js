@@ -1,7 +1,9 @@
 import Sequelize, { Model } from 'sequelize';
 
-class LogRequestsApi extends Model {
-  static init(sequelize) {
+class LogRequestsApi extends Model
+{
+  static init(sequelize)
+  {
     super.init(
       {
         method: Sequelize.STRING,

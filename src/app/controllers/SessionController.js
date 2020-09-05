@@ -1,7 +1,10 @@
 import SessionService from '../service/SessionService';
 
-class SessionController {
-  async createToken(req, res) {
+class SessionController
+{
+  async createToken(req, res)
+  {
+    
     const response = await SessionService.generateToken(123);
 
     if (!SessionService.status) {

@@ -1,5 +1,7 @@
-export default async function (req, res, next) {
+export default async function (req, res, next)
+{
   try {
+
     const apiSecret = req.headers['api-secret'];
 
     if (apiSecret === '' || apiSecret === undefined || apiSecret !== process.env.API_SECRET) {

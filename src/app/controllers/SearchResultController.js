@@ -2,8 +2,11 @@ import { validate as uuidValidate } from 'uuid';
 
 import SearchResultDomainService from '../service/SearchResultDomainService';
 
-class SearchResultController {
-  async getResultDomains(req, res) {
+class SearchResultController
+{
+  async getResultDomains(req, res)
+  {
+    
     const { uuid } = req.params;
 
     if (uuid === '' || !uuidValidate(uuid)) {

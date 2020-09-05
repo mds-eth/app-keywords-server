@@ -1,7 +1,9 @@
 import Sequelize, { Model } from 'sequelize';
 
-class GoogleIndexPages extends Model {
-  static init(sequelize) {
+class GoogleIndexPages extends Model
+{
+  static init(sequelize)
+  {
     super.init(
       {
         uuid: Sequelize.STRING,

@@ -12,8 +12,10 @@ BullBoard.setQueues(Queue.queues.map((queue) => queue.bull));
 
 import routes from './routes';
 
-class App {
-  constructor() {
+class App
+{
+  constructor()
+  {
     this.server = express();
 
     this.middlewares();
@@ -21,15 +23,18 @@ class App {
     this.createRoutes();
   }
 
-  middlewares() {
+  middlewares()
+  {
     this.server.use(express.json());
   }
 
-  createCors() {
+  createCors()
+  {
     this.server.use(cors());
   }
 
-  createRoutes() {
+  createRoutes()
+  {
     this.server.use(routes);
     this.server.use('/admin/queues', BullBoard.UI);
   }

@@ -35,9 +35,7 @@ class JobInsertGoogleIndexPages
         .build();
 
       for (var i in domains) {
-        const domain = domains[i];
-
-        const urlRequest = `https://${domain}`;
+        const urlRequest = domains[i];
 
         await driver.get('http://www.google.com.br');
         await driver.findElement(By.name('q')).sendKeys(urlRequest, Key.RETURN);

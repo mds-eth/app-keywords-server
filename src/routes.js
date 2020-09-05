@@ -3,6 +3,7 @@ import { Router } from 'express';
 import middlewareJWT from './app/middlewares/middewareJWT';
 import middlewareRedis from './app/middlewares/middlewareRedis';
 import middlewareSecret from './app/middlewares/middlewareSecret';
+import middlewareLogRequests from './app/middlewares/middlewareLogRequests';
 
 import SessionController from './app/controllers/SessionController';
 import DataForSeoController from './app/controllers/DataForSeoController';
@@ -19,10 +20,10 @@ class Routes
 
   createRoutes()
   {
-
+    this.routes.use(middlewareLogRequests);
     this.routes.get('/api/v1/test', (req, res) =>
     {
-      return res.status(200).json({ status: true, message: 'Hello ApiKeywords.' });
+      return res.status(200).json({ status: true, message: 'Heyy dude.' });
 
     });
 
@@ -30,6 +31,14 @@ class Routes
 
     this.routes.post('/api/v1/google/search-keyword', middlewareJWT, DataForSeoController.searchKeyword);
     this.routes.get('/api/v1/google/get-result-domains/:uuid', middlewareJWT, middlewareRedis, SearchResultController.getResultDomains);
+
+    this.routes.get('*', (req, res) => { res.status(404).json({ status: false, message: 'Not Found.' }); });
+
+    this.routes.post('*', (req, res) => { res.status(404).json({ status: false, message: 'Not Found.' }); });
+
+    this.routes.put('*', (req, res) => { res.status(404).json({ status: false, message: 'Not Found.' }); });
+
+    this.routes.delete('*', (req, res) => { res.status(404).json({ status: false, message: 'Not Found.' }); });
   }
 }
 
