@@ -6,7 +6,7 @@ class SearchResultController
 {
   async getResultDomains(req, res)
   {
-    
+
     const { uuid } = req.params;
 
     if (uuid === '' || !uuidValidate(uuid)) {
@@ -17,7 +17,7 @@ class SearchResultController
     if (!response) {
       return res.status(400).json({ status: false, message: response });
     }
-    return res.status(200).json({ status: true, uuid, response });
+    return res.status(200).json({ status: true, response });
   }
 }
 

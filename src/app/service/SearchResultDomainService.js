@@ -2,6 +2,7 @@ import ModelApiForSeo from '../models/ApiForSeo';
 
 import Redis from '../../lib/Redis';
 
+import JobService from '../service/JobService';
 import ApiMozService from '../service/ApiMozService';
 import PerformanceUrlService from './PerformanceUrlService';
 import GoogleIndexPagesService from './GoogleIndexPagesService';
@@ -11,7 +12,7 @@ class SearchResultDomainService
   async getResultUUID(uuid)
   {
     try {
-      
+
       const response = await ModelApiForSeo.findAll({
         where: { uuid },
         attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain'],
@@ -21,8 +22,10 @@ class SearchResultDomainService
         const googlePages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
         const responseMoz = await ApiMozService.getResultMozUUID(uuid);
         const performanceURLS = await PerformanceUrlService.getPerformanceURLSUUID(uuid);
+        const keywords = await JobService.getKeywordsUUID(uuid);
 
         const values = {
+          keywords,
           apiDataForSeo: response,
           googlePages,
           responseMoz,
