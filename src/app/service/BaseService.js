@@ -2,30 +2,25 @@ import axios from 'axios';
 
 import ModelLogRequestsApi from '../models/LogRequestsApis';
 
-export default class BaseService
+class BaseService
 {
-  async callAPI(method, params = null, endpoint, auth = null)
+  async callAPI(method, params = null, urlRequest, headers = null)
   {
     try {
-      
+
       const input = new Date();
       if (method === 'POST') {
-        var response = await axios.post(endpoint, params, {
-          timeout: 60 * 4 * 1000,
-          headers: {
-            Authorization: auth,
-          },
-        });
+        var response = await axios.post(urlRequest, params, { timeout: 60 * 4 * 1000, headers: headers });
       } else if (method === 'GET') {
-        var response = await axios.get(endpoint, { timeout: 60 * 4 * 1000 });
+        var response = await axios.get(urlRequest, { timeout: 60 * 4 * 1000 });
       }
       const exit = new Date();
 
       await ModelLogRequestsApi.create({
         method,
         params,
-        api: endpoint,
-        auth: auth,
+        api: urlRequest,
+        headers,
         response: response.data,
         input,
         exit,
@@ -33,7 +28,10 @@ export default class BaseService
 
       return response;
     } catch (error) {
+      console.log(error);
       return false;
     }
   }
 }
+
+export default new BaseService();

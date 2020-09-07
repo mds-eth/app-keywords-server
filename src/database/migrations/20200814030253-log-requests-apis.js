@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      auth: {
+      headers: {
         type: Sequelize.JSON,
         allowNull: true,
       },

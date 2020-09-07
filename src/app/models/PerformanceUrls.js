@@ -10,9 +10,7 @@ class PerformanceUrls extends Model
         strategy: Sequelize.STRING,
         url: Sequelize.STRING,
         score: Sequelize.STRING,
-        audit_refs: Sequelize.JSON,
-        input: Sequelize.DATE,
-        exit: Sequelize.DATE,
+        audit_refs: Sequelize.JSON
       },
       {
         sequelize,

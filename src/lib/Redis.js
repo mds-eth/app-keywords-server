@@ -18,7 +18,7 @@ class Redis
         host: process.env.HOST_REDIS,
         password: process.env.PASSWORD_REDIS,
       });
-      
+
       this.redis = client;
     } catch (error) {
       console.log(error);
@@ -40,7 +40,7 @@ class Redis
   async addCacheRedis(key, value)
   {
     try {
-      await this.redis.set(key, value, 'EX', 43200);
+      await this.redis.set(key, value, 'EX', 21600);
       return true;
     } catch (error) {
       console.log(error);

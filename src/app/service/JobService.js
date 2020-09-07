@@ -7,7 +7,7 @@ class JobService
     {
         try {
 
-            const response = await ModelFinishJobs.findOne({ where: { uuid } });
+            const response = await ModelFinishJobs.findOne({ where: { uuid, job: 'JobInsertApiDataSeo' } });
 
             if (response) {
                 delete response.params.uuid;

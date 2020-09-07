@@ -9,7 +9,7 @@ class LogRequestsApi extends Model
         method: Sequelize.STRING,
         params: Sequelize.JSON,
         api: Sequelize.STRING,
-        auth: Sequelize.JSON,
+        headers: Sequelize.JSON,
         response: Sequelize.JSON,
         input: Sequelize.DATE,
         exit: Sequelize.DATE,

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import BaseService from '../app/service/BaseService';
 
 import ModelPerformanceUrls from '../app/models/PerformanceUrls';
 
@@ -15,7 +15,7 @@ class JobInsertPerformanceUrls
   async handle(values)
   {
     try {
-      
+
       const { uuid, domains } = values.data;
 
       const strategys = ['DESKTOP', 'MOBILE'];
@@ -24,17 +24,13 @@ class JobInsertPerformanceUrls
         for (var j in domains) {
           const domain = domains[j];
 
-          const urlRequest = `https://${domain}`;
+          const domainRequest = `https://${domain}`;
 
-          const url = `${apiPageSpeed}?strategy=${strategys[i]}&locale=pt-BR&url=${urlRequest}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
+          const urlRequest = `${apiPageSpeed}?strategy=${strategys[i]}&locale=pt-BR&url=${domainRequest}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
 
-          const input = new Date();
-
-          const response = await axios.get(url);
+          const response = await BaseService.callAPI('GET', null, urlRequest, null);
 
           if (!response) continue;
-
-          const exit = new Date();
 
           if (response.status === 200) {
             const strategy = strategys[i];
@@ -43,7 +39,7 @@ class JobInsertPerformanceUrls
             const score = performance.score.toString();
             const audit_refs = performance.auditRefs;
 
-            await ModelPerformanceUrls.create({ uuid, strategy, url: urlRequest, score, audit_refs, input, exit });
+            await ModelPerformanceUrls.create({ uuid, strategy, url: urlRequest, score, audit_refs });
           }
         }
       }

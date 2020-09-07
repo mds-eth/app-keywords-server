@@ -10,13 +10,10 @@ import Queue from '../../lib/Queue';
 
 import InsertApiDataSeo from '../../jobs/InsertApiDataSeo';
 
-import BaseService from './BaseService';
-
-class DataForSeoService extends BaseService
+class DataForSeoService
 {
   constructor()
   {
-    super();
 
     this.status = true;
     this.message = '';
@@ -103,8 +100,8 @@ class DataForSeoService extends BaseService
         const faq = search.faq === undefined ? '' : search.faq;
 
         await ModelApiForSeo.create({ uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
-
         domains.push(domain);
+        if (i === 5) break;
       }
 
       return domains;

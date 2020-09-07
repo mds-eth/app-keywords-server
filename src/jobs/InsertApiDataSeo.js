@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import Queue from '../lib/Queue';
 
+import BaseService from '../app/service/BaseService';
+
 import InsertApiMoz from './InsertApiMoz';
 import InsertPerformanceUrl from './InsertPerformanceUrl';
 import InsertGoogleIndexPages from './InsertGoogleIndexPages';
@@ -27,14 +29,13 @@ class JobInsertApiDataSeo
       const auth = await DataForSeoService.getAuthEncodeApiForSeo();
       const params = await DataForSeoService.returnArrayParams(word1, word2);
 
-      const response = await axios.post(`${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`,
-        params,
-        {
-          timeout: 60 * 4 * 1000,
-          headers: {
-            Authorization: `Basic ${auth}`,
-          },
-        });
+      const headers = {
+        Authorization: `Basic ${auth}`,
+      };
+
+      const urlRequest = `${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`;
+
+      const response = await BaseService.callAPI('POST', params, urlRequest, headers);
 
       if (response.status === 200) {
         const data = response.data;

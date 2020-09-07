@@ -39,8 +39,6 @@ class Queue
 
         queue.bull.on('failed', async (job, error) =>
         {
-
-          console.log(error);
           const keyJob = job.queue.name;
           const uuid = job.data.uuid;
           const params = job.data;
@@ -57,10 +55,6 @@ class Queue
 
           await ModelFinishedJobs.create({ uuid, job: keyJob, params });
 
-
-          if (keyJob === 'JobInsertPerformanceUrl') {
-            //criar logica para avisar o front que as consultas estao prontas.
-          }
         });
       });
 

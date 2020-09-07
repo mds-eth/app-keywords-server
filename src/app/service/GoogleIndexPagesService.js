@@ -1,13 +1,8 @@
-import BaseService from './BaseService';
-
 import ModelGoogleIndexPages from '../models/GoogleIndexPages';
 
-class GoogleIndexPagesService extends BaseService
+class GoogleIndexPagesService 
 {
-  constructor()
-  {
-    super();
-  }
+  
   async getGoogleIndexPagesUUID(uuid)
   {
     try {

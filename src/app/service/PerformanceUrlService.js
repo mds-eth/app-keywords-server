@@ -1,13 +1,7 @@
-import BaseService from './BaseService';
-
 import ModelPerformanceUrls from '../models/PerformanceUrls';
 
-class PerformanceUrlService extends BaseService
+class PerformanceUrlService 
 {
-  constructor(){
-    super();
-  }
-
   async getPerformanceURLSUUID(uuid)
   {
     try {

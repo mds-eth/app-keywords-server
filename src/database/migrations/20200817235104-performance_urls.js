@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface, Sequelize) =>
+  {
     return queryInterface.createTable('performance_urls', {
       id: {
         type: Sequelize.INTEGER,
@@ -29,14 +30,6 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: false,
       },
-      input: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      exit: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -47,7 +40,8 @@ module.exports = {
       },
     });
   },
-  down: (queryInterface) => {
+  down: (queryInterface) =>
+  {
     return queryInterface.dropTable('performance_urls');
   },
 };
