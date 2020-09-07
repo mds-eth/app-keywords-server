@@ -2,6 +2,7 @@ import ModelLogRequests from '../models/LogRequests';
 
 export default async function (req, res, next)
 {
+
     const url = req.url;
     const body = req.body;
     const method = req.method;

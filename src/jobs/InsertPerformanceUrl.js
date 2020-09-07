@@ -25,9 +25,9 @@ class JobInsertPerformanceUrls
         for (var j in domains) {
           const domain = domains[j];
 
-          const domainRequest = `https://${domain}`;
+          const url = `https://${domain}`;
 
-          const urlRequest = `${apiPageSpeed}?strategy=${strategys[i]}&locale=pt-BR&url=${domainRequest}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
+          const urlRequest = `${apiPageSpeed}?strategy=${strategys[i]}&locale=pt-BR&url=${url}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
 
           const response = await BaseService.callAPI('GET', null, urlRequest, null);
 
@@ -42,7 +42,7 @@ class JobInsertPerformanceUrls
             const score = pontuation.toString();
             const audit_refs = performance.auditRefs;
 
-            await ModelPerformanceUrls.create({ uuid, strategy, url: urlRequest, score, audit_refs });
+            await ModelPerformanceUrls.create({ uuid, strategy, url, score, audit_refs });
           }
         }
       }

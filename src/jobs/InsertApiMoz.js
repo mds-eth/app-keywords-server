@@ -36,11 +36,11 @@ class JobInsertApiMoz
       for (var i in domains) {
         const domain = domains[i];
 
-        const domainRequest = `https://${domain}`;
+        const url = `https://${domain}`;
 
-        const url = `${urlApiMoz}/url-metrics/${domainRequest}?Cols=${cols}&AccessID=${accessId}&Expires=${expires}&Signature=${signature}`;
+        const urlRequest = `${urlApiMoz}/url-metrics/${url}?Cols=${cols}&AccessID=${accessId}&Expires=${expires}&Signature=${signature}`;
 
-        const response = await BaseService.callAPI('POST', null, url, null);
+        const response = await BaseService.callAPI('POST', null, urlRequest, null);
 
         if (!response) continue;
 

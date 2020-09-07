@@ -36,15 +36,11 @@ class JobSearchTasksCreated
 
         const response = await BaseService.callAPI('GET', '', url, '', headers);
 
-        console.log(response);
-
         if (!response) continue;
 
         if (response.status === 200) {
 
           const data = response.data;
-
-          console.log(data);
         }
       }
     } catch (error) {
