@@ -1,4 +1,6 @@
-export { default as InsertApiMoz } from './InsertApiMoz';
-export { default as InsertApiDataSeo } from './InsertApiDataSeo';
-export { default as InsertPerformanceUrl } from './InsertPerformanceUrl';
-export { default as InsertGoogleIndexPages } from './InsertGoogleIndexPages';
+export { default as JobInsertApiMoz } from './InsertApiMoz';
+export { default as JobInsertApiDataSeo } from './InsertApiDataSeo';
+export { default as JobSearchTasksCreated } from './SearchTaskCreated';
+export { default as JobInsertPerformanceUrl } from './InsertPerformanceUrl';
+export { default as JobInsertGoogleIndexPages } from './InsertGoogleIndexPages';
+export { default as JobInsertApiDataSeoGoogleIndexPages } from './InsertIndexPagesApiForSeo';

@@ -38,7 +38,7 @@ class JobInsertGoogleIndexPages
         await driver.get('http://www.google.com.br');
         await driver.findElement(By.name('q')).sendKeys(urlRequest, Key.RETURN);
 
-        let elementQtd = await driver.wait(until.elementLocated(By.css('body.vasq #result-stats')), 200000);
+        let elementQtd = await driver.wait(until.elementLocated(By.css('body.vasq #result-stats')), 80000);
 
         var qtd = await elementQtd.getAttribute('textContent');
 

@@ -39,11 +39,12 @@ class Queue
 
         queue.bull.on('failed', async (job, error) =>
         {
+
           const keyJob = job.queue.name;
           const uuid = job.data.uuid;
           const params = job.data;
 
-          await ModelFailedJobs.create({ uuid, job: keyJob, params, error });
+          await ModelFailedJobs.create({ uuid, job: keyJob, params, error: error.stack });
         });
 
         queue.bull.on('completed', async (job, result) =>

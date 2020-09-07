@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { encode } from 'js-base64';
 
 import ModelApiForSeo from '../models/ApiForSeo';
+import ModelTaskCreatedIds from '../models/TaskCreatedIds';
 
 import utf8 from 'utf8';
 
@@ -40,7 +41,7 @@ class DataForSeoService
     }
   }
 
-  async returnArrayParams(word1, word2)
+  async returnArrayParams(word1, word2, site = '')
   {
     try {
 
@@ -51,12 +52,24 @@ class DataForSeoService
         location_name: 'Brazil',
         language_code: 'pt',
         depth: 10,
-        keyword: utf8.encode(`${word1}+${word2}`),
+        keyword: site === '' ? utf8.encode(`${word1}+${word2}`) : `site: ${site}`,
       };
 
       data.push(postArray);
 
       return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async createGoogleIndex(uuid, values)
+  {
+    try {
+
+      const { id: uuid_task, data } = values;
+
+      await ModelTaskCreatedIds.create({ uuid, uuid_task, data });
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +94,7 @@ class DataForSeoService
     try {
 
       const domains = [];
-      for (var i in returnApi) {
+      for (var i = 0; i < 5; i++) {
         const search = returnApi[i];
 
         const domain = search.domain;
@@ -101,7 +114,6 @@ class DataForSeoService
 
         await ModelApiForSeo.create({ uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
         domains.push(domain);
-        if (i === 5) break;
       }
 
       return domains;

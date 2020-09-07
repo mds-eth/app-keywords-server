@@ -9,6 +9,7 @@ class JobInsertPerformanceUrls
     this.key = 'JobInsertPerformanceUrl';
     this.options = {
       attemps: 2,
+      priority: 4
     };
   }
 
@@ -36,7 +37,9 @@ class JobInsertPerformanceUrls
             const strategy = strategys[i];
             const performance = response.data.lighthouseResult.categories.performance;
 
-            const score = performance.score.toString();
+            const pontuation = performance.score * 100;
+
+            const score = pontuation.toString();
             const audit_refs = performance.auditRefs;
 
             await ModelPerformanceUrls.create({ uuid, strategy, url: urlRequest, score, audit_refs });

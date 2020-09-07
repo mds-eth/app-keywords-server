@@ -1,14 +1,12 @@
-import axios from 'axios';
-
 import Queue from '../lib/Queue';
 
 import BaseService from '../app/service/BaseService';
-
-import InsertApiMoz from './InsertApiMoz';
-import InsertPerformanceUrl from './InsertPerformanceUrl';
-import InsertGoogleIndexPages from './InsertGoogleIndexPages';
-
 import DataForSeoService from '../app/service/DataForSeoService';
+
+import JobInsertApiMoz from './InsertApiMoz';
+import JobInsertPerformanceUrl from './InsertPerformanceUrl';
+import JobSearchTasksCreated from './SearchTaskCreated';
+import JobInsertApiDataSeoGoogleIndexPages from './InsertIndexPagesApiForSeo';
 
 class JobInsertApiDataSeo
 {
@@ -17,6 +15,7 @@ class JobInsertApiDataSeo
     this.key = 'JobInsertApiDataSeo';
     this.options = {
       attemps: 2,
+      priority: 1
     };
   }
 
@@ -52,9 +51,12 @@ class JobInsertApiDataSeo
             domains: responseDomains,
           };
 
-          await Queue.add(InsertApiMoz.key, values);
-          await Queue.add(InsertGoogleIndexPages.key, values);
-          await Queue.add(InsertPerformanceUrl.key, values);
+          await Queue.add(JobInsertApiMoz.key, values);
+          await Queue.add(JobInsertApiDataSeoGoogleIndexPages.key, values);
+
+          await Queue.add(JobInsertPerformanceUrl.key, values);
+
+          await Queue.add(JobSearchTasksCreated.key, values);
 
           return true;
         }

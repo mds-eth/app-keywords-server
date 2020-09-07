@@ -35,8 +35,9 @@ class App
 
   createRoutes()
   {
-    this.server.use(routes);
     this.server.use('/admin/queues', BullBoard.UI);
+    this.server.use(routes);
+    
   }
 }
 

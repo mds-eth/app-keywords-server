@@ -11,6 +11,7 @@ class JobInsertApiMoz
     this.key = 'JobInsertApiMoz';
     this.options = {
       attemps: 2,
+      priority: 2
     };
   }
 

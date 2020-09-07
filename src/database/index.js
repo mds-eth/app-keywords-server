@@ -6,6 +6,7 @@ import ModelFailedJobs from '../app/models/FailedJobs';
 import ModelLogRequests from '../app/models/LogRequests';
 import ModelFinishedJobs from '../app/models/FinishedJobs';
 import ModelLogRequestsApi from '../app/models/LogRequestsApis';
+import ModelTaskCreatedIds from '../app/models/TaskCreatedIds';
 import ModelPerformanceUrls from '../app/models/PerformanceUrls';
 import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
 
@@ -16,6 +17,7 @@ const models = [
   ModelLogRequests,
   ModelFinishedJobs,
   ModelLogRequestsApi,
+  ModelTaskCreatedIds,
   ModelPerformanceUrls,
   ModelGoogleIndexPages,
 ];
