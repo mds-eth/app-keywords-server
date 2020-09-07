@@ -1,3 +1,5 @@
+require('geckodriver');
+
 import { Builder, By, Key, until, Capabilities } from 'selenium-webdriver';
 import firefox from 'selenium-webdriver/firefox';
 
