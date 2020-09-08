@@ -48,11 +48,9 @@ class JobInsertGoogleIndexPages
 
         const result = qtd.indexOf('Aproximadamente') != -1 ? qtd.split('Aproximadamente  ') : qtd.split('About  ');
 
-        const result = result.indexOf('resultados') != -1 ? result[1].split(' resultados') : result[1].split(' results');
+        const response = result.indexOf('resultados') != -1 ? result[1].split(' resultados') : result[1].split(' results');
 
-        if (response === '' || response === undefined) continue;
-
-        await ModelGoogleIndexPages.create({ uuid, url: urlRequest, quantity_pages: response[0] });
+         await ModelGoogleIndexPages.create({ uuid, url: urlRequest, quantity_pages: response[0] });
       }
       await driver.quit();
       return true;
