@@ -52,10 +52,13 @@ class JobInsertApiDataSeo
             domains: responseDomains,
           };
 
+          //await Queue.add(JobInsertApiDataSeoGoogleIndexPages.key, values);
           await Queue.add(JobInsertApiMoz.key, values);
           await Queue.add(JobInsertGoogleIndexPages.key, values);
           await Queue.add(JobInsertPerformanceUrl.key, values);
 
+
+          //await Queue.add(JobSearchTasksCreated.key, values);
           return true;
         }
       }

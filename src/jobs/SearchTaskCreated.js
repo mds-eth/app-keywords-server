@@ -9,8 +9,7 @@ class JobSearchTasksCreated
   {
     this.key = 'JobSearchTasksCreated';
     this.options = {
-      attemps: 2,
-      priority: 5
+      attemps: 1
     };
   }
 

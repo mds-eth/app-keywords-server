@@ -9,7 +9,7 @@ class JobInsertApiDataSeoGoogleIndexPages
     this.key = 'JobInsertApiDataSeoGoogleIndexPages';
     this.options = {
       attemps: 3,
-      priority: 3
+      priority: 2
     };
   }
 
@@ -41,7 +41,7 @@ class JobInsertApiDataSeoGoogleIndexPages
           const data = response.data;
 
           const dataCreate = await DataForSeoService.createGoogleIndex(uuid, data.tasks[0]);
-          
+
         }
       }
     } catch (error) {

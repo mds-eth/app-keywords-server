@@ -37,7 +37,7 @@ class JobInsertPerformanceUrls
             const strategy = strategys[i];
             const performance = response.data.lighthouseResult.categories.performance;
 
-            const pontuation = performance.score * 100;
+            const pontuation = parseInt(performance.score * 100);
 
             const score = pontuation.toString();
             const audit_refs = performance.auditRefs;
