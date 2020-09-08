@@ -94,7 +94,7 @@ class DataForSeoService
     try {
 
       const domains = [];
-      for (var i in returnApi) {
+      for (var i = 0; i <= 5; i++) {
         const search = returnApi[i];
 
         const domain = search.domain;
@@ -115,7 +115,7 @@ class DataForSeoService
         await ModelApiForSeo.create({ uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
         domains.push(domain);
 
-        if (process.env.NODE_ENV === 'development' && i === 5) break
+        //if (process.env.NODE_ENV === 'development' && i === 5) break
       }
 
       return domains;

@@ -1,7 +1,8 @@
-require('geckodriver');
+//require('geckodriver');
+require('chromedriver');
 
 import { Builder, By, Key, until, Capabilities } from 'selenium-webdriver';
-import firefox from 'selenium-webdriver/firefox';
+import chrome from 'selenium-webdriver/chrome';
 
 import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
 
@@ -20,7 +21,7 @@ class JobInsertGoogleIndexPages
     try {
       const { uuid, domains } = values.data;
 
-      let caps = Capabilities.firefox();
+      let caps = Capabilities.chrome();
       caps.set('silent', true);
 
       const screen = {
@@ -29,9 +30,9 @@ class JobInsertGoogleIndexPages
       };
 
       let driver = await new Builder()
-        .forBrowser('firefox')
+        .forBrowser('chrome')
         .withCapabilities(caps)
-        .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+        .setChromeOptions(new chrome.Options().headless().windowSize(screen))
         .build();
 
       for (var i in domains) {
