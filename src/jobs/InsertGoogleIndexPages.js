@@ -46,13 +46,9 @@ class JobInsertGoogleIndexPages
 
         var qtd = await elementQtd.getAttribute('textContent');
 
-        const result = qtd.split('Aproximadamente ');
+        const result = qtd.indexOf('Aproximadamente') != -1 ? qtd.split('Aproximadamente  ') : qtd.split('About  ');
 
-        console.log(result);
-
-        if (result === '' || result === undefined) continue;
-
-        const response = result[1].split(' resultados');
+        const result = result.indexOf('resultados') != -1 ? result[1].split(' resultados') : result[1].split(' results');
 
         if (response === '' || response === undefined) continue;
 
