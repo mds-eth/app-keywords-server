@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
 
 import authConfig from '../../config/auth';
 
@@ -11,11 +12,12 @@ class SessionService
     this.status = true;
   }
 
-  async generateToken(hash)
+  async generateToken()
   {
     try {
 
-      return jwt.sign({ hash }, authConfig.secret, { expiresIn: authConfig.expiresIn });
+      const uuid = uuidv4();
+      return jwt.sign({ hash: uuid }, authConfig.secret, { expiresIn: authConfig.expiresIn });
     } catch (error) {
       return await this.returnMessageError('Error create token.');
     }

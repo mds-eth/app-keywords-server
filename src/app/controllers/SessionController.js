@@ -4,8 +4,7 @@ class SessionController
 {
   async createToken(req, res)
   {
-    
-    const response = await SessionService.generateToken(123);
+    const response = await SessionService.generateToken();
 
     if (!SessionService.status) {
       return res

@@ -1,8 +1,6 @@
 require('geckodriver');
-//require('chromedriver');
 
 import { Builder, By, Key, until, Capabilities } from 'selenium-webdriver';
-//import chrome from 'selenium-webdriver/chrome';
 import firefox from 'selenium-webdriver/firefox';
 
 import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
@@ -30,10 +28,12 @@ class JobInsertGoogleIndexPages
         height: 480,
       };
 
+      const optionsDriver = new firefox.Options().setPreference('intl.accept_languages', 'pt,pt-BR').headless().windowSize(screen);
+
       let driver = await new Builder()
         .forBrowser('firefox')
         .withCapabilities(caps)
-        .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+        .setFirefoxOptions(optionsDriver)
         .build();
 
       for (var i in domains) {
@@ -45,6 +45,8 @@ class JobInsertGoogleIndexPages
         let elementQtd = await driver.wait(until.elementLocated(By.css('body.vasq #result-stats')), 80000);
 
         var qtd = await elementQtd.getAttribute('textContent');
+
+        console.log(qtd);
 
         const pages = qtd.split(' ');
 
