@@ -1,5 +1,6 @@
 import BaseService from '../app/service/BaseService';
 
+import ModelLogErrors from '../app/models/LogErrors';
 import ModelPerformanceUrls from '../app/models/PerformanceUrls';
 
 class JobInsertPerformanceUrls
@@ -15,12 +16,13 @@ class JobInsertPerformanceUrls
 
   async handle(values)
   {
+    const { uuid, domains } = values.data;
+
+    const strategys = ['DESKTOP', 'MOBILE'];
+    const apiPageSpeed = process.env.API_PAGE_SPEED_ONLINE_GOOGLE;
+
     try {
 
-      const { uuid, domains } = values.data;
-
-      const strategys = ['DESKTOP', 'MOBILE'];
-      const apiPageSpeed = process.env.API_PAGE_SPEED_ONLINE_GOOGLE;
       for (var i in strategys) {
         for (var j in domains) {
           const domain = domains[j];
@@ -29,7 +31,7 @@ class JobInsertPerformanceUrls
 
           const urlRequest = `${apiPageSpeed}?strategy=${strategys[i]}&locale=pt-BR&url=${url}&key=${process.env.API_KEY_GOOGLE_SPEED}`;
 
-          const response = await BaseService.callAPI('GET', null, urlRequest, null);
+          const response = await BaseService.callAPI('GET', null, urlRequest, null, uuid);
 
           if (!response) continue;
 
@@ -49,7 +51,8 @@ class JobInsertPerformanceUrls
 
       return true;
     } catch (error) {
-      console.log(error);
+      await ModelLogErrors.create({ uuid, params: values, error: error.stack });
+      return false;
     }
   }
 }

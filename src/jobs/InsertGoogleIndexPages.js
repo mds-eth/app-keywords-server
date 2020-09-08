@@ -3,6 +3,7 @@ require('geckodriver');
 import { Builder, By, Key, until, Capabilities } from 'selenium-webdriver';
 import firefox from 'selenium-webdriver/firefox';
 
+import ModelLogErrors from '../app/models/LogErrors';
 import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
 
 class JobInsertGoogleIndexPages
@@ -17,16 +18,17 @@ class JobInsertGoogleIndexPages
 
   async handle(values)
   {
+    const { uuid, domains } = values.data;
+
+    let caps = Capabilities.firefox();
+    caps.set('silent', true);
+
+    const screen = {
+      width: 640,
+      height: 480,
+    };
+
     try {
-      const { uuid, domains } = values.data;
-
-      let caps = Capabilities.firefox();
-      caps.set('silent', true);
-
-      const screen = {
-        width: 640,
-        height: 480,
-      };
 
       const optionsDriver = new firefox.Options().setPreference('intl.accept_languages', 'pt,pt-BR').headless().windowSize(screen);
 
@@ -46,8 +48,6 @@ class JobInsertGoogleIndexPages
 
         var qtd = await elementQtd.getAttribute('textContent');
 
-        console.log(qtd);
-
         const pages = qtd.split(' ');
 
         const quantity_pages = pages[1] !== '' && pages[1] !== undefined ? pages[1] : '0';
@@ -57,7 +57,8 @@ class JobInsertGoogleIndexPages
       await driver.quit();
       return true;
     } catch (error) {
-      console.log(error);
+      await ModelLogErrors.create({ uuid, params: values, error: error.stack });
+      return false;
     }
   }
 }

@@ -1,5 +1,7 @@
 import Queue from '../lib/Queue';
 
+import ModelLogErrors from '../app/models/LogErrors';
+
 import BaseService from '../app/service/BaseService';
 import DataForSeoService from '../app/service/DataForSeoService';
 
@@ -22,20 +24,20 @@ class JobInsertApiDataSeo
 
   async handle(values)
   {
+    const { word1, word2, uuid } = values.data;
+
+    const auth = await DataForSeoService.getAuthEncodeApiForSeo();
+    const params = await DataForSeoService.returnArrayParams(word1, word2);
+
+    const headers = {
+      Authorization: `Basic ${auth}`,
+    };
+
+    const urlRequest = `${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`;
+
     try {
 
-      const { word1, word2, uuid } = values.data;
-
-      const auth = await DataForSeoService.getAuthEncodeApiForSeo();
-      const params = await DataForSeoService.returnArrayParams(word1, word2);
-
-      const headers = {
-        Authorization: `Basic ${auth}`,
-      };
-
-      const urlRequest = `${process.env.API_FOR_SEO}v3/serp/google/organic/live/advanced`;
-
-      const response = await BaseService.callAPI('POST', params, urlRequest, headers);
+      const response = await BaseService.callAPI('POST', params, urlRequest, headers, uuid);
 
       if (response.status === 200) {
         const data = response.data;
@@ -61,7 +63,8 @@ class JobInsertApiDataSeo
         }
       }
     } catch (error) {
-      console.log(error);
+      await ModelLogErrors.create({ uuid, params: values, error: error.stack });
+      return false;
     }
   }
 }

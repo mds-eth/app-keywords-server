@@ -3,6 +3,7 @@ import ModelApiForSeo from '../models/ApiForSeo';
 import Redis from '../../lib/Redis';
 
 import JobService from '../service/JobService';
+import ModelLogErrors from '../models/LogErrors';
 import ApiMozService from '../service/ApiMozService';
 import PerformanceUrlService from './PerformanceUrlService';
 import GoogleIndexPagesService from './GoogleIndexPagesService';
@@ -38,7 +39,7 @@ class SearchResultDomainService
       }
       return false;
     } catch (error) {
-      console.log(error);
+      await ModelLogErrors.create({ uuid, params: '', error: error.stack });
       return false;
     }
   }

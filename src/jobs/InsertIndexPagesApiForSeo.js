@@ -1,5 +1,6 @@
 import BaseService from '../app/service/BaseService';
 
+import ModelLogErrors from '../app/models/LogErrors';
 import DataForSeoService from '../app/service/DataForSeoService';
 
 class JobInsertApiDataSeoGoogleIndexPages
@@ -15,24 +16,25 @@ class JobInsertApiDataSeoGoogleIndexPages
 
   async handle(values)
   {
+
+    const { domains, uuid } = values.data;
+
+    const auth = await DataForSeoService.getAuthEncodeApiForSeo();
+
+    const headers = {
+      Authorization: `Basic ${auth}`,
+    };
+
+    const url = `${process.env.API_FOR_SEO}v3/serp/google/organic/task_post`;
+
     try {
-
-      const { domains, uuid } = values.data;
-
-      const auth = await DataForSeoService.getAuthEncodeApiForSeo();
-
-      const headers = {
-        Authorization: `Basic ${auth}`,
-      };
-
-      const url = `${process.env.API_FOR_SEO}v3/serp/google/organic/task_post`;
 
       for (var i in domains) {
         const domain = domains[i];
 
         const params = await DataForSeoService.returnArrayParams('', '', domain);
 
-        const response = await BaseService.callAPI('POST', params, url, headers);
+        const response = await BaseService.callAPI('POST', params, url, headers, uuid);
 
         if (!response) continue;
 
@@ -45,7 +47,8 @@ class JobInsertApiDataSeoGoogleIndexPages
         }
       }
     } catch (error) {
-      console.log(error);
+      await ModelLogErrors.create({ uuid, params: values, error: error.stack });
+      return false;
     }
   }
 }

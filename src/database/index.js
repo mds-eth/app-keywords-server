@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 
+import ModelLogErrors from '../app/models/LogErrors';
 import ModelApiForSeo from '../app/models/ApiForSeo';
 import ModelMozResults from '../app/models/MozResults';
 import ModelFailedJobs from '../app/models/FailedJobs';
@@ -11,6 +12,7 @@ import ModelPerformanceUrls from '../app/models/PerformanceUrls';
 import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
 
 const models = [
+  ModelLogErrors,
   ModelMozResults,
   ModelApiForSeo,
   ModelFailedJobs,

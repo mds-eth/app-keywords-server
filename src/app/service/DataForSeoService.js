@@ -2,12 +2,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { encode } from 'js-base64';
 
-import ModelApiForSeo from '../models/ApiForSeo';
-import ModelTaskCreatedIds from '../models/TaskCreatedIds';
-
 import utf8 from 'utf8';
 
 import Queue from '../../lib/Queue';
+
+import ModelLogErros from '../models/LogErrors';
+import ModelApiForSeo from '../models/ApiForSeo';
+import ModelTaskCreatedIds from '../models/TaskCreatedIds';
 
 import InsertApiDataSeo from '../../jobs/InsertApiDataSeo';
 
@@ -71,7 +72,7 @@ class DataForSeoService
 
       await ModelTaskCreatedIds.create({ uuid, uuid_task, data });
     } catch (error) {
-      console.log(error);
+      await ModelLogErros.create({ uuid, params: values, error: error.stack });
     }
   }
 
@@ -85,7 +86,7 @@ class DataForSeoService
 
       return auth64;
     } catch (error) {
-      console.log(error);
+      await ModelLogErros.create({ uuid, params: '', error: error.stack });
     }
   }
 
@@ -94,7 +95,11 @@ class DataForSeoService
     try {
 
       const domains = [];
-      for (var i in returnApi) {
+      const isProd = (process.env.NODE_ENV === 'production');
+
+      const limitLoop = isProd ? returnApi.length : 5;
+
+      for (var i = 0; i <= limitLoop; i++) {
         const search = returnApi[i];
 
         const domain = search.domain;
@@ -118,7 +123,7 @@ class DataForSeoService
 
       return domains;
     } catch (error) {
-      console.log(error);
+      await ModelLogErros.create({ uuid, params: returnApi, error: error.stack });
       return false;
     }
   }

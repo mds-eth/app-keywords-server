@@ -1,10 +1,11 @@
 import axios from 'axios';
 
+import ModelLogErrors from '../models/LogErrors';
 import ModelLogRequestsApi from '../models/LogRequestsApis';
 
 class BaseService
 {
-  async callAPI(method, params = null, urlRequest, headers = null)
+  async callAPI(method, params = null, urlRequest, headers = null, uuid)
   {
     try {
 
@@ -28,7 +29,7 @@ class BaseService
 
       return response;
     } catch (error) {
-      console.log(error);
+      await ModelLogErrors.create({ uuid, params, error: error.stack });
       return false;
     }
   }
