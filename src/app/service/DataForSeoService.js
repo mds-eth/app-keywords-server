@@ -94,7 +94,7 @@ class DataForSeoService
     try {
 
       const domains = [];
-      for (var i = 0; i <= 5; i++) {
+      for (var i in returnApi) {
         const search = returnApi[i];
 
         const domain = search.domain;
