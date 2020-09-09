@@ -1,5 +1,3 @@
-import { google } from 'googleapis';
-
 class GoogleApis
 {
   async callAPIGoogle(domains)
@@ -19,10 +17,6 @@ class GoogleApis
             endDate: '2020-09-07'
           }
         }
-
-        const response = await google.webmasters('v3').searchanalytics.query(params);
-
-        return response;
       }
     } catch (error) {
       console.log(error);

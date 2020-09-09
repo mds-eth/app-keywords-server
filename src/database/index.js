@@ -6,6 +6,7 @@ import ModelMozResults from '../app/models/MozResults';
 import ModelFailedJobs from '../app/models/FailedJobs';
 import ModelLogRequests from '../app/models/LogRequests';
 import ModelFinishedJobs from '../app/models/FinishedJobs';
+import ModelAlexaRankResults from '../app/models/AlexaRank';
 import ModelLogRequestsApi from '../app/models/LogRequestsApis';
 import ModelTaskCreatedIds from '../app/models/TaskCreatedIds';
 import ModelPerformanceUrls from '../app/models/PerformanceUrls';
@@ -21,6 +22,7 @@ const models = [
   ModelLogRequestsApi,
   ModelTaskCreatedIds,
   ModelPerformanceUrls,
+  ModelAlexaRankResults,
   ModelGoogleIndexPages,
 ];
 

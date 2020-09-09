@@ -6,10 +6,9 @@ import BaseService from '../app/service/BaseService';
 import DataForSeoService from '../app/service/DataForSeoService';
 
 import JobInsertApiMoz from './InsertApiMoz';
+import JobAlexaRankResults from './InsertAlexaRankResults';
 import JobInsertPerformanceUrl from './InsertPerformanceUrl';
-import JobSearchTasksCreated from './SearchTaskCreated';
 import JobInsertGoogleIndexPages from '../jobs/InsertGoogleIndexPages';
-import JobInsertApiDataSeoGoogleIndexPages from './InsertIndexPagesApiForSeo';
 
 class JobInsertApiDataSeo
 {
@@ -55,10 +54,10 @@ class JobInsertApiDataSeo
           };
 
           await Queue.add(JobInsertApiMoz.key, values);
+          await Queue.add(JobAlexaRankResults.key, values);
           await Queue.add(JobInsertGoogleIndexPages.key, values);
           await Queue.add(JobInsertPerformanceUrl.key, values);
 
-          //await Queue.add(JobSearchTasksCreated.key, values);
           return true;
         }
       }

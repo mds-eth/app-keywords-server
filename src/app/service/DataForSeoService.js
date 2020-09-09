@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { encode } from 'js-base64';
+import isValidDomain from 'is-valid-domain';
 
 import utf8 from 'utf8';
 
@@ -104,21 +105,22 @@ class DataForSeoService
 
         const domain = search.domain;
 
-        if (domain === null || domain === undefined || domain === '') continue;
+        if (isValidDomain(domain)) {
 
-        const type = search.type;
-        const rank_group = search.rank_group;
-        const rank_absolute = search.rank_absolute;
-        const position = search.position;
-        const title = search.title;
-        const url = search.url;
-        const breadcrumb = search.breadcrumb === undefined ? '' : search.breadcrumb;
-        const description = search.description === undefined ? '' : search.description;
-        const links = search.links === undefined ? '' : search.links;
-        const faq = search.faq === undefined ? '' : search.faq;
+          const type = search.type;
+          const rank_group = search.rank_group;
+          const rank_absolute = search.rank_absolute;
+          const position = search.position;
+          const title = search.title;
+          const url = search.url;
+          const breadcrumb = search.breadcrumb === undefined ? '' : search.breadcrumb;
+          const description = search.description === undefined ? '' : search.description;
+          const links = search.links === undefined ? '' : search.links;
+          const faq = search.faq === undefined ? '' : search.faq;
 
-        await ModelApiForSeo.create({ uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
-        domains.push(domain);
+          await ModelApiForSeo.create({ uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
+          domains.push(domain);
+        }
       }
 
       return domains;
