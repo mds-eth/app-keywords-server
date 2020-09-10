@@ -47,11 +47,13 @@ class BlackList
 
       if (headers['x-real-ip'] === undefined) return false;
 
+      const x_real_ip = headers['x-real-ip'];
+
       const response = await ModelNotFounds.findAll({
         where: { x_real_ip }
       });
 
-      if (response.length > 3) {
+      if (response.length > 5) {
         await this.saveBlackListIps(headers);
         return false;
       }
@@ -68,8 +70,10 @@ class BlackList
 
       if (headers['x-real-ip'] === undefined) return false;
 
+      const x_real_ip = headers['x-real-ip'];
+
       const response = await ModelBlackList.findAll({
-        where: { x_real_ip: x_real_ip }
+        where: { x_real_ip }
       });
 
       if (response.length === 0) {

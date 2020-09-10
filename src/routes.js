@@ -23,6 +23,7 @@ class Routes
 
   createRoutes()
   {
+    this.routes.use(middlewareBlackList);
     this.routes.use(middlewareLogRequests);
 
     this.routes.get('/api/v1/session/get-token', middlewareSecret, SessionController.createToken);
