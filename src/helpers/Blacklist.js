@@ -12,7 +12,7 @@ class BlackList
 
       if (headers['x-real-ip'] === undefined) return false;
 
-      const fields = await await this.returnArrayHeaders(headers);
+      const fields = await this.returnArrayHeaders(headers);
 
       const { host, accept, x_real_ip, connection, user_agent, x_forwarded_for, x_forwarded_photo } = fields;
 
@@ -29,7 +29,7 @@ class BlackList
   {
     try {
 
-      const fields = await await this.returnArrayHeaders(headers);
+      const fields = await this.returnArrayHeaders(headers);
 
       const { host, accept, x_real_ip, connection, user_agent, x_forwarded_for, x_forwarded_photo } = fields;
 
