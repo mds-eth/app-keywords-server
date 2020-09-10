@@ -92,6 +92,7 @@ class DataForSeoService
 
         const domain = search.domain;
 
+        if (domain === undefined) continue;
         if (isValidDomain(domain)) {
 
           const type = search.type;
