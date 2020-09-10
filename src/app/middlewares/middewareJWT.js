@@ -17,7 +17,7 @@ export default async function (req, res, next)
 
     return next();
   } catch (err) {
-    await ModelLogErrors.create({ uuid, params: '', error: error.stack });
+    await ModelLogErrors.create({ uuid: '', params: '', error: error.stack });
     return res.status(401).json({ status: false, message: 'Não autorizado.' });
   }
 }
