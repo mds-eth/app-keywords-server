@@ -16,7 +16,7 @@ export default async function (req, res, next)
     await promisify(jwt.verify)(authHeader, authConfig.secret);
 
     return next();
-  } catch (err) {
+  } catch (error) {
     await ModelLogErrors.create({ uuid: '', params: '', error: error.stack });
     return res.status(401).json({ status: false, message: 'Não autorizado.' });
   }
