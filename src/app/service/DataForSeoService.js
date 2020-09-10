@@ -90,9 +90,9 @@ class DataForSeoService
       for (var i = 0; i <= limitLoop; i++) {
         const search = returnApi[i];
 
-        const domain = search.domain;
+        if (search === undefined) continue;
 
-        if (domain === undefined || domain === '') continue;
+        const domain = search.domain;
 
         if (isValidDomain(domain)) {
 
