@@ -36,7 +36,6 @@ class DataForSeoService
 
       return uuid;
     } catch (error) {
-      console.log(error);
       this.status = false;
       this.message = `Error connect api: ${process.env.API_FOR_SEO}`;
     }
@@ -44,24 +43,19 @@ class DataForSeoService
 
   async returnArrayParams(word1, word2, site = '')
   {
-    try {
+    const data = [];
+    const postArray = {
+      language_name: 'Portuguese',
+      location_code: 2076,
+      location_name: 'Brazil',
+      language_code: 'pt',
+      depth: 10,
+      keyword: site === '' ? utf8.encode(`${word1}+${word2}`) : `site: ${site}`,
+    };
 
-      const data = [];
-      const postArray = {
-        language_name: 'Portuguese',
-        location_code: 2076,
-        location_name: 'Brazil',
-        language_code: 'pt',
-        depth: 10,
-        keyword: site === '' ? utf8.encode(`${word1}+${word2}`) : `site: ${site}`,
-      };
+    data.push(postArray);
 
-      data.push(postArray);
-
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
+    return data;
   }
 
   async getAuthEncodeApiForSeo()

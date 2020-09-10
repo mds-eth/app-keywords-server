@@ -21,7 +21,6 @@ class Redis
 
       this.redis = client;
     } catch (error) {
-      console.log(error);
     }
   }
 
@@ -43,7 +42,6 @@ class Redis
       await this.redis.set(key, value, 'EX', 21600);
       return true;
     } catch (error) {
-      console.log(error);
     }
   }
 }

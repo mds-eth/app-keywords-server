@@ -19,7 +19,6 @@ class GoogleApis
         }
       }
     } catch (error) {
-      console.log(error);
     }
   }
 
