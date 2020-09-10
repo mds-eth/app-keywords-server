@@ -92,7 +92,8 @@ class DataForSeoService
 
         const domain = search.domain;
 
-        if (domain === undefined) continue;
+        if (domain === undefined || domain === '') continue;
+
         if (isValidDomain(domain)) {
 
           const type = search.type;
@@ -108,6 +109,8 @@ class DataForSeoService
 
           await ModelApiForSeo.create({ uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
           domains.push(domain);
+        } else {
+          continue;
         }
       }
 
