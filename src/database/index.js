@@ -1,14 +1,16 @@
 import Sequelize from 'sequelize';
 
+
 import ModelLogErrors from '../app/models/LogErrors';
 import ModelApiForSeo from '../app/models/ApiForSeo';
 import ModelMozResults from '../app/models/MozResults';
 import ModelFailedJobs from '../app/models/FailedJobs';
+import ModelBlackList from '../app/models/BlackListIps';
 import ModelLogRequests from '../app/models/LogRequests';
+import ModelRouteNotFounds from '../app/models/NotFounds';
 import ModelFinishedJobs from '../app/models/FinishedJobs';
 import ModelAlexaRankResults from '../app/models/AlexaRank';
 import ModelLogRequestsApi from '../app/models/LogRequestsApis';
-import ModelTaskCreatedIds from '../app/models/TaskCreatedIds';
 import ModelPerformanceUrls from '../app/models/PerformanceUrls';
 import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
 
@@ -17,10 +19,11 @@ const models = [
   ModelMozResults,
   ModelApiForSeo,
   ModelFailedJobs,
+  ModelBlackList,
   ModelLogRequests,
   ModelFinishedJobs,
+  ModelRouteNotFounds,
   ModelLogRequestsApi,
-  ModelTaskCreatedIds,
   ModelPerformanceUrls,
   ModelAlexaRankResults,
   ModelGoogleIndexPages,

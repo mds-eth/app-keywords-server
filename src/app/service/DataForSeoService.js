@@ -9,7 +9,6 @@ import Queue from '../../lib/Queue';
 
 import ModelLogErros from '../models/LogErrors';
 import ModelApiForSeo from '../models/ApiForSeo';
-import ModelTaskCreatedIds from '../models/TaskCreatedIds';
 
 import InsertApiDataSeo from '../../jobs/InsertApiDataSeo';
 
@@ -62,18 +61,6 @@ class DataForSeoService
       return data;
     } catch (error) {
       console.log(error);
-    }
-  }
-
-  async createGoogleIndex(uuid, values)
-  {
-    try {
-
-      const { id: uuid_task, data } = values;
-
-      await ModelTaskCreatedIds.create({ uuid, uuid_task, data });
-    } catch (error) {
-      await ModelLogErros.create({ uuid, params: values, error: error.stack });
     }
   }
 

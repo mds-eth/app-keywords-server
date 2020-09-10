@@ -4,10 +4,11 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
+    "dev:server": "nodemon src/server.js",
+    "dev:queue": "nodemon src/queue.js",
     "build": "sucrase ./src -d ./build --transforms imports",
     "prod": "node dist/server.js",
-    "queue": "nodemon src/queue.js"
+    "queue": "node dist/queue.js"
   },
   "keywords": [],
   "author": "",
@@ -16,13 +17,11 @@
     "alexa-rank-nodejs": "^1.0.4",
     "axios": "^0.19.2",
     "bull": "^3.18.0",
-    "bull-board": "^0.9.0",
     "chromedriver": "^85.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "geckodriver": "^1.20.0",
-    "googleapis": "^59.0.0",
     "is-valid-domain": "0.0.15",
     "js-base64": "^3.4.4",
     "jsonwebtoken": "^8.5.1",
@@ -33,7 +32,6 @@
     "redis": "^3.0.2",
     "selenium-webdriver": "^4.0.0-alpha.7",
     "sequelize": "^6.3.4",
-    "urlencode": "^1.1.0",
     "utf8": "^3.0.0",
     "uuid": "^8.3.0"
   },

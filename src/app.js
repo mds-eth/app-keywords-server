@@ -3,12 +3,7 @@ import cors from 'cors';
 
 import './database';
 
-import BullBoard from 'bull-board';
-
 import './lib/Redis';
-import Queue from './lib/Queue';
-
-BullBoard.setQueues(Queue.queues.map((queue) => queue.bull));
 
 import routes from './routes';
 
@@ -35,9 +30,8 @@ class App
 
   createRoutes()
   {
-    this.server.use('/admin/queues', BullBoard.UI);
     this.server.use(routes);
-    
+
   }
 }
 

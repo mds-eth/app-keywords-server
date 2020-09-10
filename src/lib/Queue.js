@@ -11,8 +11,11 @@ class Queue
 {
   constructor()
   {
+
+    const { port, host, password } = redisConfig;
+
     this.queues = Object.values(jobs).map((job) => ({
-      bull: new Bull(job.key, { redis: { port: redisConfig.port, host: redisConfig.host, password: redisConfig.password } }),
+      bull: new Bull(job.key, { redis: { port, host, password } }),
       name: job.key,
       handle: job.handle,
       options: job.options,
@@ -39,8 +42,8 @@ class Queue
 
         queue.bull.on('failed', async (job, error) =>
         {
-
           const keyJob = job.queue.name;
+
           const uuid = job.data.uuid;
           const params = job.data;
 
@@ -55,7 +58,6 @@ class Queue
           const params = job.data;
 
           await ModelFinishedJobs.create({ uuid, job: keyJob, params });
-
         });
       });
 

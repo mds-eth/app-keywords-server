@@ -1,5 +1,3 @@
-import { validate as uuidValidate } from 'uuid';
-
 import SearchResultDomainService from '../service/SearchResultDomainService';
 
 class SearchResultController
@@ -9,9 +7,6 @@ class SearchResultController
 
     const { uuid } = req.params;
 
-    if (uuid === '' || !uuidValidate(uuid)) {
-      return res.status(400).json({ status: false, message: 'Key invalid.' });
-    }
     const response = await SearchResultDomainService.getResultUUID(uuid);
 
     if (!response) {

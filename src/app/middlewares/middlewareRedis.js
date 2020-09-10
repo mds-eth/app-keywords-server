@@ -1,6 +1,7 @@
 import { validate as uuidValidate } from 'uuid';
 
 import Redis from '../../lib/Redis';
+import ModelLogErrors from '../models/LogErrors';
 
 export default async function (req, res, next)
 {
@@ -18,5 +19,8 @@ export default async function (req, res, next)
       return res.status(200).json({ status: true, uuid, response });
     }
     return next();
-  } catch (error) { }
+  } catch (error) {
+    await ModelLogErrors.create({ uuid, params: '', error: error.stack });
+    return res.status(401).json({ status: false, message: 'Get out.' });
+  }
 }
