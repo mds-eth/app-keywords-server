@@ -33,43 +33,35 @@ class Routes
 
     this.routes.get('*', async (req, res) =>
     {
-      const data = await BlackList.saveRouteNotFound(req.url, req.headers);
-
-      if (!data) {
-        return res.status(401).json({ status: false, message: 'Get out.' });
-      }
-      return res.status(404).json({ status: false, message: 'Not Found.' });
+      return await this.saveRouteNotFound(res, req.url, req.headers);
     });
 
     this.routes.post('*', async (req, res) =>
     {
-      const data = await BlackList.saveRouteNotFound(req.url, req.headers);
-
-      if (!data) {
-        res.status(401).json({ status: false, message: 'Get out.' });
-      }
-      res.status(404).json({ status: false, message: 'Not Found.' });
+      return await this.saveRouteNotFound(res, req.url, req.headers);
     });
 
     this.routes.put('*', async (req, res) =>
     {
-      const data = await BlackList.saveRouteNotFound(req.url, req.headers);
-
-      if (!data) {
-        res.status(401).json({ status: false, message: 'Get out.' });
-      }
-      res.status(404).json({ status: false, message: 'Not Found.' });
+      return await this.saveRouteNotFound(res, req.url, req.headers);
     });
 
     this.routes.delete('*', async (req, res) =>
     {
-      const data = await BlackList.saveRouteNotFound(req.url, req.headers);
-
-      if (!data) {
-        res.status(401).json({ status: false, message: 'Get out.' });
-      }
-      res.status(404).json({ status: false, message: 'Not Found.' });
+      return await this.saveRouteNotFound(res, req.url, req.headers);
     });
+  }
+
+  async saveRouteNotFound(res, url, headers)
+  {
+    const data = await BlackList.saveRouteNotFound(url, headers);
+
+    if (!data) {
+      return res.status(401).json({ status: false, message: 'Get out.' });
+    }
+    return res.status(404).json({ status: false, message: 'Not Found.' });
+
+
   }
 }
 

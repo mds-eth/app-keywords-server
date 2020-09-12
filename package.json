@@ -7,8 +7,7 @@
     "dev:server": "nodemon src/server.js",
     "dev:queue": "nodemon src/queue.js",
     "build": "sucrase ./src -d ./build --transforms imports",
-    "prod": "node dist/server.js",
-    "queue": "node dist/queue.js"
+    "prod": "pm2 start ecosystem.config.js"
   },
   "keywords": [],
   "author": "",

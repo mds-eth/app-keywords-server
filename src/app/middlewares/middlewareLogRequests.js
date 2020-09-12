@@ -9,10 +9,10 @@ export default async function (req, res, next)
     const body = req.body;
     const method = req.method;
     const headers = req.headers;
-    const rawHeaders = req.rawHeaders;
+    const raw_headers = req.rawHeaders;
 
-    await ModelLogRequests.create({ method, url, body, headers, raw_headers: rawHeaders });
-    
+    await ModelLogRequests.create({ method, url, body, headers, raw_headers });
+
     return next();
   } catch (error) {
     await ModelLogErrors.create({ uuid: '', params: '', error: error.stack });
