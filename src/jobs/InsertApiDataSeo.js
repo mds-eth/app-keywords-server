@@ -42,16 +42,13 @@ class JobInsertApiDataSeo
         const data = response.data;
 
         if (data.tasks !== null) {
-          const responseDomains = await DataForSeoService.saveBDReturnApiForSeo(uuid, response.data.tasks[0].result[0].items);
+          const domains = await DataForSeoService.saveBDReturnApiForSeo(uuid, response.data.tasks[0].result[0].items);
 
-          if (!responseDomains) {
+          if (!domains) {
             return false;
           }
 
-          const values = {
-            uuid,
-            domains: responseDomains,
-          };
+          const values = { uuid, domains };
 
           await Queue.add(JobInsertApiMoz.key, values);
           await Queue.add(JobAlexaRankResults.key, values);

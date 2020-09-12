@@ -14,20 +14,13 @@ import InsertApiDataSeo from '../../jobs/InsertApiDataSeo';
 
 class DataForSeoService
 {
-  constructor()
-  {
-
-    this.status = true;
-    this.message = '';
-  }
-
   async createProcessQueueApis(word1, word2)
   {
+    const uuid = uuidv4();
+
     try {
 
-      const uuid = uuidv4();
-
-      const data = {
+      var data = {
         uuid,
         word1,
         word2,
@@ -36,8 +29,8 @@ class DataForSeoService
 
       return uuid;
     } catch (error) {
-      this.status = false;
-      this.message = `Error connect api: ${process.env.API_FOR_SEO}`;
+      await ModelLogErros.create({ uuid, params: data, error: error.stack });
+      return false;
     }
   }
 
@@ -69,6 +62,7 @@ class DataForSeoService
       return auth64;
     } catch (error) {
       await ModelLogErros.create({ uuid, params: '', error: error.stack });
+      return false;
     }
   }
 

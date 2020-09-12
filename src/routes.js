@@ -60,8 +60,6 @@ class Routes
       return res.status(401).json({ status: false, message: 'Get out.' });
     }
     return res.status(404).json({ status: false, message: 'Not Found.' });
-
-
   }
 }
 
