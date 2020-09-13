@@ -12,18 +12,18 @@ export default async function (req, res, next)
     const qtdAccessIP = await BlackList.queryBlackListIps(req.headers);
 
     if (!qtdAccessIP) {
-      return res.status(401).json({ status: false, message: 'Get out.' });
+      return res.status(401).json({ status: false, message: 'Full authentication is required to access this resource.' });
     }
 
     const qtdNotFounds = await BlackList.queryQuantityNotFounds(req.headers);
 
     if (!qtdNotFounds) {
-      return res.status(401).json({ status: false, message: 'Get out.' });
+      return res.status(401).json({ status: false, message: 'Full authentication is required to access this resource.' });
     }
 
     return next();
   } catch (error) {
     await ModelLogErrors.create({ uuid: '', params: '', error: error.stack });
-    return res.status(401).json({ status: false, message: 'Get out.' });
+    return res.status(401).json({ status: false, message: 'Full authentication is required to access this resource.' });
   }
 }

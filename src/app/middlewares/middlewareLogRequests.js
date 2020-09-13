@@ -16,6 +16,6 @@ export default async function (req, res, next)
     return next();
   } catch (error) {
     await ModelLogErrors.create({ uuid: '', params: '', error: error.stack });
-    return res.status(401).json({ status: false, message: 'Get out.' });
+    return res.status(401).json({ status: false, message: 'Full authentication is required to access this resource.' });
   }
 }

@@ -10,7 +10,7 @@ export default async function (req, res, next)
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json({ status: false, message: 'Não autorizado.' });
+    return res.status(401).json({ status: false, message: 'Full authentication is required to access this resource.' });
   }
   try {
     await promisify(jwt.verify)(authHeader, authConfig.secret);
@@ -18,6 +18,6 @@ export default async function (req, res, next)
     return next();
   } catch (error) {
     await ModelLogErrors.create({ uuid: '', params: '', error: error.stack });
-    return res.status(401).json({ status: false, message: 'Não autorizado.' });
+    return res.status(401).json({ status: false, message: 'Full authentication is required to access this resource.' });
   }
 }
