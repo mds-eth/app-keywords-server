@@ -23,7 +23,7 @@ class JobInsertApiMoz
     const expires = Math.floor(Date.now() / 1000) + 5000;
     const accessId = process.env.API_MOZ_ID;
 
-    const cols = '103079215108';
+    const cols = '103079218660';
 
     const urlApiMoz = process.env.URL_API_MOZ;
     const stringToSign = accessId + '\n' + expires;
@@ -46,9 +46,9 @@ class JobInsertApiMoz
         if (!response) continue;
 
         if (response.status === 200) {
-          const { upa, pda } = response.data;
+          const { ueid, uid, upa, pda } = response.data;
 
-          await MozResults.create({ uuid, url, upa, pda });
+          await MozResults.create({ uuid, url, ueid, uid, upa, pda });
         } else {
           continue;
         }

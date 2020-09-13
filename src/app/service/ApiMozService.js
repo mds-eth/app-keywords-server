@@ -9,7 +9,7 @@ class ApiMozService
 
       const response = await ModelMozResults.findAll({
         where: { uuid },
-        attributes: ['url', 'upa', 'pda'],
+        attributes: ['url', 'ueid', 'uid', 'upa', 'pda'],
       });
 
       if (response.length > 0) {

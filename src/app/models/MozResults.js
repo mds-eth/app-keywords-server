@@ -8,6 +8,8 @@ class MozResults extends Model
       {
         uuid: Sequelize.STRING,
         url: Sequelize.STRING,
+        ueid: Sequelize.STRING,
+        uid: Sequelize.STRING,
         upa: Sequelize.INTEGER,
         pda: Sequelize.INTEGER,
       },

@@ -17,6 +17,13 @@ module.exports = {
       url: {
         type: Sequelize.STRING,
         allowNull: false,
+      }, ueid: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      uid: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       upa: {
         type: Sequelize.INTEGER,
