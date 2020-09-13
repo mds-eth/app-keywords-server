@@ -1,7 +1,6 @@
+import ModelLogErrors from '../app/models/LogErrors';
 import ModelNotFounds from '../app/models/NotFounds';
 import ModelBlackList from '../app/models/BlackListIps';
-
-import ModelLogErrors from '../app/models/LogErrors';
 
 class BlackList
 {
@@ -53,7 +52,7 @@ class BlackList
         where: { x_real_ip }
       });
 
-      if (response.length > 5) {
+      if (response.length > 3) {
         await this.saveBlackListIps(headers);
         return false;
       }

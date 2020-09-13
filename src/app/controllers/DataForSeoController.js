@@ -8,13 +8,13 @@ class SearchGoogleController
     const { palavra_1: word_1, palavra_2: word_2 } = req.body;
 
     if (word_1 === '' || word_2 === '') {
-      return res.status(400).json({ status: false, message: 'Favor enviar os campos obrigatórios.' });
+      return res.status(400).json({ status: false, message: 'Please send the required fields.' });
     }
 
     const response = await DataForSeoService.createProcessQueueApis(word_1, word_2);
 
     if (!response) {
-      return res.status(400).json({ status: false, message: 'Tente novamente, erro ao criar jobs à serem enfileirados.' });
+      return res.status(400).json({ status: false, message: 'Try again, error creating jobs to be queued.' });
     }
     return res.status(201).json({ status: true, uuid: response });
   }
