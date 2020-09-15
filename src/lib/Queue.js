@@ -4,6 +4,8 @@ import redisConfig from '../config/redis';
 
 import * as jobs from '../jobs';
 
+import ModelLogErrors from '../app/models/LogErrors';
+
 import ModelFailedJobs from '../app/models/FailedJobs';
 import ModelFinishedJobs from '../app/models/FinishedJobs';
 
@@ -62,7 +64,8 @@ class Queue
       });
 
     } catch (error) {
-
+      await ModelLogErrors.create({ uuid: '', params: '', error: error.stack });
+      return false;
     }
   }
 }
