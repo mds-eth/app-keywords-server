@@ -5,27 +5,25 @@ import ModelLogRequestsApi from '../models/LogRequestsApis';
 
 class BaseService
 {
+
+  constructor()
+  {
+    this.timeout = 60 * 4 * 1000;
+  }
+
   async callAPI(method, params = null, urlRequest, headers = null, uuid)
   {
     try {
 
       const input = new Date();
       if (method === 'POST') {
-        var response = await axios.post(urlRequest, params, { timeout: 60 * 4 * 1000, headers: headers });
+        var response = await axios.post(urlRequest, params, { timeout: this.timeout, headers: headers });
       } else if (method === 'GET') {
-        var response = await axios.get(urlRequest, { timeout: 60 * 4 * 1000 });
+        var response = await axios.get(urlRequest, { timeout: this.timeout });
       }
       const exit = new Date();
 
-      await ModelLogRequestsApi.create({
-        method,
-        params,
-        api: urlRequest,
-        headers,
-        response: response.data,
-        input,
-        exit,
-      });
+      await ModelLogRequestsApi.create({ method, params, api: urlRequest, headers, response: response.data, input, exit, });
 
       return response;
     } catch (error) {

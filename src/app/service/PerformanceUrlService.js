@@ -1,4 +1,5 @@
 import ModelPerformanceUrls from '../models/PerformanceUrls';
+import ModelLogErros from '../models/LogErrors';
 
 class PerformanceUrlService 
 {
@@ -15,7 +16,10 @@ class PerformanceUrlService
         return response;
       }
       return false;
-    } catch (error) { }
+    } catch (error) {
+      await ModelLogErros.create({ uuid, params: '', error: error.stack });
+      return false;
+    }
   }
 }
 

@@ -1,10 +1,11 @@
 import ModelMozResults from '../models/MozResults';
 
+import ModelLogErrors from '../models/LogErrors';
+
 class ApiMozService
 {
   async getResultMozUUID(uuid)
   {
-
     try {
 
       const response = await ModelMozResults.findAll({
@@ -16,7 +17,10 @@ class ApiMozService
         return response;
       }
       return false;
-    } catch (error) { }
+    } catch (error) {
+      await ModelLogErrors.create({ uuid, params: '', error: error.stack });
+      return false;
+    }
   }
 }
 

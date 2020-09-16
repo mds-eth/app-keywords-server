@@ -4,7 +4,6 @@ class SearchResultController
 {
   async getResultDomains(req, res)
   {
-
     const { uuid } = req.params;
 
     const response = await SearchResultDomainService.getResultUUID(uuid);

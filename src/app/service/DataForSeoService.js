@@ -61,7 +61,7 @@ class DataForSeoService
 
       return auth64;
     } catch (error) {
-      await ModelLogErros.create({ uuid, params: '', error: error.stack });
+      await ModelLogErros.create({ uuid: '', params: '', error: error.stack });
       return false;
     }
   }

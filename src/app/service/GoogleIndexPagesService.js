@@ -1,12 +1,14 @@
 import ModelGoogleIndexPages from '../models/GoogleIndexPages';
 
+import ModelLogErros from '../models/LogErrors';
+
 class GoogleIndexPagesService 
 {
-  
+
   async getGoogleIndexPagesUUID(uuid)
   {
     try {
-      
+
       const response = await ModelGoogleIndexPages.findAll({
         where: { uuid },
         attributes: ['url', 'quantity_pages'],
@@ -16,7 +18,10 @@ class GoogleIndexPagesService
         return response;
       }
       return false;
-    } catch (error) { }
+    } catch (error) {
+      await ModelLogErros.create({ uuid, params: '', error: error.stack });
+      return false;
+    }
   }
 }
 

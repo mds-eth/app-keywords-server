@@ -4,7 +4,6 @@ class SearchGoogleController
 {
   async searchKeyword(req, res)
   {
-
     const { palavra_1: word_1, palavra_2: word_2 } = req.body;
 
     if (word_1 === '' || word_2 === '') {
