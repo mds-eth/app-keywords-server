@@ -22,15 +22,7 @@ class SessionService
     } catch (error) {
       await ModelLogErros.create({ uuid, params: '', error: error.stack });
       return false;
-      return await this.returnMessageError('Error create token.');
     }
-  }
-
-  async returnMessageError(message)
-  {
-    this.status = false;
-    this.message = message;
-    return false;
   }
 }
 

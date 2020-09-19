@@ -12,7 +12,7 @@ export default async function (req, res, next)
     const qtdAccessIP = await BlackList.queryBlackListIps(req.headers);
 
     if (!qtdAccessIP) {
-      return res.status(401).json({ status: false, message: 'Full authentication is required to access this resource.' });
+      return res.status(401).json({ status: false, message: 'Not authorized.' });
     }
 
     const qtdNotFounds = await BlackList.queryQuantityNotFounds(req.headers);
