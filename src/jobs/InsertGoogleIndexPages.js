@@ -42,7 +42,7 @@ class JobInsertGoogleIndexPages
         const urlRequest = domains[i];
 
         await driver.get('http://www.google.com.br');
-        await driver.findElement(By.name('q')).sendKeys(urlRequest, Key.RETURN);
+        await driver.findElement(By.name('q')).sendKeys(`site:${urlRequest}`, Key.RETURN);
 
         let elementQtd = await driver.wait(until.elementLocated(By.css('body.vasq #result-stats')), 80000);
 
