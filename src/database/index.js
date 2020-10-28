@@ -1,6 +1,5 @@
 import Sequelize from 'sequelize';
 
-
 import ModelUsers from '../app/models/Users';
 import ModelLogErrors from '../app/models/LogErrors';
 import ModelApiForSeo from '../app/models/ApiForSeo';
