@@ -47,21 +47,6 @@ class Queue
           const { name, token } = job.queue;
           const { attemptsMade: attempts_made, processedOn: processed_on, finishedOn: finishd_on } = job;
 
-          const index = `failed-jobs-${indexDate}`;
-
-          const data = {
-            name_job: name,
-            params_job: (typeof job.data === 'object') ? job.data : JSON.stringify(job.data),
-            token_job: token,
-            attempts_made,
-            processed_on,
-            finishd_on,
-            created_at: DateUtils.getCurrentDate('yyyy-MM-dd HH:mm:ss'),
-            error: (typeof error === 'object') ? error : JSON.stringify(error)
-          };
-
-          //await ElasticSearch.createRegister(index, this.type, data);
-
           const keyJob = job.queue.name;
 
           const uuid = job.data.uuid;
@@ -75,21 +60,6 @@ class Queue
 
           const { name, token } = job.queue;
           const { attemptsMade: attempts_made, processedOn: processed_on, finishedOn: finishd_on } = job;
-
-          const index = `completed-jobs-${indexDate}`;
-
-          const data = {
-            name_job: name,
-            params_job: (typeof job.data === 'object') ? job.data : JSON.stringify(job.data),
-            token_job: token,
-            attempts_made,
-            processed_on,
-            finishd_on,
-            created_at: DateUtils.getCurrentDate('yyyy-MM-dd HH:mm:ss'),
-            error: (typeof error === 'object') ? error : JSON.stringify(error)
-          };
-
-          //await ElasticSearch.createRegister(index, this.type, data);
 
           const keyJob = job.queue.name;
 

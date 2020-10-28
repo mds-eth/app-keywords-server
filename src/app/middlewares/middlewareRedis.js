@@ -21,12 +21,12 @@ export default async function (req, res, next)
     }
 
     const qtdFinishJobs = await ModelFinishJobs.findAll({ where: { uuid } });
-
+    return next();
     if (qtdFinishJobs.length < 5) {
 
       const length = qtdFinishJobs.length;
       const total = parseInt(5 - length);
-
+      return next();
       if (total === 1) {
         var message = 'Ainda resta 1 job a ser finalizado';
       } else {

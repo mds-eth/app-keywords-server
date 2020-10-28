@@ -71,7 +71,7 @@ class DataForSeoService
     try {
 
       const domains = [];
-      const isProd = (process.env.NODE_ENV === 'production');
+      const isProd = true;//(process.env.NODE_ENV === 'production');
 
       const limitLoop = isProd ? returnApi.length : 5;
 

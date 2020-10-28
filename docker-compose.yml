@@ -9,19 +9,19 @@ services:
     networks:
     - network_api_keywords
 
-  mysql:
-    image: mysql
-    container_name: 'container_mysql_api_keywords'    
-    restart: always
-    environment:      
-      MYSQL_DATABASE: api_keywords
-      MYSQL_ROOT_PASSWORD: apiKeywords      
-    ports:
-      - '3307:3306'
-    networks:
-    - network_api_keywords
-    volumes:
-      - db_data_api_keywords:/var/lib/mysql/ 
+  # mysql:
+  #   image: mysql
+  #   container_name: 'container_mysql_api_keywords'    
+  #   restart: always
+  #   environment:      
+  #     MYSQL_DATABASE: api_keywords
+  #     MYSQL_ROOT_PASSWORD: apiKeywords      
+  #   ports:
+  #     - '3308:3306'
+  #   networks:
+  #   - network_api_keywords
+  #   volumes:
+  #     - db_data_api_keywords:/var/lib/mysql/ 
 
 networks:
   network_api_keywords:

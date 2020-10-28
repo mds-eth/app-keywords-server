@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
+import path from 'path';
+
 import './database';
 
 import './lib/Redis';
@@ -21,6 +23,7 @@ class App
   middlewares()
   {
     this.server.use(express.json());
+    this.server.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
   }
 
   createCors()

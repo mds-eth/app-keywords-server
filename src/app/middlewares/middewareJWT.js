@@ -13,7 +13,9 @@ export default async function (req, res, next)
     return res.status(401).json({ status: false, message: 'Full authentication is required to access this resource.' });
   }
   try {
-    await promisify(jwt.verify)(authHeader, authConfig.secret);
+    const decoded = await promisify(jwt.verify)(authHeader, authConfig.secret);
+
+    req.UUID = decoded.params.uuid;
 
     return next();
   } catch (error) {
