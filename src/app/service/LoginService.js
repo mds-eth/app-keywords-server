@@ -108,6 +108,10 @@ class LoginService
 
             if (!session) return false;
 
+            const { id } = response;
+
+            await ModelUsers.update({ last_access: new Date() }, { where: { id } });
+
             return {
                 name: response.name,
                 session,
