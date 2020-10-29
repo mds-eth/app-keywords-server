@@ -35,7 +35,8 @@
     "selenium-webdriver": "^4.0.0-alpha.7",
     "sequelize": "^6.3.4",
     "utf8": "^3.0.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "websocket": "^1.0.32"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",

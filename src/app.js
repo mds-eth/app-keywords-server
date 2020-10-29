@@ -7,6 +7,8 @@ import './database';
 
 import './lib/Redis';
 
+import './lib/WebSocket';
+
 import routes from './routes';
 
 class App
