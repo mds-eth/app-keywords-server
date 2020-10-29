@@ -7,7 +7,7 @@ import './database';
 
 import './lib/Redis';
 
-import './lib/WebSocket';
+import WebSocketLib from './lib/WebSocket';
 
 import routes from './routes';
 
@@ -19,7 +19,13 @@ class App
 
     this.middlewares();
     this.createCors();
+    this.createWebSocket();
     this.createRoutes();
+  }
+
+  async createWebSocket()
+  {
+    await WebSocketLib.connect(this.server);
   }
 
   middlewares()

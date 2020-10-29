@@ -2,20 +2,15 @@ const WebSocketServer = require('websocket').server;
 
 class WebSocket
 {
-    constructor()
+    async connect(server)
     {
-        this.webSocket = [];
-        this.connect();
-    }
-
-    async connect()
-    {
-
         try {
 
             this.webSocket = new WebSocketServer({
-                httpServer: 'http://localhost:3011'
+                httpServer: server
             });
+
+            console.log(this.webSocket);
 
         } catch (error) {
 
