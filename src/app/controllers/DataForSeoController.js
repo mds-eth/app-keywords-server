@@ -10,7 +10,9 @@ class SearchGoogleController
       return res.status(400).json({ status: false, message: 'Please send the required fields.' });
     }
 
-    const response = await DataForSeoService.createProcessQueueApis(word_1, word_2);
+    const { UUID } = req;
+
+    const response = await DataForSeoService.createProcessQueueApis(UUID, word_1, word_2);
 
     if (!response) {
       return res.status(400).json({ status: false, message: 'Try again, error creating jobs to be queued.' });

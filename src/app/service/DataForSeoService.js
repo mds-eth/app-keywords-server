@@ -14,13 +14,14 @@ import InsertApiDataSeo from '../../jobs/InsertApiDataSeo';
 
 class DataForSeoService
 {
-  async createProcessQueueApis(word1, word2)
+  async createProcessQueueApis(uuid_user, word1, word2)
   {
     const uuid = uuidv4();
 
     try {
 
       var data = {
+        uuid_user,
         uuid,
         word1,
         word2,
@@ -66,7 +67,7 @@ class DataForSeoService
     }
   }
 
-  async saveBDReturnApiForSeo(uuid, returnApi)
+  async saveBDReturnApiForSeo(uuid_user, uuid, returnApi)
   {
     try {
 
@@ -95,7 +96,7 @@ class DataForSeoService
           const links = search.links === undefined ? '' : search.links;
           const faq = search.faq === undefined ? '' : search.faq;
 
-          await ModelApiForSeo.create({ uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
+          await ModelApiForSeo.create({ uuid_user, uuid, type, rank_group, rank_absolute, position, domain, title, url, breadcrumb, description, links, faq, });
           domains.push(domain);
         } else {
           continue;

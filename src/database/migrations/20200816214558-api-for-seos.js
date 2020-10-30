@@ -10,6 +10,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      uuid_user: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       uuid: {
         type: Sequelize.STRING,
         allowNull: false,

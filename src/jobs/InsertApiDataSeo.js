@@ -23,7 +23,7 @@ class JobInsertApiDataSeo
 
   async handle(values)
   {
-    const { word1, word2, uuid } = values.data;
+    const { word1, word2, uuid, uuid_user } = values.data;
 
     const auth = await DataForSeoService.getAuthEncodeApiForSeo();
     const params = await DataForSeoService.returnArrayParams(word1, word2);
@@ -42,7 +42,7 @@ class JobInsertApiDataSeo
         const data = response.data;
 
         if (data.tasks !== null) {
-          const domains = await DataForSeoService.saveBDReturnApiForSeo(uuid, response.data.tasks[0].result[0].items);
+          const domains = await DataForSeoService.saveBDReturnApiForSeo(uuid_user, uuid, response.data.tasks[0].result[0].items);
 
           if (!domains) {
             return false;

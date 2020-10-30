@@ -19,13 +19,13 @@ class App
 
     this.middlewares();
     this.createCors();
-    this.createWebSocket();
+    //this.createWebSocket();
     this.createRoutes();
   }
 
   async createWebSocket()
   {
-    await WebSocketLib.connect(this.server);
+    WebSocketLib.connect(this.server);
   }
 
   middlewares()

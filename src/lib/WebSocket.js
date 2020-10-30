@@ -6,11 +6,14 @@ class WebSocket
     {
         try {
 
-            this.webSocket = new WebSocketServer({
+            const webSocket = new WebSocketServer({
                 httpServer: server
             });
 
-            console.log(this.webSocket);
+
+            console.log(webSocket.config);
+
+            
 
         } catch (error) {
 
