@@ -15,12 +15,12 @@ class SearchResultDomainService
   {
     try {
 
-      const response = await ModelApiForSeo.findAll({
+      const apiDataForSeo = await ModelApiForSeo.findAll({
         where: { uuid },
         attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain'],
       });
 
-      if (response.length > 0) {
+      if (apiDataForSeo.length > 0) {
         const googlePages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
         const responseMoz = await ApiMozService.getResultMozUUID(uuid);
         const performanceURLS = await PerformanceUrlService.getPerformanceURLSUUID(uuid);
@@ -29,7 +29,7 @@ class SearchResultDomainService
 
         const values = {
           keywords,
-          apiDataForSeo: response,
+          apiDataForSeo,
           googlePages,
           responseMoz,
           performanceURLS,
