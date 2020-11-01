@@ -10,7 +10,6 @@ export default async function (req, res, next)
 
   try {
 
-    return next();
     if (uuid === '' || !uuidValidate(uuid)) {
       return res.status(400).json({ status: false, message: 'UUID invalid.' });
     }
@@ -20,22 +19,6 @@ export default async function (req, res, next)
     if (response) {
       return res.status(200).json({ status: true, uuid, response });
     }
-
-    const qtdFinishJobs = await ModelFinishJobs.findAll({ where: { uuid } });
-    
-    if (qtdFinishJobs.length < 5) {
-
-      const length = qtdFinishJobs.length;
-      const total = parseInt(5 - length);
-      return next();
-      if (total === 1) {
-        var message = 'Ainda resta 1 job a ser finalizado';
-      } else {
-        var message = `Ainda restam ${total} jobs a serem finalizados.`
-      }
-      return res.status(400).json({ status: false, message });
-    }
-
     return next();
   } catch (error) {
     await ModelLogErrors.create({ uuid, params: '', error: error.stack });
