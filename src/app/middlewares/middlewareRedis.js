@@ -10,6 +10,7 @@ export default async function (req, res, next)
 
   try {
 
+    return next();
     if (uuid === '' || !uuidValidate(uuid)) {
       return res.status(400).json({ status: false, message: 'UUID invalid.' });
     }
@@ -21,7 +22,7 @@ export default async function (req, res, next)
     }
 
     const qtdFinishJobs = await ModelFinishJobs.findAll({ where: { uuid } });
-    return next();
+    
     if (qtdFinishJobs.length < 5) {
 
       const length = qtdFinishJobs.length;

@@ -1,14 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-
 import path from 'path';
 
 import './database';
-
 import './lib/Redis';
-
-import WebSocketLib from './lib/WebSocket';
-
 import routes from './routes';
 
 class App
@@ -19,13 +14,7 @@ class App
 
     this.middlewares();
     this.createCors();
-    //this.createWebSocket();
     this.createRoutes();
-  }
-
-  async createWebSocket()
-  {
-    WebSocketLib.connect(this.server);
   }
 
   middlewares()

@@ -1,24 +1,32 @@
-const WebSocketServer = require('websocket').server;
+import express from 'express';
+import socket from 'socket.io';
 
 class WebSocket
 {
-    async connect(server)
+    connect(server)
     {
         try {
 
-            const webSocket = new WebSocketServer({
-                httpServer: server
-            });
+            const io = socket(server);
 
+            io.on('connection', socket =>
+            {
+                socket.on('status-requests', data =>
+                {
 
-            console.log(webSocket.config);
+                });
+                console.log('Server run backend start websocket')
 
-            
+                socket.on('disconnect', data =>
+                {
+                    console.log('Server disconnected')
+                });
+            })
 
         } catch (error) {
-
+            console.log(error)
         }
     }
 }
 
-export default new WebSocket();
+export default WebSocket;

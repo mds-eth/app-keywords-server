@@ -36,7 +36,7 @@ class SearchResultDomainService
           alexaResult
         };
 
-        await Redis.addCacheRedis(uuid, JSON.stringify(values));
+        //await Redis.addCacheRedis(uuid, JSON.stringify(values));
 
         return values;
       }
