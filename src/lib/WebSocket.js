@@ -3,11 +3,19 @@ import socket from 'socket.io';
 
 class WebSocket
 {
-    connect(server)
+    constructor()
+    {
+        this.server = express();
+
+        //this.connect();
+    }
+    connect()
     {
         try {
 
-            const io = socket(server);
+            const io = socket(this.server);
+
+            console.log(io);
 
             io.on('connection', socket =>
             {
@@ -29,4 +37,4 @@ class WebSocket
     }
 }
 
-export default WebSocket;
+export default new WebSocket().server;
