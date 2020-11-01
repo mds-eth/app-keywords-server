@@ -2,7 +2,6 @@ import { validate as uuidValidate } from 'uuid';
 
 import Redis from '../../lib/Redis';
 import ModelLogErrors from '../models/LogErrors';
-import ModelFinishJobs from '../models/FinishedJobs';
 
 export default async function (req, res, next)
 {

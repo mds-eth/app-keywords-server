@@ -60,9 +60,14 @@ class SearchResultDomainService
             alexaResult: false
           };
         case 3:
-          const alexaResult = await AlexaRankResultService.getResultAlexaRankgUUID(uuid);
 
-          await Redis.addCacheRedis(`alexaResult-${uuid}`, JSON.stringify(alexaResult));
+          const cacheAlexa = await Redis.getCacheById(`alexaResult-${uuid}`);
+
+          if (!cacheAlexa) {
+            var alexaResult = await AlexaRankResultService.getResultAlexaRankgUUID(uuid);
+
+            await Redis.addCacheRedis(`alexaResult-${uuid}`, JSON.stringify(alexaResult));
+          }
 
           return {
             keywords,
@@ -70,20 +75,24 @@ class SearchResultDomainService
             googlePages: await Redis.getCacheById(`indexPages-${uuid}`),
             responseMoz: await Redis.getCacheById(`responseMoz-${uuid}`),
             performanceURLS: false,
-            alexaResult
+            alexaResult: cacheAlexa ? cacheAlexa : alexaResult
           };
         case 4:
-          const googlePages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
 
-          await Redis.addCacheRedis(`indexPages-${uuid}`, JSON.stringify(googlePages));
+          const cache = await Redis.getCacheById(`indexPages-${uuid}`);
+
+          if (!cache) {
+            var resultPages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
+            await Redis.addCacheRedis(`indexPages-${uuid}`, JSON.stringify(resultPages));
+          }
 
           return {
             keywords,
             apiDataForSeo: await Redis.getCacheById(`apiDataSeo-${uuid}`),
-            googlePages,
+            googlePages: cache ? cache : resultPages,
             responseMoz: await Redis.getCacheById(`responseMoz-${uuid}`),
             performanceURLS: false,
-            alexaResult: false
+            alexaResult: await Redis.getCacheById(`alexaResult-${uuid}`)
           };
         case 5:
           const data = {
