@@ -1,5 +1,7 @@
 import ModelApiForSeo from '../models/ApiForSeo';
 
+import Sequelize from 'sequelize';
+
 import Redis from '../../lib/Redis';
 
 import JobService from '../service/JobService';
@@ -78,7 +80,6 @@ class SearchResultDomainService
             alexaResult: cacheAlexa ? cacheAlexa : alexaResult
           };
         case 4:
-
           const cache = await Redis.getCacheById(`indexPages-${uuid}`);
 
           if (!cache) {
@@ -111,6 +112,60 @@ class SearchResultDomainService
       await ModelLogErrors.create({ uuid, params: '', error: error.stack });
       return false;
     }
+  }
+
+  async getLastSearchsUser(uuid_user)
+  {
+    try {
+
+      const response = await ModelApiForSeo.findAll({
+        where: { uuid_user },
+        attributes: [
+          Sequelize.fn('DISTINCT', Sequelize.col('uuid')), 'uuid'
+        ],
+      });
+
+      if (!response) return false;
+
+      const array = [];
+      for (var i in response) {
+        const uuid = response[i];
+
+        const data = await JobService.getRegisterKeyword(uuid.uuid);
+
+        if (!data) continue;
+
+        const { createdAt: created_at } = data;
+        const { word1, word2 } = data.params;
+
+        array.push([uuid.uuid, `[${word1} / ${word2}]`, created_at]);
+      }
+      return array;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getDetailRegister(uuid)
+  {
+
+    const apiDataForSeo = await ModelApiForSeo.findAll({
+      where: { uuid },
+      attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain', 'created_at'],
+    });
+
+    const data = {
+      keywords: await JobService.getKeywordsUUID(uuid),
+      apiDataForSeo: apiDataForSeo,
+      googlePages: await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid),
+      responseMoz: await ApiMozService.getResultMozUUID(uuid),
+      performanceURLS: await PerformanceUrlService.getPerformanceURLSUUID(uuid),
+      alexaResult: await AlexaRankResultService.getResultAlexaRankgUUID(uuid)
+    };
+
+    await Redis.addCacheRedis(uuid, JSON.stringify(data));
+
+    return data;
   }
 }
 

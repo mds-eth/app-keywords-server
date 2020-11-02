@@ -49,9 +49,9 @@ class Routes
     this.routes.put('/api/v1/user', middlewareJWT, upload.single('file'), UserController.updateUser);
 
     this.routes.post('/api/v1/google/search-keyword', middlewareJWT, DataForSeoController.searchKeyword);
+    this.routes.get('/api/v1/google/get-last-searchs-user', middlewareJWT, SearchResultController.getLastSerchsUser);
+    this.routes.get('/api/v1/google/get-detail-register/:uuid', middlewareJWT, middlewareRedis, SearchResultController.getDetailRegister);
     this.routes.get('/api/v1/google/get-result-domains/:uuid', middlewareJWT, middlewareRedis, SearchResultController.getResultDomains);
-
-    this.routes.get('/api/v1/google/get-last-searchs-user', middlewareJWT, middlewareRedis, SearchResultController.getResultDomains);
 
     this.routes.get('*', async (req, res) =>
     {

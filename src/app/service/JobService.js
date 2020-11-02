@@ -21,6 +21,19 @@ class JobService
       return false;
     }
   }
+
+  async getRegisterKeyword(uuid)
+  {
+    try {
+
+      const response = await ModelFinishJobs.findOne({ where: { uuid, job: 'JobInsertApiDataSeo' } });
+
+      return response ? response : false;
+    } catch (error) {
+      await ModelLogErros.create({ uuid, params: '', error: error.stack });
+      return false;
+    }
+  }
 }
 
 export default new JobService();
