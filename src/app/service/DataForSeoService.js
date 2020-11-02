@@ -67,17 +67,19 @@ class DataForSeoService
     }
   }
 
-  async saveBDReturnApiForSeo(uuid_user, uuid, returnApi)
+  async saveBDReturnApiForSeo(uuid_user, uuid, params)
   {
     try {
 
       const domains = [];
       const isProd = true;//(process.env.NODE_ENV === 'production');
 
-      const limitLoop = isProd ? returnApi.length : 5;
+      const limitLoop = isProd ? params.length : 5;
+
+      //params.filter(data => data.domain);
 
       for (var i = 0; i <= limitLoop; i++) {
-        const search = returnApi[i];
+        const search = params[i];
 
         if (search === undefined) continue;
 
@@ -105,7 +107,7 @@ class DataForSeoService
 
       return domains;
     } catch (error) {
-      await ModelLogErros.create({ uuid, params: returnApi, error: error.stack });
+      await ModelLogErros.create({ uuid, params, error: error.stack });
       return false;
     }
   }

@@ -118,7 +118,7 @@ class SearchResultDomainService
   {
     try {
 
-      const response = await ModelApiForSeo.findAll({
+      let response = await ModelApiForSeo.findAll({
         where: { uuid_user },
         attributes: [
           Sequelize.fn('DISTINCT', Sequelize.col('uuid')), 'uuid'
@@ -126,6 +126,8 @@ class SearchResultDomainService
       });
 
       if (!response) return false;
+
+      response.reverse();
 
       const array = [];
       for (var i in response) {
