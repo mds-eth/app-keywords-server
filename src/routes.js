@@ -51,6 +51,8 @@ class Routes
     this.routes.post('/api/v1/google/search-keyword', middlewareJWT, DataForSeoController.searchKeyword);
     this.routes.get('/api/v1/google/get-result-domains/:uuid', middlewareJWT, middlewareRedis, SearchResultController.getResultDomains);
 
+    this.routes.get('/api/v1/google/get-last-searchs-user', middlewareJWT, middlewareRedis, SearchResultController.getResultDomains);
+
     this.routes.get('*', async (req, res) =>
     {
       return await this.saveRouteNotFound(res, req.url, req.headers);
