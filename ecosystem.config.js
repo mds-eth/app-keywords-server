@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'api_keywords',
       script: 'build/server.js',
-      instances: '4',
+      instances: '1',
       autorestart: true,
       watch: false,
       exec_mode: 'cluster',
@@ -19,7 +19,7 @@ module.exports = {
     {
       name: 'jobs_api_keywords',
       script: 'build/queue.js',
-      instances: '2',
+      instances: '1',
       autorestart: true,
       watch: false,
       exec_mode: 'fork',
