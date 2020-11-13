@@ -6,7 +6,7 @@ import multer from 'multer';
 
 import uploadConfig from './config/multerConfig'
 
-import middlewareJWT from './app/middlewares/middewareJWT';
+import middlewareJWT from './app/middlewares/middlewareJWT';
 import middlewareRedis from './app/middlewares/middlewareRedis';
 import middlewareSecret from './app/middlewares/middlewareSecret';
 import middlewareBlackList from './app/middlewares/middlewareBlackList';

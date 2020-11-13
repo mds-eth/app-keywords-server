@@ -15,7 +15,7 @@ export default async function (req, res, next)
   try {
     const decoded = await promisify(jwt.verify)(authHeader, authConfig.secret);
 
-    req.UUID = decoded.params.uuid;
+    req.UUID = decoded.params.uuid === undefined ? '' : decoded.params.uuid;
 
     return next();
   } catch (error) {
