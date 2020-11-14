@@ -15,35 +15,35 @@ import ModelPerformanceUrls from '../app/models/PerformanceUrls';
 import ModelGoogleIndexPages from '../app/models/GoogleIndexPages';
 
 const models = [
-  ModelUsers,
-  ModelLogErrors,
-  ModelMozResults,
-  ModelApiForSeo,
-  ModelFailedJobs,
-  ModelBlackList,
-  ModelLogRequests,
-  ModelFinishedJobs,
-  ModelRouteNotFounds,
-  ModelLogRequestsApi,
-  ModelPerformanceUrls,
-  ModelAlexaRankResults,
-  ModelGoogleIndexPages,
+    ModelUsers,
+    ModelLogErrors,
+    ModelMozResults,
+    ModelApiForSeo,
+    ModelFailedJobs,
+    ModelBlackList,
+    ModelLogRequests,
+    ModelFinishedJobs,
+    ModelRouteNotFounds,
+    ModelLogRequestsApi,
+    ModelPerformanceUrls,
+    ModelAlexaRankResults,
+    ModelGoogleIndexPages,
 ];
 
 import dbConfig from '../config/database';
 
 class Database
 {
-  constructor()
-  {
-    this.init();
-  }
+    constructor()
+    {
+        this.init();
+    }
 
-  init()
-  {
-    this.connection = new Sequelize(dbConfig);
-    models.map((model) => model.init(this.connection)).map((model) => model.associate && model.associate(this.connection.models));
-  }
+    init()
+    {
+        this.connection = new Sequelize(dbConfig);
+        models.map((model) => model.init(this.connection)).map((model) => model.associate && model.associate(this.connection.models));
+    }
 }
 
 export default new Database();

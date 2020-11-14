@@ -11,7 +11,6 @@ import axios from 'axios';
 
 class LoginService
 {
-
     constructor()
     {
         this.message = '';

@@ -2,10 +2,8 @@ import UserService from '../service/UserService';
 
 class UserController
 {
-
     async getDetailUser(req, res)
     {
-
         const { UUID } = req;
 
         const response = await UserService.getUser(UUID);

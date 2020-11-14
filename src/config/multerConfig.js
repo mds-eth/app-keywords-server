@@ -7,7 +7,6 @@ module.exports = {
         destination: path.resolve(__dirname, '..', '..', 'uploads'),
         filename: (req, file, cb) =>
         {
-
             if (file === undefined || file === '') cb(null, null);
 
             const ext = path.extname(file.originalname);
