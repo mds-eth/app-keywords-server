@@ -4,6 +4,7 @@ import path from 'path';
 
 import './database';
 import './lib/Redis';
+
 import routes from './routes';
 
 class App

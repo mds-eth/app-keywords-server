@@ -18,7 +18,9 @@ class SessionService
     try {
 
       const uuid = uuidv4();
-      return jwt.sign({ hash: uuid }, authConfig.secret, { expiresIn: authConfig.expiresIn });
+
+      const params = { uuid };
+      return jwt.sign({ hash: uuid, params }, authConfig.secret, { expiresIn: authConfig.expiresIn });
     } catch (error) {
       await ModelLogErros.create({ uuid, params: '', error: error.stack });
       return false;

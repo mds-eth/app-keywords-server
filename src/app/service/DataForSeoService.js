@@ -72,11 +72,9 @@ class DataForSeoService
     try {
 
       const domains = [];
-      const isProd = true;//(process.env.NODE_ENV === 'production');
+      const isProd = (process.env.NODE_ENV === 'production');
 
       const limitLoop = isProd ? params.length : 5;
-
-      //params.filter(data => data.domain);
 
       for (var i = 0; i <= limitLoop; i++) {
         const search = params[i];
@@ -86,6 +84,10 @@ class DataForSeoService
         const domain = search.domain;
 
         if (isValidDomain(domain)) {
+
+          const existsDomain = await ModelApiForSeo.findOne({ where: { uuid_user, uuid, domain } });
+
+          if (existsDomain) continue;
 
           const type = search.type;
           const rank_group = search.rank_group;
