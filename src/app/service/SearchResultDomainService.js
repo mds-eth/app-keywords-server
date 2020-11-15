@@ -81,7 +81,7 @@ class SearchResultDomainService
                 const responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
                 const performanceURLS = await PerformanceUrlService.getPerformanceURLSUUID(uuid);
 
-                const quadrant = await this.createQuadrant([]);
+                const quadrant = await this.createQuadrant(apiDataForSeo, googlePages, responseMoz, performanceURLS);
 
                 const data = await this.returnArrayParams(keywords, apiDataForSeo, googlePages, responseMoz, performanceURLS, alexaResult, quadrant);
 
@@ -100,9 +100,9 @@ class SearchResultDomainService
         return { keywords, apiDataForSeo, googlePages, responseMoz, performanceURLS, alexaResult, quadrant };
     }
 
-    async createQuadrant(params)
+    async createQuadrant(apiDataForSeo, googlePages, responseMoz, performanceURLS)
     {
-
+        return true;
     }
 
     async getLastSearchsUser(uuid_user)
@@ -141,13 +141,21 @@ class SearchResultDomainService
 
     async getDetailRegister(uuid)
     {
+
+        const apiDataForSeo = await DataSeoService.getParamsDataSeo(uuid);
+        const googlePages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
+        const responseMoz = await ApiMozService.getResultMozUUID(uuid);
+        const performanceURLS = await PerformanceUrlService.getPerformanceURLSUUID(uuid);
+        const alexaResult = await AlexaRankResultService.getResultAlexaRankgUUID(uuid);
+
         const data = {
             keywords: await JobService.getKeywordsUUID(uuid),
-            apiDataForSeo: await DataSeoService.getParamsDataSeo(uuid),
-            googlePages: await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid),
-            responseMoz: await ApiMozService.getResultMozUUID(uuid),
-            performanceURLS: await PerformanceUrlService.getPerformanceURLSUUID(uuid),
-            alexaResult: await AlexaRankResultService.getResultAlexaRankgUUID(uuid)
+            apiDataForSeo,
+            googlePages,
+            responseMoz,
+            performanceURLS,
+            alexaResult,
+            quadrant: await this.createQuadrant(apiDataForSeo, googlePages, responseMoz, performanceURLS)
         };
 
         await Redis.addCacheRedis(uuid, JSON.stringify(data));
