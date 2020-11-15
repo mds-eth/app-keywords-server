@@ -24,9 +24,7 @@ class Routes
     constructor()
     {
         this.routes = Router();
-
         this.createRoutes();
-
     }
 
     createRoutes()

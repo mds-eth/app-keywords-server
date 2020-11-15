@@ -85,9 +85,9 @@ class DataForSeoService
 
                 if (isValidDomain(domain)) {
 
-                    const existsDomain = await ModelApiForSeo.findOne({ where: { uuid_user, uuid, domain } });
+                    const existData = await ModelApiForSeo.findOne({ where: { uuid_user, uuid, domain } });
 
-                    if (existsDomain) continue;
+                    if (existData) continue;
 
                     const type = search.type;
                     const rank_group = search.rank_group;
@@ -118,7 +118,7 @@ class DataForSeoService
     {
         return await ModelApiForSeo.findAll({
             where: { uuid },
-            attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain'],
+            attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain', 'created_at'],
         });
     }
 }

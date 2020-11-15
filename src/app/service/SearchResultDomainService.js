@@ -25,112 +25,84 @@ class SearchResultDomainService
 
             const keywords = await JobService.getKeywordsUUID(uuid);
 
-            return this.createArrayKwyrods(qtdFinishJobs.length, keywords, uuid);
+            return this.createArrayKeywords(qtdFinishJobs.length, keywords, uuid);
         } catch (error) {
             await ModelLogErrors.create({ uuid, params: '', error: error.stack });
             return false;
         }
     }
 
-    async createArrayKwyrods(length, keywords, uuid)
+    async createArrayKeywords(length, keywords, uuid)
     {
         try {
 
-            switch (length) {
-                case 0:
-                    return {
-                        keywords,
-                        apiDataForSeo: false,
-                        googlePages: false,
-                        responseMoz: false,
-                        performanceURLS: false,
-                        alexaResult: false
-                    };
-                case 1:
+            if (length === 0) {
+                return await this.returnArrayParams(keywords, false, false, false, false, false, false);
+            } else if (length === 1) {
 
-                    const apiDataForSeo = await DataSeoService.getParamsDataSeo(uuid);
+                const apiDataForSeo = await DataSeoService.getParamsDataSeo(uuid);
+                await Redis.addCacheRedis(`apiDataSeo-${uuid}`, JSON.stringify(apiDataForSeo));
 
-                    await Redis.addCacheRedis(`apiDataSeo-${uuid}`, JSON.stringify(apiDataForSeo));
+                return await this.returnArrayParams(keywords, apiDataForSeo, false, false, false, false, false);
+            } else if (length === 2) {
 
-                    return {
-                        keywords,
-                        apiDataForSeo,
-                        googlePages: false,
-                        responseMoz: false,
-                        performanceURLS: false,
-                        alexaResult: false
-                    };
-                case 2:
-                    const dataSeo = await DataSeoService.getParamsDataSeo(uuid);
+                const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+                const responseMoz = await ApiMozService.getResultMozUUID(uuid);
 
-                    await Redis.addCacheRedis(`apiDataSeo-${uuid}`, JSON.stringify(dataSeo));
+                await Redis.addCacheRedis(`responseMoz-${uuid}`, JSON.stringify(responseMoz));
 
-                    const responseMoz = await ApiMozService.getResultMozUUID(uuid);
+                return await this.returnArrayParams(keywords, apiDataForSeo, false, responseMoz, false, false, false);
+            } else if (length === 3) {
 
-                    await Redis.addCacheRedis(`responseMoz-${uuid}`, JSON.stringify(responseMoz));
+                const alexaResult = await AlexaRankResultService.getResultAlexaRankgUUID(uuid);
+                await Redis.addCacheRedis(`alexaResult-${uuid}`, JSON.stringify(alexaResult));
 
-                    return {
-                        keywords,
-                        apiDataForSeo: dataSeo,
-                        googlePages: false,
-                        responseMoz,
-                        performanceURLS: false,
-                        alexaResult: false
-                    };
-                case 3:
+                const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+                const googlePages = await Redis.getCacheById(`indexPages-${uuid}`);
+                const responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
 
-                    const cacheAlexa = await Redis.getCacheById(`alexaResult-${uuid}`);
+                return await this.returnArrayParams(keywords, apiDataForSeo, googlePages, responseMoz, false, alexaResult, false);
+            } else if (length === 4) {
 
-                    if (!cacheAlexa) {
-                        var alexaResult = await AlexaRankResultService.getResultAlexaRankgUUID(uuid);
+                const resultPages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
+                await Redis.addCacheRedis(`indexPages-${uuid}`, JSON.stringify(resultPages));
 
-                        await Redis.addCacheRedis(`alexaResult-${uuid}`, JSON.stringify(alexaResult));
-                    }
+                const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+                const googlePages = await Redis.getCacheById(`indexPages-${uuid}`);
+                const alexaResult = await Redis.getCacheById(`alexaResult-${uuid}`);
+                const responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
 
-                    return {
-                        keywords,
-                        apiDataForSeo: await Redis.getCacheById(`apiDataSeo-${uuid}`),
-                        googlePages: await Redis.getCacheById(`indexPages-${uuid}`),
-                        responseMoz: await Redis.getCacheById(`responseMoz-${uuid}`),
-                        performanceURLS: false,
-                        alexaResult: cacheAlexa ? cacheAlexa : alexaResult
-                    };
-                case 4:
-                    const cache = await Redis.getCacheById(`indexPages-${uuid}`);
+                return await this.returnArrayParams(keywords, apiDataForSeo, googlePages, responseMoz, false, alexaResult, false);
+            } else if (length === 5) {
 
-                    if (!cache) {
-                        var resultPages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
-                        await Redis.addCacheRedis(`indexPages-${uuid}`, JSON.stringify(resultPages));
-                    }
+                const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+                const alexaResult = await Redis.getCacheById(`alexaResult-${uuid}`);
+                const googlePages = await Redis.getCacheById(`indexPages-${uuid}`);
+                const responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
+                const performanceURLS = await PerformanceUrlService.getPerformanceURLSUUID(uuid);
 
-                    return {
-                        keywords,
-                        apiDataForSeo: await Redis.getCacheById(`apiDataSeo-${uuid}`),
-                        googlePages: cache ? cache : resultPages,
-                        responseMoz: await Redis.getCacheById(`responseMoz-${uuid}`),
-                        performanceURLS: false,
-                        alexaResult: await Redis.getCacheById(`alexaResult-${uuid}`)
-                    };
-                case 5:
+                const quadrant = await this.createQuadrant([]);
 
-                    const apiDataSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+                const data = await this.returnArrayParams(keywords, apiDataForSeo, googlePages, responseMoz, performanceURLS, alexaResult, quadrant);
 
-                    const data = {
-                        keywords,
-                        apiDataForSeo: apiDataSeo,
-                        googlePages: await Redis.getCacheById(`indexPages-${uuid}`),
-                        responseMoz: await Redis.getCacheById(`responseMoz-${uuid}`),
-                        performanceURLS: await PerformanceUrlService.getPerformanceURLSUUID(uuid),
-                        alexaResult: await Redis.getCacheById(`alexaResult-${uuid}`)
-                    };
-                    await Redis.addCacheRedis(uuid, JSON.stringify(data));
+                await Redis.addCacheRedis(uuid, JSON.stringify(data));
 
-                    return data;
+                return data;
             }
         } catch (error) {
             await ModelLogErrors.create({ uuid, params: '', error: error.stack });
             return false;
         }
+    }
+
+    async returnArrayParams(keywords, apiDataForSeo, googlePages, responseMoz, performanceURLS, alexaResult, quadrant)
+    {
+        return { keywords, apiDataForSeo, googlePages, responseMoz, performanceURLS, alexaResult, quadrant };
+    }
+
+    async createQuadrant(params)
+    {
+
     }
 
     async getLastSearchsUser(uuid_user)
@@ -169,15 +141,9 @@ class SearchResultDomainService
 
     async getDetailRegister(uuid)
     {
-
-        const apiDataForSeo = await ModelApiForSeo.findAll({
-            where: { uuid },
-            attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain', 'created_at'],
-        });
-
         const data = {
             keywords: await JobService.getKeywordsUUID(uuid),
-            apiDataForSeo: apiDataForSeo,
+            apiDataForSeo: await DataSeoService.getParamsDataSeo(uuid),
             googlePages: await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid),
             responseMoz: await ApiMozService.getResultMozUUID(uuid),
             performanceURLS: await PerformanceUrlService.getPerformanceURLSUUID(uuid),
