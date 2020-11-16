@@ -72,9 +72,8 @@ class DataForSeoService
         try {
 
             const domains = [];
-            const isProd = (process.env.NODE_ENV === 'production');
 
-            const limitLoop = isProd ? params.length : 5;
+            const limitLoop = process.env.NODE_ENV === 'production' ? params.length : 5;
 
             for (var i = 0; i <= limitLoop; i++) {
                 const search = params[i];

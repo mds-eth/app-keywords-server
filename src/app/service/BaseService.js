@@ -28,7 +28,6 @@ class BaseService
 
             return response;
         } catch (error) {
-            console.log(error);
             await ModelLogErrors.create({ uuid, params, error: error.stack });
             return false;
         }

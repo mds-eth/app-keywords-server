@@ -15,8 +15,6 @@ class WebSocket
 
             const io = socket(this.server);
 
-            console.log(io);
-
             io.on('connection', socket =>
             {
                 socket.on('status-requests', data =>

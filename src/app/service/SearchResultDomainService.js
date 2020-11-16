@@ -44,35 +44,47 @@ class SearchResultDomainService
                 await Redis.addCacheRedis(`apiDataSeo-${uuid}`, JSON.stringify(apiDataForSeo));
 
                 return await this.returnArrayParams(keywords, apiDataForSeo, false, false, false, false, false);
+
             } else if (length === 2) {
 
-                const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+                let apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+
+                if (apiDataForSeo === null) {
+                    apiDataForSeo = await DataSeoService.getParamsDataSeo(uuid);
+                    await Redis.addCacheRedis(`apiDataSeo-${uuid}`, JSON.stringify(apiDataForSeo));
+                }
                 const responseMoz = await ApiMozService.getResultMozUUID(uuid);
 
                 await Redis.addCacheRedis(`responseMoz-${uuid}`, JSON.stringify(responseMoz));
 
                 return await this.returnArrayParams(keywords, apiDataForSeo, false, responseMoz, false, false, false);
+
             } else if (length === 3) {
 
                 const alexaResult = await AlexaRankResultService.getResultAlexaRankgUUID(uuid);
                 await Redis.addCacheRedis(`alexaResult-${uuid}`, JSON.stringify(alexaResult));
 
                 const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
-                const googlePages = await Redis.getCacheById(`indexPages-${uuid}`);
                 const responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
 
-                return await this.returnArrayParams(keywords, apiDataForSeo, googlePages, responseMoz, false, alexaResult, false);
+                return await this.returnArrayParams(keywords, apiDataForSeo, false, responseMoz, false, alexaResult, false);
+
             } else if (length === 4) {
 
-                const resultPages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
-                await Redis.addCacheRedis(`indexPages-${uuid}`, JSON.stringify(resultPages));
+                const googlePages = await GoogleIndexPagesService.getGoogleIndexPagesUUID(uuid);
+                await Redis.addCacheRedis(`indexPages-${uuid}`, JSON.stringify(googlePages));
 
                 const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
-                const googlePages = await Redis.getCacheById(`indexPages-${uuid}`);
-                const alexaResult = await Redis.getCacheById(`alexaResult-${uuid}`);
+                let alexaResult = await Redis.getCacheById(`alexaResult-${uuid}`);
+
+                if (alexaResult === null) {
+                    alexaResult = await AlexaRankResultService.getResultAlexaRankgUUID(uuid);
+                    await Redis.addCacheRedis(`alexaResult-${uuid}`, JSON.stringify(alexaResult));
+                }
                 const responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
 
                 return await this.returnArrayParams(keywords, apiDataForSeo, googlePages, responseMoz, false, alexaResult, false);
+
             } else if (length === 5) {
 
                 const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
@@ -107,36 +119,32 @@ class SearchResultDomainService
 
     async getLastSearchsUser(uuid_user)
     {
-        try {
 
-            let response = await ModelApiForSeo.findAll({
-                where: { uuid_user },
-                attributes: [
-                    Sequelize.fn('DISTINCT', Sequelize.col('uuid')), 'uuid'
-                ],
-            });
+        let response = await ModelApiForSeo.findAll({
+            where: { uuid_user },
+            attributes: [
+                Sequelize.fn('DISTINCT', Sequelize.col('uuid')), 'uuid'
+            ],
+        });
 
-            if (!response) return false;
+        if (!response) return false;
 
-            response.reverse();
+        response.reverse();
 
-            const array = [];
-            for (var i in response) {
-                const uuid = response[i];
+        const array = [];
+        for (var i in response) {
+            const uuid = response[i];
 
-                const data = await JobService.getRegisterKeyword(uuid.uuid);
+            const data = await JobService.getRegisterKeyword(uuid.uuid);
 
-                if (!data) continue;
+            if (!data) continue;
 
-                const { createdAt: created_at } = data;
-                const { word1, word2 } = data.params;
+            const { createdAt: created_at } = data;
+            const { word1, word2 } = data.params;
 
-                array.push([uuid.uuid, `[${word1} / ${word2}]`, created_at]);
-            }
-            return array;
-        } catch (error) {
-            console.log(error);
+            array.push([uuid.uuid, `[${word1} / ${word2}]`, created_at]);
         }
+        return array;
     }
 
     async getDetailRegister(uuid)

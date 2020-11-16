@@ -57,7 +57,7 @@ class LoginService
 
                 const uuid = uuidv4();
 
-                const user = await this.saveNewUser(uuid, `${firstName} ${lastName}`, 'michaeldouglas.10.94@gmail.com', 'admin', '41996032030', 'Grupo Services', urlPhoto, true);
+                const user = await this.saveNewUser(uuid, `${firstName} ${lastName}`, '', 'admin', '', '', urlPhoto, true);
 
                 if (!user) return false;
 
@@ -87,7 +87,6 @@ class LoginService
 
             return true;
         } catch (error) {
-            console.log(error);
             await ModelLogErrors.create({ uuid: '', params: { token, id }, error: error.stack });
             return false;
         }
