@@ -64,7 +64,13 @@ class SearchResultDomainService
                 const alexaResult = await AlexaRankResultService.getResultAlexaRankgUUID(uuid);
                 await Redis.addCacheRedis(`alexaResult-${uuid}`, JSON.stringify(alexaResult));
 
-                const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+                let apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
+
+                if (apiDataForSeo === null) {
+                    apiDataForSeo = await DataSeoService.getParamsDataSeo(uuid);
+                    await Redis.addCacheRedis(`apiDataSeo-${uuid}`, JSON.stringify(apiDataForSeo));
+                }
+
                 let responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
 
                 if (responseMoz === null) {
