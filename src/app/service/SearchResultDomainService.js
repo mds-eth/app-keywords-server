@@ -65,7 +65,12 @@ class SearchResultDomainService
                 await Redis.addCacheRedis(`alexaResult-${uuid}`, JSON.stringify(alexaResult));
 
                 const apiDataForSeo = await Redis.getCacheById(`apiDataSeo-${uuid}`);
-                const responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
+                let responseMoz = await Redis.getCacheById(`responseMoz-${uuid}`);
+
+                if (responseMoz === null) {
+                    responseMoz = await ApiMozService.getResultMozUUID(uuid);
+                    await Redis.addCacheRedis(`responseMoz-${uuid}`, JSON.stringify(responseMoz));
+                }
 
                 return await this.returnArrayParams(keywords, apiDataForSeo, false, responseMoz, false, alexaResult, false);
 
