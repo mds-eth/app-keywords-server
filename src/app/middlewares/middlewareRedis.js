@@ -8,7 +8,7 @@ export default async function (req, res, next)
     const { uuid } = req.params;
 
     try {
-
+        return next();
         if (uuid === '' || !uuidValidate(uuid)) {
             return res.status(400).json({ status: false, message: 'UUID invalid.' });
         }
