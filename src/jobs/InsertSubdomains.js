@@ -16,7 +16,7 @@ class JobInsertSubdomains
 
     async handle(values)
     {
-        const { word1, word2, uuid, uuid_user, domains } = values.data;
+        const { uuid, domains } = values.data;
 
         const auth = await DataForSeoService.getAuthEncodeApiForSeo();
         const params = await DataForSeoService.returnArrayParams(word1, word2);
