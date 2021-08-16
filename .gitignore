@@ -3,3 +3,5 @@ build
 .env
 private-key.pem
 uploads
+
+assets
