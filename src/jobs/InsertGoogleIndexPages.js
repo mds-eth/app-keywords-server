@@ -23,10 +23,7 @@ class JobInsertGoogleIndexPages
         let caps = Capabilities.firefox();
         caps.set('silent', true);
 
-        const screen = {
-            width: 640,
-            height: 480,
-        };
+        const screen = { width: 640, height: 480 };
 
         try {
 

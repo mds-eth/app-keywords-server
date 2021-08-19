@@ -43,7 +43,7 @@ class DataForSeoService
             location_code: 2076,
             location_name: 'Brazil',
             language_code: 'pt',
-            depth: 10,
+            depth: 15,
             keyword: site === '' ? utf8.encode(`${word1}+${word2}`) : `site: ${site}`,
         };
 
@@ -54,7 +54,7 @@ class DataForSeoService
 
     async rankedKeywordService()
     {
-        const { uuid, domains } = values.data;
+        const { uuid } = values.data;
 
         const auth = await DataForSeoService.getAuthEncodeApiForSeo();
         const params = await DataForSeoService.returnArrayParams(word1, word2);
@@ -101,7 +101,7 @@ class DataForSeoService
 
             const domains = [];
 
-            const limitLoop = process.env.NODE_ENV === 'production' ? params.length : 5;
+            const limitLoop = process.env.NODE_ENV === 'production' ? params.length : 2;
 
             for (var i = 0; i <= limitLoop; i++) {
                 const search = params[i];
@@ -145,7 +145,7 @@ class DataForSeoService
     {
         return await ModelApiForSeo.findAll({
             where: { uuid },
-            attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain', 'created_at'],
+            attributes: ['type', 'rank_group', 'rank_absolute', 'position', 'domain', 'created_at', 'updated_at'],
         });
     }
 }
